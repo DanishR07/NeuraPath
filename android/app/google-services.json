@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "177940801479",
+    "project_id": "career-compass-fyp",
+    "storage_bucket": "career-compass-fyp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:177940801479:android:b649365b43b1280dc15be2",
+        "android_client_info": {
+          "package_name": "com.example.fyp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0fwlNtSC7_lCowIEkVhaD8JBe5q3UZdo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
