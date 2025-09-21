@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class IntroPage5 extends StatelessWidget {
-  const IntroPage5({super.key});
+class IntroScreen3 extends StatelessWidget {
+  const IntroScreen3({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class IntroPage5 extends StatelessWidget {
                 color: Colors.white.withOpacity(0.15),
               ),
               child: const Icon(
-                Icons.hub, // Compass-like icon
+                Icons.description, // Compass-like icon
                 color: Color(0xFF8BA989),
                 size: 90,
               ),
@@ -30,7 +30,7 @@ class IntroPage5 extends StatelessWidget {
 
             // App Title
             const Text(
-              "One Platform for Every Stage",
+              "Optimize Your Resume",
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 28,
@@ -43,7 +43,7 @@ class IntroPage5 extends StatelessWidget {
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 30),
               child: Text(
-                "From students to professionals — CareerCompass combines career guidance, job matching, and growth planning in one place.",
+                "AI-powered resume optimization ensures ATS compliance, keyword matching, and formatting that gets you noticed.",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 16,

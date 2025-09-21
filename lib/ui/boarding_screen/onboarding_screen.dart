@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:fyp/ui/intro_screens/intro_page1.dart';
-import 'package:fyp/ui/intro_screens/intro_page2.dart';
-import 'package:fyp/ui/intro_screens/intro_page3.dart';
-import 'package:fyp/ui/intro_screens/intro_page4.dart';
+import 'package:fyp/ui/intro_screens/intro_screen1.dart';
+import 'package:fyp/ui/intro_screens/intro_screen2.dart';
+import 'package:fyp/ui/intro_screens/intro_screen3.dart';
+import 'package:fyp/ui/intro_screens/intro_screen4.dart';
+import 'package:get/get.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:lottie/lottie.dart';
-
-import 'home_page.dart';
-import 'intro_screens/intro_page5.dart';
+import '../intro_screens/intro_screen5.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -36,11 +34,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               });
             },
             children: const [
-              IntroPage1(),
-              IntroPage2(),
-              IntroPage3(),
-              IntroPage4(),
-              IntroPage5(),
+              IntroScreen1(),
+              IntroScreen2(),
+              IntroScreen3(),
+              IntroScreen4(),
+              IntroScreen5(),
             ],
           ),
           Container(
@@ -50,14 +48,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: ElevatedButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return HomePage();
-                            },
-                          ),
-                        );
+                        Get.offNamed('/login_screen');
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xFF8BA989),
@@ -116,7 +107,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       // skip
                       GestureDetector(
                         onTap: () {
-                          onBoardScreenController.jumpToPage(2);
+                          onBoardScreenController.jumpToPage(4);
                         },
                         child: Container(
                           decoration: BoxDecoration(
