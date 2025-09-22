@@ -127,7 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     borderRadius: BorderRadius.circular(30),
                     borderSide: BorderSide.none,
                   ),
-                  hintText: "Email",
+                  hintText: "Enter email",
                   hintStyle: TextStyle(fontSize: 13.5),
                   prefixIcon: Icon(
                     Icons.email_outlined,
@@ -154,7 +154,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     borderRadius: BorderRadius.circular(30),
                     borderSide: BorderSide.none,
                   ),
-                  hintText: "Password",
+                  hintText: "Enter password",
                   hintStyle: TextStyle(fontSize: 13.5),
                   prefixIcon: Icon(
                     Icons.lock_outline,
@@ -186,17 +186,23 @@ class _LoginScreenState extends State<LoginScreen> {
                       contentPadding: EdgeInsets.zero,
                       dense: true,
                       activeColor: Color(0xFF8BA989),
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      Get.toNamed("/forgot_password_screen");
-                    },
-                    child: Text(
-                      "Forgot Password",
-                      style: TextStyle(
-                        color: Color(0xFF8BA989),
-                        fontWeight: FontWeight.bold,
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: GestureDetector(
+                        onTap: () {
+                          Get.toNamed("/forgot_password_screen");
+                        },
+                        child: Text(
+                          "Forgot Password?",
+                          style: TextStyle(
+                            color: Color(0xFF8BA989),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                     ),
                   ),

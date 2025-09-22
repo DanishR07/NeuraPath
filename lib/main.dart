@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fyp/ui/auth_screens/forgot_password_screen.dart';
 import 'package:fyp/ui/auth_screens/login_screen.dart';
+import 'package:fyp/ui/auth_screens/otp_verification_screen.dart';
 import 'package:fyp/ui/auth_screens/signup_screen.dart';
 import 'package:fyp/ui/home_screen/home_screen.dart';
 import 'package:fyp/ui/boarding_screen/onboarding_screen.dart';
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: "/login_screen", page: () => LoginScreen(),),
         GetPage(name: "/signup_screen", page: () => SignupScreen(),),
         GetPage(name: "/forgot_password_screen", page: () => ForgotPasswordScreen(),),
+        GetPage(name: "/otp_verification_screen", page: () => OtpVerificationScreen(),),
       ],
       initialRoute: "/on_boarding_screen",
     );

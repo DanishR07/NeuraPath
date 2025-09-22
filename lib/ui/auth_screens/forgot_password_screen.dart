@@ -9,13 +9,12 @@ class ForgotPasswordScreen extends StatefulWidget {
 }
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
-
   final TextEditingController _emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: Color(0xFFF5F5F5),),
+      appBar: AppBar(backgroundColor: Color(0xFFF5F5F5)),
       backgroundColor: const Color(0xFFF5F5F5),
       body: SingleChildScrollView(
         child: Padding(
@@ -23,7 +22,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           child: Center(
             child: Column(
               children: [
-                SizedBox(height: 35),
                 Container(
                   height: 40,
                   width: 40,
@@ -43,11 +41,19 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Recover Password !',
+                    'Forgot Password',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
                   ),
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 5),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Enter your email address to receive a reset OTP and regain access to your account.',
+                    style: TextStyle(fontSize: 13.5),
+                  ),
+                ),
+                SizedBox(height: 40),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
@@ -74,9 +80,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     ),
                   ),
                 ),
-                SizedBox(height: 100),
+                SizedBox(height: 70),
                 ElevatedButton(
-                  onPressed: () => Get.toNamed("/home_screen"),
+                  onPressed: () => Get.toNamed("/otp_verification_screen"),
                   style: ElevatedButton.styleFrom(
                     elevation: 3,
                     minimumSize: const Size(double.infinity, 54),
@@ -86,7 +92,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     backgroundColor: Color(0xFF8BA989),
                   ),
                   child: const Text(
-                    "Send Email",
+                    "Continue",
                     style: TextStyle(fontSize: 18, color: Colors.white),
                   ),
                 ),

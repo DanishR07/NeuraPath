@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -22,10 +21,10 @@ class _SignupScreenState extends State<SignupScreen> {
       backgroundColor: const Color(0xFFF5F5F5),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(left: 15.0,right: 15,bottom: 20),
+          padding: const EdgeInsets.only(left: 15.0, right: 15, bottom: 30),
           child: Column(
             children: [
-              SizedBox(height: 45),
+              SizedBox(height: 55),
               Container(
                 height: 40,
                 width: 40,
@@ -41,7 +40,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 "CareerCompass",
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 25),
+              SizedBox(height: 30),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 15, vertical: 17),
                 decoration: BoxDecoration(
@@ -111,74 +110,58 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
               ),
               SizedBox(height: 20),
-              Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            "Full Name",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        SizedBox(height: 5),
-                        TextField(
-                          controller: _fullNameController,
-                          cursorColor: Color(0xFF8BA989),
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Colors.white,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                              borderSide: BorderSide.none,
-                            ),
-                            hintText: "Full name",
-                            hintStyle: TextStyle(fontSize: 13.5),
-                            prefixIcon: Icon(
-                              Icons.person,
-                              color: Color(0xFF8BA989),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Full Name",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+              SizedBox(height: 5),
+              TextField(
+                controller: _fullNameController,
+                cursorColor: Color(0xFF8BA989),
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.white,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    borderSide: BorderSide.none,
                   ),
-                  SizedBox(width: 10,),
-                  Expanded(
-                    child: Column(
-                      children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            "Email",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        SizedBox(height: 5),
-                        TextField(
-                          controller: _emailController,
-                          cursorColor: Color(0xFF8BA989),
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Colors.white,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                              borderSide: BorderSide.none,
-                            ),
-                            hintText: "Email",
-                            hintStyle: TextStyle(fontSize: 13.5),
-                            prefixIcon: Icon(
-                              Icons.email_outlined,
-                              color: Color(0xFF8BA989),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                  hintText: "Enter full name",
+                  hintStyle: TextStyle(fontSize: 13.5),
+                  prefixIcon: Icon(
+                    Icons.person,
+                    color: Color(0xFF8BA989),
                   ),
-                ],
+                ),
+              ),
+              SizedBox(height: 10),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Email",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+              SizedBox(height: 5),
+              TextField(
+                controller: _fullNameController,
+                cursorColor: Color(0xFF8BA989),
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.white,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    borderSide: BorderSide.none,
+                  ),
+                  hintText: "Enter email",
+                  hintStyle: TextStyle(fontSize: 13.5),
+                  prefixIcon: Icon(
+                    Icons.email_outlined,
+                    color: Color(0xFF8BA989),
+                  ),
+                ),
               ),
               SizedBox(height: 10),
               Align(
@@ -195,10 +178,16 @@ class _SignupScreenState extends State<SignupScreen> {
                 items: _roles
                     .map(
                       (role) => DropdownMenuItem(
-                    value: role,
-                    child: Text(role,style: TextStyle(fontSize: 13.5,fontWeight: FontWeight.normal),),
-                  ),
-                )
+                        value: role,
+                        child: Text(
+                          role,
+                          style: TextStyle(
+                            fontSize: 13.5,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ),
+                    )
                     .toList(),
                 onChanged: (value) {
                   setState(() {
@@ -207,7 +196,11 @@ class _SignupScreenState extends State<SignupScreen> {
                 },
                 decoration: InputDecoration(
                   hintText: "Select a role",
-                  prefixIcon: Icon(Icons.business_center,color: Color(0xFF8BA989),),
+                  prefixIcon: Icon(
+
+                    Icons.business_center,
+                    color: Color(0xFF8BA989),
+                  ),
                   hintStyle: TextStyle(fontSize: 13.5),
                   filled: true,
                   fillColor: Colors.white,
@@ -236,7 +229,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     borderRadius: BorderRadius.circular(30),
                     borderSide: BorderSide.none,
                   ),
-                  hintText: "Password",
+                  hintText: " Enter password",
                   hintStyle: TextStyle(fontSize: 13.5),
                   prefixIcon: Icon(
                     Icons.lock_outline,
@@ -248,7 +241,38 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 15),
+              SizedBox(height: 10),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Confirm Password",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+              SizedBox(height: 5),
+              TextField(
+                controller: _passwordController,
+                cursorColor: Color(0xFF8BA989),
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.white,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    borderSide: BorderSide.none,
+                  ),
+                  hintText: " Enter same password again",
+                  hintStyle: TextStyle(fontSize: 13.5),
+                  prefixIcon: Icon(
+                    Icons.lock_outline,
+                    color: Color(0xFF8BA989),
+                  ),
+                  suffixIcon: Icon(
+                    Icons.remove_red_eye_outlined,
+                    color: Color(0xFF8BA989),
+                  ),
+                ),
+              ),
+              SizedBox(height: 25),
               ElevatedButton(
                 onPressed: () => Get.toNamed("/home_screen"),
                 style: ElevatedButton.styleFrom(
