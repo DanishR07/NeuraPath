@@ -48,7 +48,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: ElevatedButton(
                       onPressed: () {
-                        Get.offNamed('/login_screen');
+                        Get.offAllNamed('/login_screen');
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xFF8BA989),
@@ -64,7 +64,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         shadowColor: Colors.black45,
                       ),
                       child: Row(
-
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           // Left black circle with arrows
@@ -90,8 +89,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             ),
                           ),
                           const SizedBox(width: 12),
-
-                          // Right arrow
                           const Icon(
                             Icons.double_arrow,
                             color: Colors.black,
@@ -120,7 +117,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           ),
                           padding: const EdgeInsets.only(bottom: 4),
                           child: const Text(
-                            'skip',
+                            'Skip',
                             style: TextStyle(
                               color: Color(0xFF8BA989),
                               fontSize: 17,
@@ -166,7 +163,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           ),
                           padding: const EdgeInsets.only(bottom: 4),
                           child: const Text(
-                            'next',
+                            'Next',
                             style: TextStyle(
                               color: Color(0xFF8BA989),
                               fontSize: 17,

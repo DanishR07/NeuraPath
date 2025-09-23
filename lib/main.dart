@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:fyp/ui/auth_screens/forgot_password_screen.dart';
 import 'package:fyp/ui/auth_screens/login_screen.dart';
 import 'package:fyp/ui/auth_screens/otp_verification_screen.dart';
+import 'package:fyp/ui/auth_screens/reset_password_screen.dart';
 import 'package:fyp/ui/auth_screens/signup_screen.dart';
 import 'package:fyp/ui/home_screen/home_screen.dart';
 import 'package:fyp/ui/boarding_screen/onboarding_screen.dart';
+import 'package:fyp/ui/success_message_screens/password_reset_success_message_screen.dart';
 import 'package:get/get.dart';
 void main() {
   runApp(const MyApp());
@@ -24,6 +26,8 @@ class MyApp extends StatelessWidget {
         GetPage(name: "/signup_screen", page: () => SignupScreen(),),
         GetPage(name: "/forgot_password_screen", page: () => ForgotPasswordScreen(),),
         GetPage(name: "/otp_verification_screen", page: () => OtpVerificationScreen(),),
+        GetPage(name: "/reset_password_screen", page: () => ResetPasswordScreen(),),
+        GetPage(name: "/password_reset_success_message_screen", page: () => PasswordResetSuccessMessageScreen(),),
       ],
       initialRoute: "/on_boarding_screen",
     );

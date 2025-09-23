@@ -11,6 +11,7 @@ class SignupScreen extends StatefulWidget {
 class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
   final TextEditingController _fullNameController = TextEditingController();
   String? _selectedRole;
   final List<String> _roles = ["Student", "Job Seeker", "Professional"];
@@ -146,7 +147,7 @@ class _SignupScreenState extends State<SignupScreen> {
               ),
               SizedBox(height: 5),
               TextField(
-                controller: _fullNameController,
+                controller: _emailController,
                 cursorColor: Color(0xFF8BA989),
                 decoration: InputDecoration(
                   filled: true,
@@ -229,7 +230,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     borderRadius: BorderRadius.circular(30),
                     borderSide: BorderSide.none,
                   ),
-                  hintText: " Enter password",
+                  hintText: "Enter password",
                   hintStyle: TextStyle(fontSize: 13.5),
                   prefixIcon: Icon(
                     Icons.lock_outline,
@@ -251,7 +252,7 @@ class _SignupScreenState extends State<SignupScreen> {
               ),
               SizedBox(height: 5),
               TextField(
-                controller: _passwordController,
+                controller: _confirmPasswordController,
                 cursorColor: Color(0xFF8BA989),
                 decoration: InputDecoration(
                   filled: true,
@@ -260,7 +261,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     borderRadius: BorderRadius.circular(30),
                     borderSide: BorderSide.none,
                   ),
-                  hintText: " Enter same password again",
+                  hintText: "Enter password again",
                   hintStyle: TextStyle(fontSize: 13.5),
                   prefixIcon: Icon(
                     Icons.lock_outline,
@@ -274,7 +275,7 @@ class _SignupScreenState extends State<SignupScreen> {
               ),
               SizedBox(height: 25),
               ElevatedButton(
-                onPressed: () => Get.toNamed("/home_screen"),
+                onPressed: () => Get.offAllNamed("/home_screen"),
                 style: ElevatedButton.styleFrom(
                   elevation: 3,
                   minimumSize: const Size(double.infinity, 54),
@@ -295,7 +296,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   Text("Already have an account?"),
                   GestureDetector(
                     onTap: () {
-                      Get.toNamed("/login_screen");
+                      Get.offNamed("/login_screen");
                     },
                     child: Text(
                       "  Login In",

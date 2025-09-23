@@ -210,7 +210,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               SizedBox(height: 5),
               ElevatedButton(
-                onPressed: () => Get.toNamed("/home_screen"),
+                onPressed: () => Get.offAllNamed("/home_screen"),
                 style: ElevatedButton.styleFrom(
                   elevation: 3,
                   minimumSize: const Size(double.infinity, 54),

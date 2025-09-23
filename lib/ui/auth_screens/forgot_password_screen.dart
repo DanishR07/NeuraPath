@@ -22,38 +22,21 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           child: Center(
             child: Column(
               children: [
-                Container(
-                  height: 40,
-                  width: 40,
-                  clipBehavior: Clip.hardEdge,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                  child: Image.asset("assets/images/app_logo.png"),
-                ),
                 SizedBox(height: 5),
                 Text(
-                  "CareerCompass",
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 40),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Forgot Password',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
-                  ),
+                  'Forgot Password',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
                 ),
                 SizedBox(height: 5),
-                Align(
-                  alignment: Alignment.centerLeft,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: Text(
+                    textAlign: TextAlign.center,
                     'Enter your email address to receive a reset OTP and regain access to your account.',
                     style: TextStyle(fontSize: 13.5),
                   ),
                 ),
-                SizedBox(height: 40),
+                SizedBox(height: 60),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
@@ -72,7 +55,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       borderRadius: BorderRadius.circular(30),
                       borderSide: BorderSide.none,
                     ),
-                    hintText: " Enter email",
+                    hintText: "Enter email",
                     hintStyle: TextStyle(fontSize: 13.5),
                     prefixIcon: Icon(
                       Icons.email_outlined,
@@ -82,7 +65,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 ),
                 SizedBox(height: 70),
                 ElevatedButton(
-                  onPressed: () => Get.toNamed("/otp_verification_screen"),
+                  onPressed: () => Get.offNamed("/otp_verification_screen"),
                   style: ElevatedButton.styleFrom(
                     elevation: 3,
                     minimumSize: const Size(double.infinity, 54),

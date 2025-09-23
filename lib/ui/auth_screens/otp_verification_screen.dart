@@ -30,10 +30,13 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
               ),
               SizedBox(height: 5),
-              Text(
-                textAlign: TextAlign.center,
-                'A one-time-password (OTP) has been sent to your registered email.',
-                style: TextStyle(fontSize: 13.5),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: Text(
+                  textAlign: TextAlign.center,
+                  'A one-time-password (OTP) has been sent to your registered email.',
+                  style: TextStyle(fontSize: 13.5),
+                ),
               ),
               SizedBox(height: 40),
               Form(
@@ -54,7 +57,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
               Text("Resend code in 00.$_secondsRemaining"),
               SizedBox(height: 40,),
               ElevatedButton(
-                onPressed: () => Get.toNamed("/login_screen"),
+                onPressed: () => Get.offNamed("/reset_password_screen"),
                 style: ElevatedButton.styleFrom(
                   elevation: 3,
                   minimumSize: const Size(double.infinity, 54),
