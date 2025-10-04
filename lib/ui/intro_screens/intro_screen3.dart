@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../colors.dart';
+
 class IntroScreen3 extends StatelessWidget {
   const IntroScreen3({super.key});
 
@@ -23,7 +25,7 @@ class IntroScreen3 extends StatelessWidget {
                 ),
                 child: const Icon(
                   Icons.description, // Compass-like icon
-                  color: Color(0xFF8BA989),
+                  color: AppColors.primaryGreen,
                   size: 90,
                 ),
               ),

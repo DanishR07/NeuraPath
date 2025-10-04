@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../colors.dart';
+
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
 
@@ -14,8 +16,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: Color(0xFFF5F5F5)),
-      backgroundColor: const Color(0xFFF5F5F5),
+      appBar: AppBar(),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(left: 15.0, right: 15, bottom: 20),
@@ -47,7 +48,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 SizedBox(height: 5),
                 TextField(
                   controller: _emailController,
-                  cursorColor: Color(0xFF8BA989),
+                  cursorColor: AppColors.primaryGreen,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white,
@@ -59,7 +60,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     hintStyle: TextStyle(fontSize: 13.5),
                     prefixIcon: Icon(
                       Icons.email_outlined,
-                      color: Color(0xFF8BA989),
+                      color: AppColors.primaryGreen,
                     ),
                   ),
                 ),
@@ -72,7 +73,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
-                    backgroundColor: Color(0xFF8BA989),
+                    backgroundColor: AppColors.primaryGreen,
                   ),
                   child: const Text(
                     "Continue",

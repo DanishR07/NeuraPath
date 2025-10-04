@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:fyp/ui/custom_widgets/otp_pin_box_widget.dart';
 import 'package:get/get.dart';
 
+import '../../../colors.dart';
+
 class OtpVerificationScreen extends StatefulWidget {
   const OtpVerificationScreen({super.key});
 
@@ -17,8 +19,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: const Color(0xFFF5F5F5),),
-      backgroundColor: const Color(0xFFF5F5F5),
+      appBar: AppBar(),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(left: 15.0,right: 15,bottom: 30),
@@ -64,7 +65,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),
-                  backgroundColor: Color(0xFF8BA989),
+                  backgroundColor: AppColors.primaryGreen,
                 ),
                 child: const Text(
                   "Verify",
@@ -81,7 +82,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     child: Text(
                       "  Resend",
                       style: TextStyle(
-                        color: Color(0xFF8BA989),
+                        color: AppColors.primaryGreen,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

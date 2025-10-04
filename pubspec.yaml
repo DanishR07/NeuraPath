@@ -39,6 +39,8 @@ dependencies:
   get: ^4.7.2
   smooth_page_indicator: ^1.2.1
   lottie: ^2.7.0
+  http: ^1.5.0
+  get_storage: ^2.1.1
 
 dev_dependencies:
   flutter_test:

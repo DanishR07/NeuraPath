@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fyp/ui/auth_screens/view_models/login_vm.dart';
 import 'package:get/get.dart';
+
+import '../../../colors.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -13,11 +16,23 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool rememberMe = false;
+  final LoginViewModel loginViewModel = Get.put(LoginViewModel());
+  bool _obscurePassword = true;
+
+  @override
+  void initState() {
+    super.initState();
+    final creds = loginViewModel.getSavedCredentials();
+    if (creds["email"]!.isNotEmpty && creds["password"]!.isNotEmpty) {
+      _emailController.text = creds["email"]!;
+      _passwordController.text = creds["password"]!;
+      rememberMe = true;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F5F5),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(left: 15.0,right: 15,bottom: 20),
@@ -119,7 +134,7 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(height: 5),
               TextField(
                 controller: _emailController,
-                cursorColor: Color(0xFF8BA989),
+                cursorColor: AppColors.primaryGreen,
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
@@ -131,7 +146,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   hintStyle: TextStyle(fontSize: 13.5),
                   prefixIcon: Icon(
                     Icons.email_outlined,
-                    color: Color(0xFF8BA989),
+                    color: AppColors.primaryGreen,
                   ),
                 ),
               ),
@@ -146,7 +161,8 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(height: 5),
               TextField(
                 controller: _passwordController,
-                cursorColor: Color(0xFF8BA989),
+                obscureText: _obscurePassword,
+                cursorColor: AppColors.primaryGreen,
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
@@ -158,11 +174,20 @@ class _LoginScreenState extends State<LoginScreen> {
                   hintStyle: TextStyle(fontSize: 13.5),
                   prefixIcon: Icon(
                     Icons.lock_outline,
-                    color: Color(0xFF8BA989),
+                    color: AppColors.primaryGreen,
                   ),
-                  suffixIcon: Icon(
-                    Icons.remove_red_eye_outlined,
-                    color: Color(0xFF8BA989),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _obscurePassword
+                          ? Icons.visibility_off_outlined
+                          : Icons.visibility_outlined,
+                      color: AppColors.primaryGreen,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _obscurePassword = !_obscurePassword;
+                      });
+                    },
                   ),
                 ),
               ),
@@ -185,7 +210,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       checkboxShape: CircleBorder(),
                       contentPadding: EdgeInsets.zero,
                       dense: true,
-                      activeColor: Color(0xFF8BA989),
+                      activeColor: AppColors.primaryGreen,
                       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     ),
                   ),
@@ -199,7 +224,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Text(
                           "Forgot Password?",
                           style: TextStyle(
-                            color: Color(0xFF8BA989),
+                            color: AppColors.primaryGreen,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -209,21 +234,32 @@ class _LoginScreenState extends State<LoginScreen> {
                 ],
               ),
               SizedBox(height: 5),
-              ElevatedButton(
-                onPressed: () => Get.offAllNamed("/home_screen"),
-                style: ElevatedButton.styleFrom(
-                  elevation: 3,
-                  minimumSize: const Size(double.infinity, 54),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
+              Obx(() {
+                return loginViewModel.isLoading.value
+                    ? const CircularProgressIndicator(color: AppColors.primaryGreen)
+                    : ElevatedButton(
+                  onPressed: () async {
+                    FocusScope.of(context).unfocus();
+                    await loginViewModel.login(
+                      email: _emailController.text.trim(),
+                      password: _passwordController.text,
+                      rememberMe: rememberMe,
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    elevation: 3,
+                    minimumSize: const Size(double.infinity, 54),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    backgroundColor: AppColors.primaryGreen,
                   ),
-                  backgroundColor: Color(0xFF8BA989),
-                ),
-                child: const Text(
-                  "Log In",
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-              ),
+                  child: const Text(
+                    "Log In",
+                    style: TextStyle(fontSize: 18, color: Colors.white),
+                  ),
+                );
+              }),
               SizedBox(height: 25),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -236,7 +272,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Text(
                       "  Sign Up",
                       style: TextStyle(
-                        color: Color(0xFF8BA989),
+                        color: AppColors.primaryGreen,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

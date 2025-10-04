@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:fyp/colors.dart';
 import 'package:fyp/ui/intro_screens/intro_screen1.dart';
 import 'package:fyp/ui/intro_screens/intro_screen2.dart';
 import 'package:fyp/ui/intro_screens/intro_screen3.dart';
 import 'package:fyp/ui/intro_screens/intro_screen4.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../intro_screens/intro_screen5.dart';
 
@@ -48,10 +50,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: ElevatedButton(
                       onPressed: () {
+                        final storage = GetStorage();
+                        // Mark onboarding as completed
+                        storage.write('onboarding_completed', true);
+                        // Navigate to login
                         Get.offAllNamed('/login_screen');
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFF8BA989),
+                        backgroundColor: AppColors.primaryGreen,
                         // yellow background
                         padding: const EdgeInsets.symmetric(
                           horizontal: 0,
@@ -110,7 +116,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           decoration: BoxDecoration(
                             border: Border(
                               bottom: BorderSide(
-                                color: Color(0xFF8BA989),
+                                color: AppColors.primaryGreen,
                                 width: 2,
                               ),
                             ),
@@ -119,7 +125,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           child: const Text(
                             'Skip',
                             style: TextStyle(
-                              color: Color(0xFF8BA989),
+                              color: AppColors.primaryGreen,
                               fontSize: 17,
                             ),
                           ),
@@ -138,7 +144,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         },
                         effect: const ExpandingDotsEffect(
                           activeDotColor: Colors.white,
-                          dotColor: Color(0xFF8BA989),
+                          dotColor: AppColors.primaryGreen,
                           dotHeight: 10,
                           dotWidth: 10,
                           spacing: 6,
@@ -156,7 +162,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           decoration: BoxDecoration(
                             border: Border(
                               bottom: BorderSide(
-                                color: Color(0xFF8BA989),
+                                color: AppColors.primaryGreen,
                                 width: 2, // thickness of the border
                               ),
                             ),
@@ -165,7 +171,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           child: const Text(
                             'Next',
                             style: TextStyle(
-                              color: Color(0xFF8BA989),
+                              color: AppColors.primaryGreen,
                               fontSize: 17,
                             ),
                           ),

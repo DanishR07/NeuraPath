@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../colors.dart';
+
 class IntroScreen5 extends StatelessWidget {
   const IntroScreen5({super.key});
 
@@ -23,7 +25,7 @@ class IntroScreen5 extends StatelessWidget {
                 ),
                 child: const Icon(
                   Icons.hub,
-                  color: Color(0xFF8BA989),
+                  color: AppColors.primaryGreen,
                   size: 90,
                 ),
               ),

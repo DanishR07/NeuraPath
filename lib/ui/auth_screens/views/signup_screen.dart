@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../colors.dart';
+import '../view_models/signup_vm.dart';
+
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
 
@@ -9,17 +12,20 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
+  final SignupViewModel signupViewModel = Get.put(SignupViewModel());
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
   final TextEditingController _fullNameController = TextEditingController();
   String? _selectedRole;
   final List<String> _roles = ["Student", "Job Seeker", "Professional"];
+  bool _obscurePassword = true;
+  bool _obscureConfirmPassword = true;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F5F5),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(left: 15.0, right: 15, bottom: 30),
@@ -121,7 +127,7 @@ class _SignupScreenState extends State<SignupScreen> {
               SizedBox(height: 5),
               TextField(
                 controller: _fullNameController,
-                cursorColor: Color(0xFF8BA989),
+                cursorColor: AppColors.primaryGreen,
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
@@ -131,10 +137,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                   hintText: "Enter full name",
                   hintStyle: TextStyle(fontSize: 13.5),
-                  prefixIcon: Icon(
-                    Icons.person,
-                    color: Color(0xFF8BA989),
-                  ),
+                  prefixIcon: Icon(Icons.person, color: AppColors.primaryGreen),
                 ),
               ),
               SizedBox(height: 10),
@@ -148,7 +151,7 @@ class _SignupScreenState extends State<SignupScreen> {
               SizedBox(height: 5),
               TextField(
                 controller: _emailController,
-                cursorColor: Color(0xFF8BA989),
+                cursorColor: AppColors.primaryGreen,
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
@@ -160,7 +163,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   hintStyle: TextStyle(fontSize: 13.5),
                   prefixIcon: Icon(
                     Icons.email_outlined,
-                    color: Color(0xFF8BA989),
+                    color: AppColors.primaryGreen,
                   ),
                 ),
               ),
@@ -174,7 +177,7 @@ class _SignupScreenState extends State<SignupScreen> {
               ),
               SizedBox(height: 5),
               DropdownButtonFormField<String>(
-                dropdownColor: Color(0xFF8BA989),
+                dropdownColor: AppColors.primaryGreen,
                 value: _selectedRole,
                 items: _roles
                     .map(
@@ -198,9 +201,8 @@ class _SignupScreenState extends State<SignupScreen> {
                 decoration: InputDecoration(
                   hintText: "Select a role",
                   prefixIcon: Icon(
-
                     Icons.business_center,
-                    color: Color(0xFF8BA989),
+                    color: AppColors.primaryGreen,
                   ),
                   hintStyle: TextStyle(fontSize: 13.5),
                   filled: true,
@@ -222,7 +224,8 @@ class _SignupScreenState extends State<SignupScreen> {
               SizedBox(height: 5),
               TextField(
                 controller: _passwordController,
-                cursorColor: Color(0xFF8BA989),
+                obscureText: _obscurePassword,
+                cursorColor: AppColors.primaryGreen,
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
@@ -230,15 +233,23 @@ class _SignupScreenState extends State<SignupScreen> {
                     borderRadius: BorderRadius.circular(30),
                     borderSide: BorderSide.none,
                   ),
-                  hintText: "Enter password",
-                  hintStyle: TextStyle(fontSize: 13.5),
+                  hintStyle: TextStyle(fontSize: 13.5,),
                   prefixIcon: Icon(
                     Icons.lock_outline,
-                    color: Color(0xFF8BA989),
+                    color: AppColors.primaryGreen,
                   ),
-                  suffixIcon: Icon(
-                    Icons.remove_red_eye_outlined,
-                    color: Color(0xFF8BA989),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _obscurePassword
+                          ? Icons.visibility_off_outlined
+                          : Icons.visibility_outlined,
+                      color: AppColors.primaryGreen,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _obscurePassword = !_obscurePassword;
+                      });
+                    },
                   ),
                 ),
               ),
@@ -253,7 +264,8 @@ class _SignupScreenState extends State<SignupScreen> {
               SizedBox(height: 5),
               TextField(
                 controller: _confirmPasswordController,
-                cursorColor: Color(0xFF8BA989),
+                obscureText: _obscureConfirmPassword,
+                cursorColor: AppColors.primaryGreen,
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
@@ -265,30 +277,54 @@ class _SignupScreenState extends State<SignupScreen> {
                   hintStyle: TextStyle(fontSize: 13.5),
                   prefixIcon: Icon(
                     Icons.lock_outline,
-                    color: Color(0xFF8BA989),
+                    color: AppColors.primaryGreen,
                   ),
-                  suffixIcon: Icon(
-                    Icons.remove_red_eye_outlined,
-                    color: Color(0xFF8BA989),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _obscureConfirmPassword
+                          ? Icons.visibility_off_outlined
+                          : Icons.visibility_outlined,
+                      color: AppColors.primaryGreen,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _obscureConfirmPassword = !_obscureConfirmPassword;
+                      });
+                    },
                   ),
                 ),
               ),
               SizedBox(height: 25),
-              ElevatedButton(
-                onPressed: () => Get.offAllNamed("/home_screen"),
-                style: ElevatedButton.styleFrom(
-                  elevation: 3,
-                  minimumSize: const Size(double.infinity, 54),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  backgroundColor: Color(0xFF8BA989),
-                ),
-                child: const Text(
-                  "Create Account!",
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-              ),
+              Obx(() {
+                return signupViewModel.isLoading.value
+                    ? const CircularProgressIndicator(
+                        color: AppColors.primaryGreen,
+                      )
+                    : ElevatedButton(
+                        onPressed: () async {
+                          FocusScope.of(context).unfocus(); // hide keyboard
+                          await signupViewModel.signup(
+                            name: _fullNameController.text.trim(),
+                            email: _emailController.text.trim(),
+                            role: _selectedRole ?? '',
+                            password: _passwordController.text,
+                            confirmPassword: _confirmPasswordController.text,
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          elevation: 3,
+                          minimumSize: const Size(double.infinity, 54),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          backgroundColor: AppColors.primaryGreen,
+                        ),
+                        child: const Text(
+                          "Create Account",
+                          style: TextStyle(fontSize: 18, color: Colors.white),
+                        ),
+                      );
+              }),
               SizedBox(height: 25),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -301,7 +337,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     child: Text(
                       "  Login In",
                       style: TextStyle(
-                        color: Color(0xFF8BA989),
+                        color: AppColors.primaryGreen,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

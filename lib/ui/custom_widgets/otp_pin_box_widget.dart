@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../colors.dart';
+
 class OtpPinBoxWidget extends StatefulWidget {
   const OtpPinBoxWidget({super.key});
 
@@ -28,7 +30,7 @@ class _OtpPinBoxWidgetState extends State<OtpPinBoxWidget> {
         decoration: InputDecoration(
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(50),
-              borderSide: BorderSide(color: Color(0xFF8BA989), width: 3),
+              borderSide: BorderSide(color: AppColors.primaryGreen, width: 3),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(50),

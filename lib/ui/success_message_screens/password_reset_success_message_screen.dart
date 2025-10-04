@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../colors.dart';
+
 class PasswordResetSuccessMessageScreen extends StatefulWidget {
   const PasswordResetSuccessMessageScreen({super.key});
 
@@ -12,8 +14,7 @@ class _PasswordResetSuccessMessageScreenState extends State<PasswordResetSuccess
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F5F5),
-      appBar: AppBar(backgroundColor: const Color(0xFFF5F5F5),),
+      appBar: AppBar(),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15.0),
         child: Column(
@@ -24,7 +25,7 @@ class _PasswordResetSuccessMessageScreenState extends State<PasswordResetSuccess
               width: 70,
               clipBehavior: Clip.hardEdge,
               decoration: BoxDecoration(
-                color: Color(0xFF8BA989),
+                color: AppColors.primaryGreen,
                 borderRadius: BorderRadius.circular(50),
               ),
               child: Icon(Icons.check,size:35,color: Colors.white,),
@@ -52,7 +53,7 @@ class _PasswordResetSuccessMessageScreenState extends State<PasswordResetSuccess
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),
-                backgroundColor: Color(0xFF8BA989),
+                backgroundColor: AppColors.primaryGreen,
               ),
               child: const Text(
                 "Back to login",
