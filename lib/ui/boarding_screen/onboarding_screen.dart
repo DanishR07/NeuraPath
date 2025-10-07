@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fyp/colors.dart';
+import 'package:fyp/customs.dart';
 import 'package:fyp/ui/intro_screens/intro_screen1.dart';
 import 'package:fyp/ui/intro_screens/intro_screen2.dart';
 import 'package:fyp/ui/intro_screens/intro_screen3.dart';

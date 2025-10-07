@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../colors.dart';
+import '../../../customs.dart';
 import '../view_models/signup_vm.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -13,13 +13,11 @@ class SignupScreen extends StatefulWidget {
 
 class _SignupScreenState extends State<SignupScreen> {
   final SignupViewModel signupViewModel = Get.put(SignupViewModel());
+  final TextEditingController _fullNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
-  final TextEditingController _fullNameController = TextEditingController();
-  String? _selectedRole;
-  final List<String> _roles = ["Student", "Job Seeker", "Professional"];
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
 
@@ -171,52 +169,6 @@ class _SignupScreenState extends State<SignupScreen> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "Select Role",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ),
-              SizedBox(height: 5),
-              DropdownButtonFormField<String>(
-                dropdownColor: AppColors.primaryGreen,
-                value: _selectedRole,
-                items: _roles
-                    .map(
-                      (role) => DropdownMenuItem(
-                        value: role,
-                        child: Text(
-                          role,
-                          style: TextStyle(
-                            fontSize: 13.5,
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
-                      ),
-                    )
-                    .toList(),
-                onChanged: (value) {
-                  setState(() {
-                    _selectedRole = value;
-                  });
-                },
-                decoration: InputDecoration(
-                  hintText: "Select a role",
-                  prefixIcon: Icon(
-                    Icons.business_center,
-                    color: AppColors.primaryGreen,
-                  ),
-                  hintStyle: TextStyle(fontSize: 13.5),
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                    borderSide: BorderSide.none,
-                  ),
-                ),
-              ),
-              SizedBox(height: 10),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
                   "Password",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
@@ -229,11 +181,12 @@ class _SignupScreenState extends State<SignupScreen> {
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
+                  hintText: "Enter password",
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30),
                     borderSide: BorderSide.none,
                   ),
-                  hintStyle: TextStyle(fontSize: 13.5,),
+                  hintStyle: TextStyle(fontSize: 13.5),
                   prefixIcon: Icon(
                     Icons.lock_outline,
                     color: AppColors.primaryGreen,
@@ -306,7 +259,6 @@ class _SignupScreenState extends State<SignupScreen> {
                           await signupViewModel.signup(
                             name: _fullNameController.text.trim(),
                             email: _emailController.text.trim(),
-                            role: _selectedRole ?? '',
                             password: _passwordController.text,
                             confirmPassword: _confirmPasswordController.text,
                           );
@@ -335,7 +287,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       Get.offNamed("/login_screen");
                     },
                     child: Text(
-                      "  Login In",
+                      "  Login",
                       style: TextStyle(
                         color: AppColors.primaryGreen,
                         fontWeight: FontWeight.bold,

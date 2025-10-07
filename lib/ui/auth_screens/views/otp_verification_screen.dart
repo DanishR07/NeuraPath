@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:fyp/ui/custom_widgets/otp_pin_box_widget.dart';
 import 'package:get/get.dart';
 
-import '../../../colors.dart';
+import '../../../customs.dart';
 
 class OtpVerificationScreen extends StatefulWidget {
   const OtpVerificationScreen({super.key});

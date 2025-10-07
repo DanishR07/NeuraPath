@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:fyp/ui/auth_screens/view_models/login_vm.dart';
 import 'package:get/get.dart';
 
-import '../../../colors.dart';
+import '../../../customs.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

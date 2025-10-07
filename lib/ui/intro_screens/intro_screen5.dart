@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../colors.dart';
+import '../../customs.dart';
 
 class IntroScreen5 extends StatelessWidget {
   const IntroScreen5({super.key});

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../colors.dart';
+import '../../customs.dart';
 
 class OtpPinBoxWidget extends StatefulWidget {
   const OtpPinBoxWidget({super.key});

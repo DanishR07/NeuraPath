@@ -3,12 +3,12 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import '../../../customs.dart';
 
 class HomeViewModel extends GetxController {
   final storage = GetStorage();
   var isLoading = false.obs;
 
-  /// Logout Function
   Future<void> logout() async {
     final token = storage.read('token');
 
@@ -23,7 +23,7 @@ class HomeViewModel extends GetxController {
 
     try {
       final response = await http.post(
-        Uri.parse('http://192.168.100.181:8000/api/logout'),
+        Uri.parse('${ApiConfig.devBaseUrl}/logout'),
         headers: {
           'Accept': 'application/json',
           'Authorization': 'Bearer $token',
@@ -61,6 +61,7 @@ class HomeViewModel extends GetxController {
         backgroundColor: Colors.redAccent,
         colorText: Colors.white,
       );
+      print(e);
     } finally {
       isLoading.value = false;
     }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
-import '../../../colors.dart';
+import '../../../customs.dart';
 
 class LoginViewModel extends GetxController {
   final storage = GetStorage();
@@ -29,7 +29,7 @@ class LoginViewModel extends GetxController {
 
     try {
       final response = await http.post(
-        Uri.parse("http://192.168.100.181:8000/api/login"),
+        Uri.parse("${ApiConfig.devBaseUrl}/login"),
         headers: {"Accept": "application/json"},
         body: {
           "email": email,

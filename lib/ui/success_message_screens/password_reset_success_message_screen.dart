@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../colors.dart';
+import '../../customs.dart';
 
 class PasswordResetSuccessMessageScreen extends StatefulWidget {
   const PasswordResetSuccessMessageScreen({super.key});

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fyp/ui/home_screen/view_models/home_vm.dart';
 import 'package:get/get.dart';
 
-import '../../../colors.dart';
+import '../../../customs.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -65,7 +65,7 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
-      body: const Center(child: Text('Home Page')),
+      body: const Center(child: Text('Home Screen')),
     );
   }
 }
