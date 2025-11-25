@@ -106,7 +106,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   onPressed: () => Get.offNamed("/password_reset_success_message_screen"),
                   style: ElevatedButton.styleFrom(
                     elevation: 3,
-                    minimumSize: const Size(double.infinity, 54),
+                    minimumSize: Size(double.infinity, 54),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),

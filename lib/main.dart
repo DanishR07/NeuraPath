@@ -4,6 +4,7 @@ import 'package:fyp/ui/auth_screens/views/login_screen.dart';
 import 'package:fyp/ui/auth_screens/views/otp_verification_screen.dart';
 import 'package:fyp/ui/auth_screens/views/reset_password_screen.dart';
 import 'package:fyp/ui/auth_screens/views/signup_screen.dart';
+import 'package:fyp/ui/category_screen/views/category_screen.dart';
 import 'package:fyp/ui/home_screen/views/home_screen.dart';
 import 'package:fyp/ui/boarding_screen/onboarding_screen.dart';
 import 'package:fyp/ui/launcher_screen/launcher_screen.dart';
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: "/forgot_password_screen", page: () => ForgotPasswordScreen(),),
         GetPage(name: "/otp_verification_screen", page: () => OtpVerificationScreen(),),
         GetPage(name: "/reset_password_screen", page: () => ResetPasswordScreen(),),
+        GetPage(name: "/category_selection_screen", page: () => CategoryScreen(),),
         GetPage(name: "/password_reset_success_message_screen", page: () => PasswordResetSuccessMessageScreen(),),
       ],
       initialRoute: "/launcher_screen",

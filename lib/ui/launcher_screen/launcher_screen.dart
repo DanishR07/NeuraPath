@@ -23,15 +23,30 @@ class _LauncherScreenState extends State<LauncherScreen> {
 
     bool onboardingCompleted = storage.read('onboarding_completed') ?? false;
     String? token = storage.read('token');
+    final dynamic userDyn = storage.read('user');
+    String? category;
+
+    if (userDyn is Map) {
+      final user = Map<String, dynamic>.from(userDyn as Map);
+      final c = user['category'];
+      if (c != null && c.toString().trim().isNotEmpty) {
+        category = c.toString().trim();
+      }
+    }
 
     if (!onboardingCompleted) {
       Get.offAllNamed("/on_boarding_screen");
     } else if (token != null && token.isNotEmpty) {
-      Get.offAllNamed("/home_screen");
+      if (category == null) {
+        Get.offAllNamed("/category_screen");
+      } else {
+        Get.offAllNamed("/home_screen");
+      }
     } else {
       Get.offAllNamed("/login_screen");
     }
   }
+
 
   @override
   Widget build(BuildContext context) {

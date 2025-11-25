@@ -17,10 +17,7 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
-  // Controller to keep track of pages
   PageController onBoardScreenController = PageController();
-
-  // to check if we are on the last page
   bool onLastPage = false;
 
   @override
@@ -51,20 +48,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   child: ElevatedButton(
                       onPressed: () {
                         final storage = GetStorage();
-                        // Mark onboarding as completed
                         storage.write('onboarding_completed', true);
-                        // Navigate to login
                         Get.offAllNamed('/login_screen');
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.primaryGreen,
-                        // yellow background
                         padding: const EdgeInsets.symmetric(
                           horizontal: 0,
                           vertical: 15,
                         ),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30), // pill shape
+                          borderRadius: BorderRadius.circular(30),
                         ),
                         elevation: 6,
                         shadowColor: Colors.black45,
@@ -72,7 +66,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          // Left black circle with arrows
                           Container(
                             padding: const EdgeInsets.all(6),
                             decoration: const BoxDecoration(
@@ -107,7 +100,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 : Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      // skip
                       GestureDetector(
                         onTap: () {
                           onBoardScreenController.jumpToPage(4);

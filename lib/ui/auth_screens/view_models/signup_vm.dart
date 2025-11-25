@@ -67,7 +67,7 @@ class SignupViewModel extends GetxController {
           colorText: Colors.white,
         );
 
-        Get.offAllNamed("/home_screen");
+        Get.offAllNamed("/category_selection_screen");
       } else if (response.statusCode == 422) {
         if (data["errors"] != null) {
           data["errors"].forEach((key, value) {
