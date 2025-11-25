@@ -1,69 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import '../../../customs.dart';
+import '../../../data/repositories/auth_repository.dart';
 
 class HomeViewModel extends GetxController {
-  final storage = GetStorage();
-  var isLoading = false.obs;
-
-  Future<void> logout() async {
-    final token = storage.read('token');
-
-    if (token == null) {
-      storage.remove('token');
-      storage.remove('user');
+  AuthRepository authRepository = Get.find();
+  var isLoading=false.obs;
+  Future<void> confirmLogout() async {
+    try{
+      Get.back();
+      await authRepository.logout();
       Get.offAllNamed('/login_screen');
-      return;
-    }
-
-    isLoading.value = true;
-
-    try {
-      final response = await http.post(
-        Uri.parse('${ApiConfig.devBaseUrl}/logout'),
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $token',
-        },
-      );
-
-      final data = json.decode(response.body);
-
-      if (response.statusCode == 200 && data['status'] == true) {
-        // Clear local storage
-        await storage.remove('token');
-        await storage.remove('user');
-
-        // Navigate to login screen
-        Get.offAllNamed('/login_screen');
-
-        Get.snackbar(
-          'Success',
-          data['message'] ?? 'Logged out successfully',
-          backgroundColor: Colors.green,
-          colorText: Colors.white,
-        );
-      } else {
-        Get.snackbar(
-          'Error',
-          data['message'] ?? 'Failed to logout',
-          backgroundColor: Colors.redAccent,
-          colorText: Colors.white,
-        );
-      }
-    } catch (e) {
-      Get.snackbar(
-        'Error',
-        'Failed to connect to server: $e',
-        backgroundColor: Colors.redAccent,
-        colorText: Colors.white,
-      );
-      print(e);
-    } finally {
-      isLoading.value = false;
+      Get.snackbar('Logout', "Logged out successfully",backgroundColor: Colors.green);
+    } catch(e){
+      Get.snackbar('Error', "Failed to logout: ${e.toString()}",backgroundColor: Colors.red);
     }
   }
 }

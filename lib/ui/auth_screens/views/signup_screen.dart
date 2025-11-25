@@ -1,25 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../../customs.dart';
+import '../../../data/repositories/auth_repository.dart';
 import '../view_models/signup_vm.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
-
   @override
   State<SignupScreen> createState() => _SignupScreenState();
 }
 
 class _SignupScreenState extends State<SignupScreen> {
-  final SignupViewModel signupViewModel = Get.put(SignupViewModel());
-  final TextEditingController _fullNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
+  late SignUpViewModel signUpViewModel;
+
+  @override
+  void initState() {
+    super.initState();
+    signUpViewModel = Get.find();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,30 +119,6 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
               ),
               SizedBox(height: 20),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "Full Name",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ),
-              SizedBox(height: 5),
-              TextField(
-                controller: _fullNameController,
-                cursorColor: AppColors.primaryGreen,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                    borderSide: BorderSide.none,
-                  ),
-                  hintText: "Enter full name",
-                  hintStyle: TextStyle(fontSize: 13.5),
-                  prefixIcon: Icon(Icons.person, color: AppColors.primaryGreen),
-                ),
-              ),
-              SizedBox(height: 10),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
@@ -249,18 +229,17 @@ class _SignupScreenState extends State<SignupScreen> {
               ),
               SizedBox(height: 25),
               Obx(() {
-                return signupViewModel.isLoading.value
+                return signUpViewModel.isLoading.value
                     ? const CircularProgressIndicator(
                         color: AppColors.primaryGreen,
                       )
                     : ElevatedButton(
                         onPressed: () async {
                           FocusScope.of(context).unfocus(); // hide keyboard
-                          await signupViewModel.signup(
-                            name: _fullNameController.text.trim(),
-                            email: _emailController.text.trim(),
-                            password: _passwordController.text,
-                            confirmPassword: _confirmPasswordController.text,
+                          await signUpViewModel.signup(
+                            _emailController.text.trim(),
+                            _passwordController.text,
+                            _confirmPasswordController.text,
                           );
                         },
                         style: ElevatedButton.styleFrom(
@@ -301,5 +280,13 @@ class _SignupScreenState extends State<SignupScreen> {
         ),
       ),
     );
+  }
+}
+
+class SignUpScreenBinding extends Bindings{
+  @override
+  void dependencies() {
+    Get.put(AuthRepository());
+    Get.put(SignUpViewModel());
   }
 }

@@ -4,6 +4,7 @@ import 'package:fyp/ui/auth_screens/view_models/login_vm.dart';
 import 'package:get/get.dart';
 
 import '../../../customs.dart';
+import '../../../data/repositories/auth_repository.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -16,12 +17,13 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool rememberMe = false;
-  final LoginViewModel loginViewModel = Get.put(LoginViewModel());
+  late LoginViewModel loginViewModel;
   bool _obscurePassword = true;
 
   @override
   void initState() {
     super.initState();
+    loginViewModel = Get.find();
     final creds = loginViewModel.getSavedCredentials();
     if (creds["email"]!.isNotEmpty && creds["password"]!.isNotEmpty) {
       _emailController.text = creds["email"]!;
@@ -284,5 +286,12 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+}
+class LoginScreenBinding extends Bindings{
+  @override
+  void dependencies() {
+    Get.put(AuthRepository());
+    Get.put(LoginViewModel());
   }
 }

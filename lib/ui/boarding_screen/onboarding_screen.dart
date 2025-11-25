@@ -44,8 +44,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             alignment: const Alignment(0, 0.8),
             child: onLastPage
                 ? Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: ElevatedButton(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: ElevatedButton(
                       onPressed: () {
                         final storage = GetStorage();
                         storage.write('onboarding_completed', true);
@@ -96,7 +96,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         ],
                       ),
                     ),
-                )
+                  )
                 : Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [

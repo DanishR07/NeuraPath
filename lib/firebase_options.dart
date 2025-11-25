@@ -79,4 +79,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'career-compass-fyp.firebasestorage.app',
     measurementId: 'G-J8PFF0YLVB',
   );
+
 }

@@ -2,11 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:fyp/ui/home_screen/view_models/home_vm.dart';
 import 'package:get/get.dart';
 
-import '../../../customs.dart';
+import '../../../data/repositories/auth_repository.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   HomeScreen({super.key});
-  final HomeViewModel homeViewModel = Get.put(HomeViewModel());
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  late HomeViewModel homeViewModel;
+
+  @override
+  void initState() {
+    super.initState();
+    homeViewModel = Get.find();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,56 +28,47 @@ class HomeScreen extends StatelessWidget {
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(color: AppColors.primaryGreen),
-              child: Text(
-                'CareerCompass',
-                style: TextStyle(color: Colors.white, fontSize: 24),
-              ),
+            Divider(),
+            ListTile(
+              leading: Icon(Icons.logout),
+              title: Text('Logout'),
+              onTap: () {
+                Get.dialog(
+                  AlertDialog(
+                    title: Text('Confirm logout!'),
+                    content: Text('Are you sure you want to logout?'),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Get.back();
+                        },
+                        child: Text('No'),
+                      ),
+                      TextButton(
+                        onPressed: () async {
+                          await homeViewModel.confirmLogout();
+                        },
+                        child: Text(
+                          'Yes',
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
             ),
-            Obx(() {
-              return homeViewModel.isLoading.value
-                  ? const Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Center(child: Text('Logging out...')),
-              )
-                  : ListTile(
-                leading: const Icon(Icons.logout),
-                title: const Text('Logout'),
-                onTap: () {
-                  Navigator.pop(context);
-                  showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      title: const Text('Confirm Logout'),
-                      content: const Text('Are you sure you want to logout?'),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pop(context); // Close dialog
-                          },
-                          child: const Text('Cancel'),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            homeViewModel.logout();
-                            Navigator.pop(context);
-                          },
-                          child: const Text(
-                            'Logout',
-                            style: TextStyle(color: Colors.red),
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              );
-            }),
           ],
         ),
       ),
       body: const Center(child: Text('Home Screen')),
     );
+  }
+}
+class HomeScreenBinding extends Bindings{
+  @override
+  void dependencies() {
+    Get.put(AuthRepository());
+    Get.put(HomeViewModel());
   }
 }

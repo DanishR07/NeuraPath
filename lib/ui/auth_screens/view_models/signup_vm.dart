@@ -1,109 +1,35 @@
-import 'dart:convert';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:http/http.dart' as http;
-import '../../../customs.dart';
-
-class SignupViewModel extends GetxController {
-  final storage = GetStorage();
-  var isLoading = false.obs;
-
-  Future<void> signup({
-    required String name,
-    required String email,
-    required String password,
-    required String confirmPassword,
-  }) async {
-    if (name.isEmpty ||
-        email.isEmpty ||
-        password.isEmpty ||
-        confirmPassword.isEmpty) {
-      Get.snackbar(
-        "Missing Fields",
-        "Please fill all fields.",
-        backgroundColor: Colors.redAccent,
-        colorText: Colors.white,
-      );
+import '../../../data/repositories/auth_repository.dart';
+class SignUpViewModel extends GetxController{
+  AuthRepository authRepository = Get.find();
+  var isLoading=false.obs;
+  Future<void> signup(String email, String password, String confirmPassword) async {
+    if(!email.contains("@")){
+      Get.snackbar("Error", "Enter proper email",backgroundColor: Colors.red);
       return;
     }
-
-    if (password != confirmPassword) {
-      Get.snackbar(
-        "Password Mismatch",
-        "Passwords do not match.",
-        backgroundColor: Colors.redAccent,
-        colorText: Colors.white,
-      );
+    if(password.length<6){
+      Get.snackbar("Error", "Password must be 6 characters long", backgroundColor: Colors.red);
       return;
     }
-
-    isLoading.value = true;
-
-    try {
-      final response = await http.post(
-        Uri.parse("${ApiConfig.devBaseUrl}/register"),
-        headers: {"Accept": "application/json"},
-        body: {
-          "name": name,
-          "email": email,
-          "password": password,
-          "password_confirmation": confirmPassword,
-        },
-      );
-
-      final data = json.decode(response.body);
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        if (data['data'] != null && data['data']['token'] != null) {
-          await storage.write('token', data['data']['token']);
-          await storage.write('user', data['data']['user']);
-        }
-
-        Get.snackbar(
-          "Success",
-          "Account created successfully!",
-          backgroundColor: AppColors.primaryGreen,
-          colorText: Colors.white,
-        );
-
-        Get.offAllNamed("/category_selection_screen");
-      } else if (response.statusCode == 422) {
-        if (data["errors"] != null) {
-          data["errors"].forEach((key, value) {
-            Get.snackbar(
-              "Invalid Input",
-              value[0],
-              backgroundColor: Colors.redAccent,
-              colorText: Colors.white,
-            );
-          });
-        } else {
-          Get.snackbar(
-            "Error",
-            data["message"] ?? "Validation failed",
-            backgroundColor: Colors.redAccent,
-            colorText: Colors.white,
-          );
-        }
-      } else {
-        Get.snackbar(
-          "Error",
-          data["message"] ?? "Something went wrong",
-          backgroundColor: Colors.redAccent,
-          colorText: Colors.white,
-        );
-      }
-    } catch (e) {
-      Get.snackbar(
-        "Error",
-        "Failed to connect to server: $e",
-        backgroundColor: Colors.redAccent,
-        colorText: Colors.white,
-      );
-      print(e);
-    } finally {
-      isLoading.value = false;
+    if(password!=confirmPassword){
+      Get.snackbar("Error", "Password and confirm password must match",backgroundColor: Colors.red);
+      return;
     }
+    isLoading.value=true;
+    try{
+      await authRepository.signup(email, password,);
+      Get.offNamed("/home_screen");
+      Get.snackbar('Info', 'Signed up successfully',backgroundColor: Colors.green);
+    }on FirebaseAuthException catch(e){
+      Get.snackbar("Error", e.message??"Signup failed" ,backgroundColor: Colors.red);
+    }finally{
+      isLoading.value=false;
+    }
+  }
+  bool isUserLoggedIn(){
+    return authRepository.getLoggedInUser()!=null;
   }
 }
