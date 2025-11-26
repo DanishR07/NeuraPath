@@ -43,7 +43,7 @@ class _LauncherScreenState extends State<LauncherScreen> {
             color: Colors.white,
             borderRadius: BorderRadius.circular(100),
           ),
-          child: Image.asset("assets/images/app_logo.png"),
+          child: Image.asset("assets/images/app_logo.jpeg"),
         ),
       ),
     );
