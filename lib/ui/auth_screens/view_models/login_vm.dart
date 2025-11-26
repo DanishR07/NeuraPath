@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import '../../../data/repositories/auth_repository.dart';
+import '../../../services/connectivity_service.dart';
 
 class LoginViewModel extends GetxController {
   AuthRepository authRepository = Get.find();
@@ -14,16 +15,22 @@ class LoginViewModel extends GetxController {
     required bool rememberMe,
   }) async {
 
+    final hasInternet = await ConnectivityService.hasInternetConnection();
+    if (!hasInternet) {
+      Get.snackbar("No Internet", ConnectivityService.getNoInternetMessage(), backgroundColor: Colors.red);
+      return;
+    }
+
     // Basic validations
     if (!email.contains("@")) {
       Get.snackbar("Error", "Enter a valid email",backgroundColor: Colors.red);
       return;
     }
 
-    if (password.length < 6) {
-      Get.snackbar("Error", "Password must be at least 6 characters long",backgroundColor: Colors.red);
-      return;
-    }
+    // if (password.length < 6) {
+    //   Get.snackbar("Error", "Password must be at least 6 characters long",backgroundColor: Colors.red);
+    //   return;
+    // }
 
     isLoading.value = true;
 
@@ -42,6 +49,9 @@ class LoginViewModel extends GetxController {
 
     } on FirebaseAuthException catch (e) {
       Get.snackbar("Login Failed", "Email or password is incorrect.",backgroundColor: Colors.red);
+    } catch (e) {
+      print("[v0] Login error: $e");
+      Get.snackbar("Login Failed", e.toString().replaceAll("Exception: ", ""),backgroundColor: Colors.red);
     } finally {
       isLoading.value = false;
     }
@@ -51,7 +61,7 @@ class LoginViewModel extends GetxController {
     return authRepository.getLoggedInUser() != null;
   }
 
-  String? getLoggedInUserEmail() {
+  Future<String?> getLoggedInUserEmail() {
     return authRepository.getLoggedInUserEmail();
   }
 

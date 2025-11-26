@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../../customs.dart';
+import '../view_models/forgot_password_vm.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -12,6 +12,13 @@ class ForgotPasswordScreen extends StatefulWidget {
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final TextEditingController _emailController = TextEditingController();
+  late ForgotPasswordViewModel _viewModel;
+
+  @override
+  void initState() {
+    super.initState();
+    _viewModel = Get.put(ForgotPasswordViewModel());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,27 +71,61 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     ),
                   ),
                 ),
+
+                Obx(() {
+                  if (_viewModel.errorMessage.value != null) {
+                    return Column(
+                      children: [
+                        SizedBox(height: 10),
+                        Text(
+                          _viewModel.errorMessage.value!,
+                          style: TextStyle(color: Colors.red, fontSize: 12),
+                        ),
+                      ],
+                    );
+                  }
+                  return SizedBox.shrink();
+                }),
                 SizedBox(height: 70),
-                ElevatedButton(
-                  onPressed: () => Get.offNamed("/otp_verification_screen"),
-                  style: ElevatedButton.styleFrom(
-                    elevation: 3,
-                    minimumSize: const Size(double.infinity, 54),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
+                Obx(() {
+                  return ElevatedButton(
+                    onPressed: _viewModel.isLoading.value
+                        ? null
+                        : () => _viewModel.continueWithEmail(_emailController.text),
+                    style: ElevatedButton.styleFrom(
+                      elevation: 3,
+                      minimumSize: const Size(double.infinity, 54),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      backgroundColor: AppColors.primaryGreen,
                     ),
-                    backgroundColor: AppColors.primaryGreen,
-                  ),
-                  child: const Text(
-                    "Continue",
-                    style: TextStyle(fontSize: 18, color: Colors.white),
-                  ),
-                ),
+                    child: _viewModel.isLoading.value
+                        ? SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                      ),
+                    )
+                        : const Text(
+                      "Continue",
+                      style: TextStyle(fontSize: 18, color: Colors.white),
+                    ),
+                  );
+                }),
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    super.dispose();
   }
 }

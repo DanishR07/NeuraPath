@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../../customs.dart';
+import '../view_models/reset_password_vm.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
   const ResetPasswordScreen({super.key});
@@ -12,8 +12,14 @@ class ResetPasswordScreen extends StatefulWidget {
 
 class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController =
-      TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
+  late ResetPasswordViewModel _viewModel;
+
+  @override
+  void initState() {
+    super.initState();
+    _viewModel = Get.put(ResetPasswordViewModel());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +41,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: Text(
                     textAlign: TextAlign.center,
-                    'Enter your email address to receive a reset OTP and regain access to your account.',
+                    'Create a new password. Make sure it is strong and secure.',
                     style: TextStyle(fontSize: 13.5),
                   ),
                 ),
@@ -48,28 +54,36 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   ),
                 ),
                 SizedBox(height: 5),
-                TextField(
-                  controller: _passwordController,
-                  cursorColor: AppColors.primaryGreen,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      borderSide: BorderSide.none,
+                Obx(() {
+                  return TextField(
+                    controller: _passwordController,
+                    obscureText: !_viewModel.isPasswordVisible.value,
+                    cursorColor: AppColors.primaryGreen,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: BorderSide.none,
+                      ),
+                      hintText: "Enter password",
+                      hintStyle: TextStyle(fontSize: 13.5),
+                      prefixIcon: Icon(
+                        Icons.lock_outline,
+                        color: AppColors.primaryGreen,
+                      ),
+                      suffixIcon: GestureDetector(
+                        onTap: _viewModel.togglePasswordVisibility,
+                        child: Icon(
+                          _viewModel.isPasswordVisible.value
+                              ? Icons.visibility_outlined
+                              : Icons.visibility_off_outlined,
+                          color: AppColors.primaryGreen,
+                        ),
+                      ),
                     ),
-                    hintText: "Enter password",
-                    hintStyle: TextStyle(fontSize: 13.5),
-                    prefixIcon: Icon(
-                      Icons.lock_outline,
-                      color: AppColors.primaryGreen,
-                    ),
-                    suffixIcon: Icon(
-                      Icons.remove_red_eye_outlined,
-                      color: AppColors.primaryGreen,
-                    ),
-                  ),
-                ),
+                  );
+                }),
                 SizedBox(height: 20),
                 Align(
                   alignment: Alignment.centerLeft,
@@ -79,49 +93,80 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   ),
                 ),
                 SizedBox(height: 5),
-                TextField(
-                  controller: _confirmPasswordController,
-                  cursorColor: AppColors.primaryGreen,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      borderSide: BorderSide.none,
+                Obx(() {
+                  return TextField(
+                    controller: _confirmPasswordController,
+                    obscureText: !_viewModel.isConfirmPasswordVisible.value,
+                    cursorColor: AppColors.primaryGreen,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: BorderSide.none,
+                      ),
+                      hintText: "Confirm password",
+                      hintStyle: TextStyle(fontSize: 13.5),
+                      prefixIcon: Icon(
+                        Icons.lock_outline,
+                        color: AppColors.primaryGreen,
+                      ),
+                      suffixIcon: GestureDetector(
+                        onTap: _viewModel.toggleConfirmPasswordVisibility,
+                        child: Icon(
+                          _viewModel.isConfirmPasswordVisible.value
+                              ? Icons.visibility_outlined
+                              : Icons.visibility_off_outlined,
+                          color: AppColors.primaryGreen,
+                        ),
+                      ),
                     ),
-                    hintText: "Enter password again",
-                    hintStyle: TextStyle(fontSize: 13.5),
-                    prefixIcon: Icon(
-                      Icons.lock_outline,
-                      color: AppColors.primaryGreen,
-                    ),
-                    suffixIcon: Icon(
-                      Icons.remove_red_eye_outlined,
-                      color: AppColors.primaryGreen,
-                    ),
-                  ),
-                ),
+                  );
+                }),
                 SizedBox(height: 70),
-                ElevatedButton(
-                  onPressed: () => Get.offNamed("/password_reset_success_message_screen"),
-                  style: ElevatedButton.styleFrom(
-                    elevation: 3,
-                    minimumSize: Size(double.infinity, 54),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
+                Obx(() {
+                  return ElevatedButton(
+                    onPressed: _viewModel.isUpdating.value
+                        ? null
+                        : () => _viewModel.resetPassword(
+                      _passwordController.text,
+                      _confirmPasswordController.text,
                     ),
-                    backgroundColor: AppColors.primaryGreen,
-                  ),
-                  child: const Text(
-                    "Save",
-                    style: TextStyle(fontSize: 18, color: Colors.white),
-                  ),
-                ),
+                    style: ElevatedButton.styleFrom(
+                      elevation: 3,
+                      minimumSize: Size(double.infinity, 54),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      backgroundColor: AppColors.primaryGreen,
+                    ),
+                    child: _viewModel.isUpdating.value
+                        ? SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                      ),
+                    )
+                        : const Text(
+                      "Save",
+                      style: TextStyle(fontSize: 18, color: Colors.white),
+                    ),
+                  );
+                }),
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
   }
 }

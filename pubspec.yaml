@@ -41,6 +41,10 @@ dependencies:
   lottie: ^2.7.0
   http: ^1.5.0
   get_storage: ^2.1.1
+  cloud_firestore: ^5.6.12
+  firebase_functions: ^0.0.1-dev
+  cloud_functions: ^5.6.2
+  mailer: ^6.6.0
 
 dev_dependencies:
   flutter_test:

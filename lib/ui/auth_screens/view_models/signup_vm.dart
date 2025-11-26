@@ -2,10 +2,19 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../data/repositories/auth_repository.dart';
+import '../../../services/connectivity_service.dart';
+
 class SignUpViewModel extends GetxController{
   AuthRepository authRepository = Get.find();
   var isLoading=false.obs;
+
   Future<void> signup(String email, String password, String confirmPassword) async {
+    final hasInternet = await ConnectivityService.hasInternetConnection();
+    if (!hasInternet) {
+      Get.snackbar("No Internet", ConnectivityService.getNoInternetMessage(), backgroundColor: Colors.red);
+      return;
+    }
+
     if(!email.contains("@")){
       Get.snackbar("Error", "Enter proper email",backgroundColor: Colors.red);
       return;

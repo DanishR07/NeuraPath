@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../data/repositories/auth_repository.dart';
+import '../../../services/connectivity_service.dart';
 
 class HomeViewModel extends GetxController {
   AuthRepository authRepository = Get.find();
   var isLoading=false.obs;
   Future<void> confirmLogout() async {
+    final hasInternet = await ConnectivityService.hasInternetConnection();
+    if (!hasInternet) {
+      Get.snackbar("No Internet", ConnectivityService.getNoInternetMessage(), backgroundColor: Colors.red);
+      return;
+    }
+
     try{
       Get.back();
       await authRepository.logout();
