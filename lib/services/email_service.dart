@@ -14,8 +14,8 @@ class EmailService {
     required String otp,
   }) async {
     try {
-      print('[v0] [EmailService] Preparing to send OTP email to: $recipientEmail');
-      print('[v0] [EmailService] OTP: $otp');
+      print('  [EmailService] Preparing to send OTP email to: $recipientEmail');
+      print('  [EmailService] OTP: $otp');
 
       final message = Message()
         ..from = Address(_senderEmail, 'Neura Path')
@@ -43,13 +43,13 @@ class EmailService {
           </html>
         ''';
 
-      print('[v0] [EmailService] Connecting to SMTP server...');
+      print('  [EmailService] Connecting to SMTP server...');
       await send(message, smtpServer);
 
-      print('[v0] [EmailService] OTP email sent successfully to: $recipientEmail');
+      print('  [EmailService] OTP email sent successfully to: $recipientEmail');
       return true;
     } catch (e) {
-      print('[v0] [EmailService] ERROR sending email: ${e.toString()}');
+      print('  [EmailService] ERROR sending email: ${e.toString()}');
       return false;
     }
   }

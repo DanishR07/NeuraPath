@@ -50,7 +50,7 @@ class LoginViewModel extends GetxController {
     } on FirebaseAuthException catch (e) {
       Get.snackbar("Login Failed", "Email or password is incorrect.",backgroundColor: Colors.red);
     } catch (e) {
-      print("[v0] Login error: $e");
+      print("  Login error: $e");
       Get.snackbar("Login Failed", e.toString().replaceAll("Exception: ", ""),backgroundColor: Colors.red);
     } finally {
       isLoading.value = false;

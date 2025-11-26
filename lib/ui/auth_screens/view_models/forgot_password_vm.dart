@@ -37,7 +37,7 @@ class ForgotPasswordViewModel extends GetxController {
       return;
     }
 
-    print('[v0] [ForgotPassword] Step 1: ViewModel received emailInput: $emailInput');
+    print('  [ForgotPassword] Step 1: ViewModel received emailInput: $emailInput');
 
     isLoading.value = true;
     errorMessage.value = null;
@@ -45,33 +45,33 @@ class ForgotPasswordViewModel extends GetxController {
     try {
       email.value = emailInput.trim();
 
-      print('[v0] [ForgotPassword] Step 2: Trimmed email: ${email.value}');
-      print('[v0] [ForgotPassword] Step 3: Email length: ${email.value.length}');
+      print('  [ForgotPassword] Step 2: Trimmed email: ${email.value}');
+      print('  [ForgotPassword] Step 3: Email length: ${email.value.length}');
 
       // Check if user exists
       final userExists = await authRepository.checkUserExists(email.value);
-      print('[v0] [ForgotPassword] Step 4: User exists check result: $userExists');
+      print('  [ForgotPassword] Step 4: User exists check result: $userExists');
 
       if (!userExists) {
-        print('[v0] [ForgotPassword] Step 5: Email not found in database');
+        print('  [ForgotPassword] Step 5: Email not found in database');
         errorMessage.value = 'No account found with this email';
         isLoading.value = false;
         return;
       }
 
-      print('[v0] [ForgotPassword] Step 6: User found, generating OTP');
+      print('  [ForgotPassword] Step 6: User found, generating OTP');
       // Generate and send OTP via Cloud Function
       await authRepository.generateAndSendOTP(email.value);
 
-      print('[v0] [ForgotPassword] Step 7: OTP generated, checking reset email in repo');
+      print('  [ForgotPassword] Step 7: OTP generated, checking reset email in repo');
       final storedResetEmail = authRepository.getResetEmail();
-      print('[v0] [ForgotPassword] Step 8: Reset email stored in repo: $storedResetEmail');
+      print('  [ForgotPassword] Step 8: Reset email stored in repo: $storedResetEmail');
 
       // Navigate to OTP verification screen
-      print('[v0] [ForgotPassword] Step 9: Navigating to OTP verification screen');
+      print('  [ForgotPassword] Step 9: Navigating to OTP verification screen');
       Get.offNamed('/otp_verification_screen');
     } on Exception catch (e) {
-      print('[v0] [ForgotPassword] Error: ${e.toString()}');
+      print('  [ForgotPassword] Error: ${e.toString()}');
       errorMessage.value = 'An error occurred: ${e.toString()}';
     } finally {
       isLoading.value = false;

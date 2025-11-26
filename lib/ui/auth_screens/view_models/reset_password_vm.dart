@@ -59,9 +59,9 @@ class ResetPasswordViewModel extends GetxController {
     errorMessage.value = null;
     successMessage.value = null;
 
-    print('[v0] [ResetPasswordVM] resetPassword: Checking reset email status');
+    print('  [ResetPasswordVM] resetPassword: Checking reset email status');
     final resetEmail = authRepository.getResetEmail();
-    print('[v0] [ResetPasswordVM] resetPassword: Reset email from repository: $resetEmail');
+    print('  [ResetPasswordVM] resetPassword: Reset email from repository: $resetEmail');
 
     // Validate password strength
     final strengthError = validatePasswordStrength(passwordInput);
@@ -84,11 +84,11 @@ class ResetPasswordViewModel extends GetxController {
 
     try {
       isUpdating.value=true;
-      print('[v0] [ResetPasswordVM] resetPassword: Starting password reset process');
+      print('  [ResetPasswordVM] resetPassword: Starting password reset process');
       // Call repository to update password via Cloud Function
       await authRepository.updatePassword(passwordInput);
 
-      print('[v0] [ResetPasswordVM] resetPassword: Password updated successfully');
+      print('  [ResetPasswordVM] resetPassword: Password updated successfully');
 
       // Clear reset data
       authRepository.clearResetData();
@@ -99,7 +99,7 @@ class ResetPasswordViewModel extends GetxController {
       Get.offNamed('/password_reset_success_message_screen');
 
     } on Exception catch (e) {
-      print('[v0] [ResetPasswordVM] resetPassword: ERROR - ${e.toString()}');
+      print('  [ResetPasswordVM] resetPassword: ERROR - ${e.toString()}');
       errorMessage.value = 'Error: ${e.toString()}';
     } finally {
       isUpdating.value = false;

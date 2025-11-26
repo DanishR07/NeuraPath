@@ -78,26 +78,26 @@ class AuthRepository {
 
       _resetEmail = email;
 
-      print('[v0] [AuthRepository] generateAndSendOTP: Email received: $email');
-      print('[v0] [AuthRepository] generateAndSendOTP: OTP generated: $otp');
-      print('[v0] [AuthRepository] generateAndSendOTP: Reset email set to: $_resetEmail');
-      print('[v0] [AuthRepository] generateAndSendOTP: OTP expiry time: $expiryTime');
+      print('  [AuthRepository] generateAndSendOTP: Email received: $email');
+      print('  [AuthRepository] generateAndSendOTP: OTP generated: $otp');
+      print('  [AuthRepository] generateAndSendOTP: Reset email set to: $_resetEmail');
+      print('  [AuthRepository] generateAndSendOTP: OTP expiry time: $expiryTime');
 
-      print('[v0] [AuthRepository] generateAndSendOTP: Attempting to send OTP via email...');
+      print('  [AuthRepository] generateAndSendOTP: Attempting to send OTP via email...');
       final emailSent = await EmailService.sendOTPEmail(
         recipientEmail: email,
         otp: otp,
       );
 
       if (emailSent) {
-        print('[v0] [AuthRepository] generateAndSendOTP: OTP email sent successfully');
+        print('  [AuthRepository] generateAndSendOTP: OTP email sent successfully');
       } else {
-        print('[v0] [AuthRepository] generateAndSendOTP: WARNING - Email send returned false');
+        print('  [AuthRepository] generateAndSendOTP: WARNING - Email send returned false');
       }
 
       return otp;
     } catch (e) {
-      print('[v0] [AuthRepository] generateAndSendOTP: ERROR - ${e.toString()}');
+      print('  [AuthRepository] generateAndSendOTP: ERROR - ${e.toString()}');
       rethrow;
     }
   }
@@ -110,9 +110,9 @@ class AuthRepository {
 
   Future<bool> verifyOTP(String email, String enteredOTP) async {
     try {
-      print('[v0] [AuthRepository] verifyOTP: Verifying OTP for email: $email');
-      print('[v0] [AuthRepository] verifyOTP: Entered OTP: $enteredOTP');
-      print('[v0] [AuthRepository] verifyOTP: Storage keys: ${_otpStorage.keys.toList()}');
+      print('  [AuthRepository] verifyOTP: Verifying OTP for email: $email');
+      print('  [AuthRepository] verifyOTP: Entered OTP: $enteredOTP');
+      print('  [AuthRepository] verifyOTP: Storage keys: ${_otpStorage.keys.toList()}');
 
       if (_otpStorage.containsKey(email)) {
         final otpData = _otpStorage[email];
@@ -120,38 +120,38 @@ class AuthRepository {
         final expiryTime = otpData['expiryTime'] as DateTime;
         final attempts = otpData['attempts'] as int;
 
-        print('[v0] [AuthRepository] verifyOTP: Stored OTP: $storedOTP, Attempts: $attempts');
+        print('  [AuthRepository] verifyOTP: Stored OTP: $storedOTP, Attempts: $attempts');
 
         // Check if OTP has expired
         if (DateTime.now().isAfter(expiryTime)) {
-          print('[v0] [AuthRepository] verifyOTP: OTP has expired');
+          print('  [AuthRepository] verifyOTP: OTP has expired');
           _otpStorage.remove(email);
           throw Exception('OTP has expired. Please request a new OTP.');
         }
 
         // Check if too many attempts
         if (attempts >= 3) {
-          print('[v0] [AuthRepository] verifyOTP: Too many attempts');
+          print('  [AuthRepository] verifyOTP: Too many attempts');
           _otpStorage.remove(email);
           throw Exception('Too many attempts. Please request a new OTP.');
         }
 
         // Verify OTP
         if (storedOTP == enteredOTP) {
-          print('[v0] [AuthRepository] verifyOTP: OTP matched successfully');
+          print('  [AuthRepository] verifyOTP: OTP matched successfully');
           _otpStorage[email]['verified'] = true;
           return true;
         } else {
-          print('[v0] [AuthRepository] verifyOTP: OTP mismatch');
+          print('  [AuthRepository] verifyOTP: OTP mismatch');
           _otpStorage[email]['attempts'] = attempts + 1;
           return false;
         }
       } else {
-        print('[v0] [AuthRepository] verifyOTP: ERROR - Email not found in OTP storage');
+        print('  [AuthRepository] verifyOTP: ERROR - Email not found in OTP storage');
       }
       return false;
     } catch (e) {
-      print('[v0] [AuthRepository] verifyOTP: EXCEPTION - ${e.toString()}');
+      print('  [AuthRepository] verifyOTP: EXCEPTION - ${e.toString()}');
       rethrow;
     }
   }
@@ -177,12 +177,12 @@ class AuthRepository {
 
   Future<void> updatePassword(String newPassword) async {
     try {
-      print('[v0] [AuthRepository] updatePassword: Starting password update');
-      print('[v0] [AuthRepository] updatePassword: Reset email: $_resetEmail');
-      print('[v0] [AuthRepository] updatePassword: Current user ID: $_currentUserId');
+      print('  [AuthRepository] updatePassword: Starting password update');
+      print('  [AuthRepository] updatePassword: Reset email: $_resetEmail');
+      print('  [AuthRepository] updatePassword: Current user ID: $_currentUserId');
 
       if (_resetEmail != null && _resetEmail!.isNotEmpty) {
-        print('[v0] [AuthRepository] updatePassword: Searching for user with email: $_resetEmail');
+        print('  [AuthRepository] updatePassword: Searching for user with email: $_resetEmail');
 
         final result = await _firestore
             .collection('users')
@@ -191,27 +191,27 @@ class AuthRepository {
             .get();
 
         if (result.docs.isEmpty) {
-          print('[v0] [AuthRepository] updatePassword: ERROR - User not found with email: $_resetEmail');
+          print('  [AuthRepository] updatePassword: ERROR - User not found with email: $_resetEmail');
           throw Exception('User not found');
         }
 
         final userDoc = result.docs.first;
         final userId = userDoc.id;
 
-        print('[v0] [AuthRepository] updatePassword: Found user ID: $userId');
-        print('[v0] [AuthRepository] updatePassword: Updating password in Firestore');
+        print('  [AuthRepository] updatePassword: Found user ID: $userId');
+        print('  [AuthRepository] updatePassword: Updating password in Firestore');
 
         await _firestore.collection('users').doc(userId).update({
           'password': newPassword,
         });
 
-        print('[v0] [AuthRepository] updatePassword: Password updated successfully');
+        print('  [AuthRepository] updatePassword: Password updated successfully');
       } else {
-        print('[v0] [AuthRepository] updatePassword: ERROR - Reset email is null or empty');
+        print('  [AuthRepository] updatePassword: ERROR - Reset email is null or empty');
         throw Exception('No user logged in or reset email not found');
       }
     } catch (e) {
-      print('[v0] [AuthRepository] updatePassword: EXCEPTION - ${e.toString()}');
+      print('  [AuthRepository] updatePassword: EXCEPTION - ${e.toString()}');
       rethrow;
     }
   }
@@ -244,7 +244,7 @@ class AuthRepository {
 
   Future<bool> checkUserExists(String email) async {
     try {
-      print('[v0] [AuthRepository] checkUserExists: Checking if user exists for email: $email');
+      print('  [AuthRepository] checkUserExists: Checking if user exists for email: $email');
 
       final result = await _firestore
           .collection('users')
@@ -253,22 +253,22 @@ class AuthRepository {
           .get();
 
       final exists = result.docs.isNotEmpty;
-      print('[v0] [AuthRepository] checkUserExists: Result - $exists (${result.docs.length} docs found)');
+      print('  [AuthRepository] checkUserExists: Result - $exists (${result.docs.length} docs found)');
 
       return exists;
     } catch (e) {
-      print('[v0] [AuthRepository] checkUserExists: ERROR - ${e.toString()}');
+      print('  [AuthRepository] checkUserExists: ERROR - ${e.toString()}');
       return false;
     }
   }
 
   String? getResetEmail() {
-    print('[v0] [AuthRepository] getResetEmail: Retrieved email: $_resetEmail');
+    print('  [AuthRepository] getResetEmail: Retrieved email: $_resetEmail');
     return _resetEmail;
   }
 
   void clearResetData() {
-    print('[v0] [AuthRepository] clearResetData: Clearing reset data for email: $_resetEmail');
+    print('  [AuthRepository] clearResetData: Clearing reset data for email: $_resetEmail');
     if (_resetEmail != null) {
       _otpStorage.remove(_resetEmail);
     }
