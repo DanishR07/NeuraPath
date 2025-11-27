@@ -11,7 +11,7 @@ class IntroScreen1 extends StatelessWidget {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        color: Colors.black,
+        color: Color(0xFFF5F5F5),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15.0),
           child: Column(
@@ -21,7 +21,7 @@ class IntroScreen1 extends StatelessWidget {
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Colors.white.withOpacity(0.15),
+                  color: Colors.blueGrey,
                 ),
                 child: const Icon(
                   Icons.explore, // Compass-like icon
@@ -31,12 +31,11 @@ class IntroScreen1 extends StatelessWidget {
               ),
               const SizedBox(height: 60),
               const Text(
-                "Welcome to CareerCompass",
+                "Welcome to NeuraPath",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
                   letterSpacing: 1.2,
                 ),
               ),
@@ -48,8 +47,8 @@ class IntroScreen1 extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 16,
-                    color: Colors.white70,
                     height: 1.4,
+                    color: Colors.blueGrey
                   ),
                 ),
               ),

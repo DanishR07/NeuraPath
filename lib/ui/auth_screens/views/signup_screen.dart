@@ -35,18 +35,18 @@ class _SignupScreenState extends State<SignupScreen> {
             children: [
               SizedBox(height: 55),
               Container(
-                height: 40,
-                width: 40,
+                height: 65,
+                width: 65,
                 clipBehavior: Clip.hardEdge,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(50),
                 ),
-                child: Image.asset("assets/images/app_logo.png"),
+                child: Image.asset("assets/images/app_logo.jpeg"),
               ),
               SizedBox(height: 5),
               Text(
-                "CareerCompass",
+                "NeuraPath",
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 30),

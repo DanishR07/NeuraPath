@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fyp/ui/auth_screens/view_models/login_vm.dart';
 import 'package:get/get.dart';
-
 import '../../../customs.dart';
 import '../../../data/repositories/auth_repository.dart';
 
@@ -42,18 +41,18 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               SizedBox(height: 55),
               Container(
-                height: 40,
-                width: 40,
+                height: 65,
+                width: 65,
                 clipBehavior: Clip.hardEdge,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(50),
                 ),
-                child: Image.asset("assets/images/app_logo.png"),
+                child: Image.asset("assets/images/app_logo.jpeg"),
               ),
               SizedBox(height: 5),
               Text(
-                "CareerCompass",
+                "NeuraPath",
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 30),

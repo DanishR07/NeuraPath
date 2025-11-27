@@ -11,7 +11,7 @@ class IntroScreen5 extends StatelessWidget {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        color: Colors.black,
+        color: Color(0xFFF5F5F5),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15.0),
           child: Column(
@@ -21,7 +21,7 @@ class IntroScreen5 extends StatelessWidget {
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Colors.white.withOpacity(0.15),
+                  color: Colors.blueGrey,
                 ),
                 child: const Icon(
                   Icons.hub,
@@ -39,7 +39,6 @@ class IntroScreen5 extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
                   letterSpacing: 1.2,
                 ),
               ),
@@ -51,7 +50,7 @@ class IntroScreen5 extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 16,
-                    color: Colors.white70,
+                    color: Colors.blueGrey,
                     height: 1.4,
                   ),
                 ),

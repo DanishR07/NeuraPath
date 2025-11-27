@@ -135,7 +135,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           );
                         },
                         effect: const ExpandingDotsEffect(
-                          activeDotColor: Colors.white,
+                          activeDotColor: Colors.blueGrey,
                           dotColor: AppColors.primaryGreen,
                           dotHeight: 10,
                           dotWidth: 10,

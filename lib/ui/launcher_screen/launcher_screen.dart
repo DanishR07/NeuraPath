@@ -29,21 +29,68 @@ class _LauncherScreenState extends State<LauncherScreen> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.white,
       body: Center(
-        child: Container(
-          height: 150,
-          width: 150,
-          clipBehavior: Clip.hardEdge,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(100),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 38.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    height: 150,
+                    width: 20,
+                    decoration: BoxDecoration(color: Colors.deepOrange),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 18.0),
+                    child: Container(
+                      height: 60,
+                      width: 2,
+                      decoration: BoxDecoration(color: Colors.green),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 70),
+              Container(
+                height: 150,
+                width: 150,
+                clipBehavior: Clip.hardEdge,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(100),
+                ),
+                child: Image.asset("assets/images/app_logo.jpeg"),
+              ),
+              SizedBox(height: 70),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 18.0),
+                      child: Container(
+                        height: 60,
+                        width: 2,
+                        decoration: BoxDecoration(color: Colors.deepOrange),
+                      ),
+                    ),
+                    Container(
+                      height: 150,
+                      width: 20,
+                      decoration: BoxDecoration(color: Colors.green),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-          child: Image.asset("assets/images/app_logo.png"),
         ),
       ),
     );
