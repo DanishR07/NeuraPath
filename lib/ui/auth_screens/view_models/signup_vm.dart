@@ -29,9 +29,9 @@ class SignUpViewModel extends GetxController{
     }
     isLoading.value=true;
     try{
-      await authRepository.signup(email, password,);
-      Get.offNamed("/home_screen");
-      Get.snackbar('Info', 'Signed up successfully',backgroundColor: Colors.green);
+      final userModel = await authRepository.signup(email, password,);
+      Get.offNamed("/profile_setup_screen", arguments: userModel.id);
+      Get.snackbar('Info', 'Account created! Please complete your profile',backgroundColor: Colors.green);
     }on FirebaseAuthException catch(e){
       Get.snackbar("Error", e.message??"Signup failed" ,backgroundColor: Colors.red);
     }finally{

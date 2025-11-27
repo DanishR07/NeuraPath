@@ -27,11 +27,6 @@ class LoginViewModel extends GetxController {
       return;
     }
 
-    // if (password.length < 6) {
-    //   Get.snackbar("Error", "Password must be at least 6 characters long",backgroundColor: Colors.red);
-    //   return;
-    // }
-
     isLoading.value = true;
 
     try {
@@ -44,8 +39,18 @@ class LoginViewModel extends GetxController {
         await storage.remove('savedPassword');
       }
 
-      await authRepository.login(email, password);
-      Get.offNamed('/home_screen');
+      final userModel = await authRepository.login(email, password);
+
+      final isProfileComplete = await authRepository.isProfileComplete(userModel.id!);
+
+      if (isProfileComplete) {
+        // Route to role-based home screen
+        Get.offNamed('/home_screen');
+      } else {
+        // Route to profile setup screen
+        Get.offNamed("/profile_setup_screen", arguments: userModel.id);
+        Get.snackbar('Info', 'Please complete your profile to continue',backgroundColor: Colors.blue);
+      }
 
     } on FirebaseAuthException catch (e) {
       Get.snackbar("Login Failed", "Email or password is incorrect.",backgroundColor: Colors.red);

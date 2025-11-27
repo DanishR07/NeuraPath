@@ -274,4 +274,61 @@ class AuthRepository {
     }
     _resetEmail = null;
   }
+
+  Future<void> updateUserProfile({
+    required String userId,
+    required String firstName,
+    required String lastName,
+    required String phoneNumber,
+    required String role,
+    String? profileImageUrl,
+  }) async {
+    try {
+      await _firestore.collection('users').doc(userId).update({
+        'firstName': firstName,
+        'lastName': lastName,
+        'phoneNumber': phoneNumber,
+        'role': role,
+        if (profileImageUrl != null) 'profileImageUrl': profileImageUrl,
+      });
+    } catch (e) {
+      print('  [AuthRepository] updateUserProfile: ERROR - ${e.toString()}');
+      rethrow;
+    }
+  }
+
+  Future<UserModel?> getUserProfile(String userId) async {
+    try {
+      final doc = await _firestore.collection('users').doc(userId).get();
+      if (doc.exists) {
+        return UserModel.fromJson(doc.data() as Map<String, dynamic>, doc.id);
+      }
+      return null;
+    } catch (e) {
+      print('  [AuthRepository] getUserProfile: ERROR - ${e.toString()}');
+      rethrow;
+    }
+  }
+
+  Future<bool> isProfileComplete(String userId) async {
+    try {
+      final doc = await _firestore.collection('users').doc(userId).get();
+      if (doc.exists) {
+        final data = doc.data() as Map<String, dynamic>;
+        // Profile is complete if firstName, lastName, phoneNumber, and role are all provided
+        return data['firstName'] != null &&
+            data['lastName'] != null &&
+            data['phoneNumber'] != null &&
+            data['role'] != null &&
+            data['firstName'].toString().isNotEmpty &&
+            data['lastName'].toString().isNotEmpty &&
+            data['phoneNumber'].toString().isNotEmpty &&
+            data['role'].toString().isNotEmpty;
+      }
+      return false;
+    } catch (e) {
+      print('  [AuthRepository] isProfileComplete: ERROR - ${e.toString()}');
+      return false;
+    }
+  }
 }
