@@ -47,8 +47,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: ElevatedButton(
                       onPressed: () {
-                        final storage = GetStorage();
-                        storage.write('onboarding_completed', true);
+                        // final storage = GetStorage();
+                        // storage.write('onboarding_completed', true);
                         Get.offAllNamed('/login_screen');
                       },
                       style: ElevatedButton.styleFrom(
@@ -135,7 +135,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           );
                         },
                         effect: const ExpandingDotsEffect(
-                          activeDotColor: Colors.white,
+                          activeDotColor: Colors.blueGrey,
                           dotColor: AppColors.primaryGreen,
                           dotHeight: 10,
                           dotWidth: 10,
