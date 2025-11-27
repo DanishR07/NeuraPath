@@ -15,19 +15,19 @@ class _LauncherScreenState extends State<LauncherScreen> {
   @override
   void initState() {
     super.initState();
-    // navigateUser();
+    navigateUser();
   }
 
-  // void navigateUser() async {
-  //   await Future.delayed(const Duration(seconds: 2));
-  //
-  //   bool onboardingCompleted = storage.read('onboarding_completed') ?? false;
-  //   if (!onboardingCompleted) {
-  //     Get.offAllNamed("/on_boarding_screen");
-  //   } else {
-  //     Get.offAllNamed("/login_screen");
-  //   }
-  // }
+  void navigateUser() async {
+    await Future.delayed(const Duration(seconds: 2));
+
+    bool onboardingCompleted = storage.read('onboarding_completed') ?? false;
+    if (!onboardingCompleted) {
+      Get.offAllNamed("/on_boarding_screen");
+    } else {
+      Get.offAllNamed("/login_screen");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
