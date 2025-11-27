@@ -55,30 +55,38 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 ),
                 SizedBox(height: 5),
                 Obx(() {
-                  return TextField(
-                    controller: _passwordController,
-                    obscureText: !_viewModel.isPasswordVisible.value,
-                    cursorColor: AppColors.primaryGreen,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.white,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                        borderSide: BorderSide.none,
+                  return Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.grey[300] ?? Colors.grey,
+                        width: 1,
                       ),
-                      hintText: "Enter password",
-                      hintStyle: TextStyle(fontSize: 13.5),
-                      prefixIcon: Icon(
-                        Icons.lock_outline,
-                        color: AppColors.primaryGreen,
-                      ),
-                      suffixIcon: GestureDetector(
-                        onTap: _viewModel.togglePasswordVisibility,
-                        child: Icon(
-                          _viewModel.isPasswordVisible.value
-                              ? Icons.visibility_outlined
-                              : Icons.visibility_off_outlined,
-                          color: AppColors.primaryGreen,
+                      borderRadius: BorderRadius.circular(12),
+                      color: Colors.white,
+                    ),
+                    child: TextField(
+                      controller: _passwordController,
+                      obscureText: !_viewModel.isPasswordVisible.value,
+                      cursorColor: AppColors.primaryGreen,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.symmetric(vertical: 14, horizontal: 0),
+                        hintText: "Enter password",
+                        hintStyle: TextStyle(fontSize: 14, color: Colors.grey[400]),
+                        prefixIcon: Icon(
+                          Icons.lock_outline,
+                          size: 20,
+                          color: AppColors.primaryGreen.withOpacity(0.6),
+                        ),
+                        suffixIcon: GestureDetector(
+                          onTap: _viewModel.togglePasswordVisibility,
+                          child: Icon(
+                            _viewModel.isPasswordVisible.value
+                                ? Icons.visibility_outlined
+                                : Icons.visibility_off_outlined,
+                            size: 20,
+                            color: AppColors.primaryGreen.withOpacity(0.6),
+                          ),
                         ),
                       ),
                     ),
@@ -94,30 +102,38 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 ),
                 SizedBox(height: 5),
                 Obx(() {
-                  return TextField(
-                    controller: _confirmPasswordController,
-                    obscureText: !_viewModel.isConfirmPasswordVisible.value,
-                    cursorColor: AppColors.primaryGreen,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.white,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                        borderSide: BorderSide.none,
+                  return Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.grey[300] ?? Colors.grey,
+                        width: 1,
                       ),
-                      hintText: "Confirm password",
-                      hintStyle: TextStyle(fontSize: 13.5),
-                      prefixIcon: Icon(
-                        Icons.lock_outline,
-                        color: AppColors.primaryGreen,
-                      ),
-                      suffixIcon: GestureDetector(
-                        onTap: _viewModel.toggleConfirmPasswordVisibility,
-                        child: Icon(
-                          _viewModel.isConfirmPasswordVisible.value
-                              ? Icons.visibility_outlined
-                              : Icons.visibility_off_outlined,
-                          color: AppColors.primaryGreen,
+                      borderRadius: BorderRadius.circular(12),
+                      color: Colors.white,
+                    ),
+                    child: TextField(
+                      controller: _confirmPasswordController,
+                      obscureText: !_viewModel.isConfirmPasswordVisible.value,
+                      cursorColor: AppColors.primaryGreen,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.symmetric(vertical: 14, horizontal: 0),
+                        hintText: "Confirm password",
+                        hintStyle: TextStyle(fontSize: 14, color: Colors.grey[400]),
+                        prefixIcon: Icon(
+                          Icons.lock_outline,
+                          size: 20,
+                          color: AppColors.primaryGreen.withOpacity(0.6),
+                        ),
+                        suffixIcon: GestureDetector(
+                          onTap: _viewModel.toggleConfirmPasswordVisibility,
+                          child: Icon(
+                            _viewModel.isConfirmPasswordVisible.value
+                                ? Icons.visibility_outlined
+                                : Icons.visibility_off_outlined,
+                            size: 20,
+                            color: AppColors.primaryGreen.withOpacity(0.6),
+                          ),
                         ),
                       ),
                     ),

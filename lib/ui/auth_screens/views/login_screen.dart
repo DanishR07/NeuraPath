@@ -4,6 +4,7 @@ import 'package:fyp/ui/auth_screens/view_models/login_vm.dart';
 import 'package:get/get.dart';
 import '../../../customs.dart';
 import '../../../data/repositories/auth_repository.dart';
+import '../../custom_widgets/profile_form.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -36,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(left: 15.0,right: 15,bottom: 20),
+          padding: const EdgeInsets.only(left: 15.0, right: 15, bottom: 20),
           child: Column(
             children: [
               SizedBox(height: 55),
@@ -125,31 +126,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               SizedBox(height: 20),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "Email",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ),
-              SizedBox(height: 5),
-              TextField(
+              buildFormField(
+                label: 'Email',
+                hintText: 'Enter your email',
                 controller: _emailController,
-                cursorColor: AppColors.primaryGreen,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                    borderSide: BorderSide.none,
-                  ),
-                  hintText: "Enter email",
-                  hintStyle: TextStyle(fontSize: 13.5),
-                  prefixIcon: Icon(
-                    Icons.email_outlined,
-                    color: AppColors.primaryGreen,
-                  ),
-                ),
+                icon: Icons.email_outlined,
               ),
               SizedBox(height: 10),
               Align(
@@ -160,35 +141,43 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               SizedBox(height: 5),
-              TextField(
-                controller: _passwordController,
-                obscureText: _obscurePassword,
-                cursorColor: AppColors.primaryGreen,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                    borderSide: BorderSide.none,
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.grey[300] ?? Colors.grey,
+                    width: 1,
                   ),
-                  hintText: "Enter password",
-                  hintStyle: TextStyle(fontSize: 13.5),
-                  prefixIcon: Icon(
-                    Icons.lock_outline,
-                    color: AppColors.primaryGreen,
-                  ),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _obscurePassword
-                          ? Icons.visibility_off_outlined
-                          : Icons.visibility_outlined,
-                      color: AppColors.primaryGreen,
+                  borderRadius: BorderRadius.circular(12),
+                  color: Colors.white,
+                ),
+                child: TextField(
+                  controller: _passwordController,
+                  obscureText: _obscurePassword,
+                  cursorColor: AppColors.primaryGreen,
+                  decoration: InputDecoration(
+                    hintText: "Enter password",
+                    hintStyle: TextStyle(fontSize: 14, color: Colors.grey[400]),
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.symmetric(vertical: 14, horizontal: 0),
+                    prefixIcon: Icon(
+                      Icons.lock_outline,
+                      size: 20,
+                      color: AppColors.primaryGreen.withOpacity(0.6),
                     ),
-                    onPressed: () {
-                      setState(() {
-                        _obscurePassword = !_obscurePassword;
-                      });
-                    },
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _obscurePassword
+                            ? Icons.visibility_off_outlined
+                            : Icons.visibility_outlined,
+                        size: 20,
+                        color: AppColors.primaryGreen.withOpacity(0.6),
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _obscurePassword = !_obscurePassword;
+                        });
+                      },
+                    ),
                   ),
                 ),
               ),
@@ -237,29 +226,31 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(height: 5),
               Obx(() {
                 return loginViewModel.isLoading.value
-                    ? const CircularProgressIndicator(color: AppColors.primaryGreen)
+                    ? const CircularProgressIndicator(
+                        color: AppColors.primaryGreen,
+                      )
                     : ElevatedButton(
-                  onPressed: () async {
-                    FocusScope.of(context).unfocus();
-                    await loginViewModel.login(
-                      email: _emailController.text.trim(),
-                      password: _passwordController.text,
-                      rememberMe: rememberMe,
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    elevation: 3,
-                    minimumSize: const Size(double.infinity, 54),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    backgroundColor: AppColors.primaryGreen,
-                  ),
-                  child: const Text(
-                    "Log In",
-                    style: TextStyle(fontSize: 18, color: Colors.white),
-                  ),
-                );
+                        onPressed: () async {
+                          FocusScope.of(context).unfocus();
+                          await loginViewModel.login(
+                            email: _emailController.text.trim(),
+                            password: _passwordController.text,
+                            rememberMe: rememberMe,
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          elevation: 3,
+                          minimumSize: const Size(double.infinity, 54),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          backgroundColor: AppColors.primaryGreen,
+                        ),
+                        child: const Text(
+                          "Log In",
+                          style: TextStyle(fontSize: 18, color: Colors.white),
+                        ),
+                      );
               }),
               SizedBox(height: 25),
               Row(
@@ -287,7 +278,8 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
-class LoginScreenBinding extends Bindings{
+
+class LoginScreenBinding extends Bindings {
   @override
   void dependencies() {
     Get.put(AuthRepository());

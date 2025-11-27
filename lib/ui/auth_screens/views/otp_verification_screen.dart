@@ -67,9 +67,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                   );
                 }),
               ),
-
               SizedBox(height: 20),
-
               // Countdown / Expired Banner
               Obx(() {
                 return Text(

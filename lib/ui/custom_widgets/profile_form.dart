@@ -31,6 +31,7 @@ Widget buildFormField({
           color: Colors.white,
         ),
         child: TextField(
+          cursorColor: AppColors.primaryGreen,
           controller: controller,
           keyboardType: keyboardType,
           decoration: InputDecoration(

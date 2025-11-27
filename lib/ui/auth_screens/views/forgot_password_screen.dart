@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fyp/ui/custom_widgets/profile_form.dart';
 import 'package:get/get.dart';
 import '../../../customs.dart';
 import '../view_models/forgot_password_vm.dart';
@@ -45,33 +46,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   ),
                 ),
                 SizedBox(height: 60),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Email",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
-                SizedBox(height: 5),
-                TextField(
+                buildFormField(label: 'Email',
+                  hintText: 'Enter your email',
                   controller: _emailController,
-                  cursorColor: AppColors.primaryGreen,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      borderSide: BorderSide.none,
-                    ),
-                    hintText: "Enter email",
-                    hintStyle: TextStyle(fontSize: 13.5),
-                    prefixIcon: Icon(
-                      Icons.email_outlined,
-                      color: AppColors.primaryGreen,
-                    ),
-                  ),
-                ),
-
+                  icon: Icons.email_outlined,),
                 Obx(() {
                   if (_viewModel.errorMessage.value != null) {
                     return Column(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fyp/ui/custom_widgets/profile_form.dart';
 import 'package:get/get.dart';
 import '../../../customs.dart';
 import '../../../data/repositories/auth_repository.dart';
@@ -119,32 +120,10 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
               ),
               SizedBox(height: 20),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "Email",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ),
-              SizedBox(height: 5),
-              TextField(
+              buildFormField(label: 'Email',
+                hintText: 'Enter your email',
                 controller: _emailController,
-                cursorColor: AppColors.primaryGreen,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                    borderSide: BorderSide.none,
-                  ),
-                  hintText: "Enter email",
-                  hintStyle: TextStyle(fontSize: 13.5),
-                  prefixIcon: Icon(
-                    Icons.email_outlined,
-                    color: AppColors.primaryGreen,
-                  ),
-                ),
-              ),
+                icon: Icons.email_outlined,),
               SizedBox(height: 10),
               Align(
                 alignment: Alignment.centerLeft,
@@ -154,35 +133,43 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
               ),
               SizedBox(height: 5),
-              TextField(
-                controller: _passwordController,
-                obscureText: _obscurePassword,
-                cursorColor: AppColors.primaryGreen,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
-                  hintText: "Enter password",
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                    borderSide: BorderSide.none,
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.grey[300] ?? Colors.grey,
+                    width: 1,
                   ),
-                  hintStyle: TextStyle(fontSize: 13.5),
-                  prefixIcon: Icon(
-                    Icons.lock_outline,
-                    color: AppColors.primaryGreen,
-                  ),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _obscurePassword
-                          ? Icons.visibility_off_outlined
-                          : Icons.visibility_outlined,
-                      color: AppColors.primaryGreen,
+                  borderRadius: BorderRadius.circular(12),
+                  color: Colors.white,
+                ),
+                child: TextField(
+                  controller: _passwordController,
+                  obscureText: _obscurePassword,
+                  cursorColor: AppColors.primaryGreen,
+                  decoration: InputDecoration(
+                    hintText: "Enter password",
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.symmetric(vertical: 14, horizontal: 0),
+                    hintStyle: TextStyle(fontSize: 14, color: Colors.grey[400]),
+                    prefixIcon: Icon(
+                      Icons.lock_outline,
+                      size: 20,
+                      color: AppColors.primaryGreen.withOpacity(0.6),
                     ),
-                    onPressed: () {
-                      setState(() {
-                        _obscurePassword = !_obscurePassword;
-                      });
-                    },
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _obscurePassword
+                            ? Icons.visibility_off_outlined
+                            : Icons.visibility_outlined,
+                        size: 20,
+                        color: AppColors.primaryGreen.withOpacity(0.6),
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _obscurePassword = !_obscurePassword;
+                        });
+                      },
+                    ),
                   ),
                 ),
               ),
@@ -195,35 +182,43 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
               ),
               SizedBox(height: 5),
-              TextField(
-                controller: _confirmPasswordController,
-                obscureText: _obscureConfirmPassword,
-                cursorColor: AppColors.primaryGreen,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                    borderSide: BorderSide.none,
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.grey[300] ?? Colors.grey,
+                    width: 1,
                   ),
-                  hintText: "Enter password again",
-                  hintStyle: TextStyle(fontSize: 13.5),
-                  prefixIcon: Icon(
-                    Icons.lock_outline,
-                    color: AppColors.primaryGreen,
-                  ),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _obscureConfirmPassword
-                          ? Icons.visibility_off_outlined
-                          : Icons.visibility_outlined,
-                      color: AppColors.primaryGreen,
+                  borderRadius: BorderRadius.circular(12),
+                  color: Colors.white,
+                ),
+                child: TextField(
+                  controller: _confirmPasswordController,
+                  obscureText: _obscureConfirmPassword,
+                  cursorColor: AppColors.primaryGreen,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.symmetric(vertical: 14, horizontal: 0),
+                    hintText: "Enter password again",
+                    hintStyle: TextStyle(fontSize: 14, color: Colors.grey[400]),
+                    prefixIcon: Icon(
+                      Icons.lock_outline,
+                      size: 20,
+                      color: AppColors.primaryGreen.withOpacity(0.6),
                     ),
-                    onPressed: () {
-                      setState(() {
-                        _obscureConfirmPassword = !_obscureConfirmPassword;
-                      });
-                    },
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _obscureConfirmPassword
+                            ? Icons.visibility_off_outlined
+                            : Icons.visibility_outlined,
+                        size: 20,
+                        color: AppColors.primaryGreen.withOpacity(0.6),
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _obscureConfirmPassword = !_obscureConfirmPassword;
+                        });
+                      },
+                    ),
                   ),
                 ),
               ),

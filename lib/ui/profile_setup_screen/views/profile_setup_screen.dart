@@ -9,10 +9,7 @@ import '../view_models/profile_setup_vm.dart';
 class ProfileSetupScreen extends StatefulWidget {
   final String userId;
 
-  const ProfileSetupScreen({
-    Key? key,
-    required this.userId,
-  }) : super(key: key);
+  const ProfileSetupScreen({Key? key, required this.userId}) : super(key: key);
 
   @override
   State<ProfileSetupScreen> createState() => _ProfileSetupScreenState();
@@ -96,31 +93,30 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                         ),
                         child: imageFile != null
                             ? ClipOval(
-                          child: Image.file(
-                            imageFile,
-                            fit: BoxFit.cover,
-                          ),
-                        )
+                                child: Image.file(imageFile, fit: BoxFit.cover),
+                              )
                             : imageUrl != null
                             ? ClipOval(
-                          child: Image.network(
-                            imageUrl,
-                            fit: BoxFit.cover,
-                            loadingBuilder: (context, child, loadingProgress) {
-                              if (loadingProgress == null) return child;
-                              return Center(
-                                child: CircularProgressIndicator(
-                                  color: AppColors.primaryGreen,
+                                child: Image.network(
+                                  imageUrl,
+                                  fit: BoxFit.cover,
+                                  loadingBuilder:
+                                      (context, child, loadingProgress) {
+                                        if (loadingProgress == null)
+                                          return child;
+                                        return Center(
+                                          child: CircularProgressIndicator(
+                                            color: AppColors.primaryGreen,
+                                          ),
+                                        );
+                                      },
                                 ),
-                              );
-                            },
-                          ),
-                        )
+                              )
                             : Icon(
-                          Icons.person,
-                          size: 60,
-                          color: Colors.grey[400],
-                        ),
+                                Icons.person,
+                                size: 60,
+                                color: Colors.grey[400],
+                              ),
                       );
                     }),
                     SizedBox(height: 16),
@@ -152,7 +148,9 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                         onTap: _viewModel.showImageSourceDialog,
                         child: Container(
                           padding: EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 8),
+                            horizontal: 16,
+                            vertical: 8,
+                          ),
                           decoration: BoxDecoration(
                             color: AppColors.primaryGreen.withOpacity(0.1),
                             borderRadius: BorderRadius.circular(8),
@@ -240,20 +238,14 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                   underline: SizedBox.shrink(),
                   hint: Text(
                     'Choose a role',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey[500],
-                    ),
+                    style: TextStyle(fontSize: 14, color: Colors.grey[500]),
                   ),
                   items: _roles.map((role) {
                     return DropdownMenuItem<String>(
                       value: role,
                       child: Text(
                         role,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.black87,
-                        ),
+                        style: TextStyle(fontSize: 14, color: Colors.black87),
                       ),
                     );
                   }).toList(),
@@ -272,12 +264,12 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                   onTap: _viewModel.isLoading.value
                       ? null
                       : () => _viewModel.handleCompleteProfile(
-                    userId: widget.userId,
-                    firstName: _firstNameController.text,
-                    lastName: _lastNameController.text,
-                    phoneNumber: _phoneNumberController.text,
-                    role: _selectedRole ?? '',
-                  ),
+                          userId: widget.userId,
+                          firstName: _firstNameController.text,
+                          lastName: _lastNameController.text,
+                          phoneNumber: _phoneNumberController.text,
+                          role: _selectedRole ?? '',
+                        ),
                   child: Container(
                     width: double.infinity,
                     padding: EdgeInsets.symmetric(vertical: 14),
@@ -290,21 +282,21 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                     child: Center(
                       child: _viewModel.isLoading.value
                           ? SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2.5,
-                          color: Colors.white,
-                        ),
-                      )
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2.5,
+                                color: Colors.white,
+                              ),
+                            )
                           : Text(
-                        'Complete Profile',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.white,
-                        ),
-                      ),
+                              'Complete Profile',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.white,
+                              ),
+                            ),
                     ),
                   ),
                 );
