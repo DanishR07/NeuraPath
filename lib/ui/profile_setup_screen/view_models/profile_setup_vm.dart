@@ -46,7 +46,7 @@ class ProfileSetupViewModel extends GetxController {
       if (uploadedUrl != null) {
         profileImageUrl.value = uploadedUrl;
         print('[v0] ProfileSetupViewModel: Image URL set - $uploadedUrl');
-        Get.snackbar('Success', 'Profile picture uploaded successfully', snackPosition: SnackPosition.BOTTOM);
+        Get.snackbar('Success', 'Profile picture uploaded successfully',);
       } else {
         print('[v0] ProfileSetupViewModel: Upload returned null');
         Get.snackbar('Error', 'Failed to upload image to Cloudinary');
@@ -106,7 +106,7 @@ class ProfileSetupViewModel extends GetxController {
         Get.snackbar(
           'Validation Error',
           'Please fill all required fields',
-          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red
         );
         return false;
       }
@@ -116,10 +116,20 @@ class ProfileSetupViewModel extends GetxController {
         Get.snackbar(
           'Validation Error',
           'Please enter a valid phone number',
-          snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.red
         );
         return false;
       }
+      // Validate image is uploaded
+      if (profileImageUrl.value == null || profileImageUrl.value!.isEmpty) {
+        Get.snackbar(
+          'Validation Error',
+          'Please upload a profile picture',
+            backgroundColor: Colors.red
+        );
+        return false;
+      }
+
 
       isLoading.value = true;
       print('[v0] ProfileSetupViewModel: Updating profile for user - $userId');
@@ -145,7 +155,6 @@ class ProfileSetupViewModel extends GetxController {
       Get.snackbar(
         'Error',
         'Failed to update profile: ${e.toString()}',
-        snackPosition: SnackPosition.BOTTOM,
       );
       return false;
     }
