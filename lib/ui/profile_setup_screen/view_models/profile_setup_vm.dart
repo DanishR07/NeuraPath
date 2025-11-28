@@ -14,6 +14,31 @@ class ProfileSetupViewModel extends GetxController {
   final selectedImageFile = Rxn<File>();
   final ImagePicker _imagePicker = ImagePicker();
 
+  final firstName = Rxn<String>();
+  final lastName = Rxn<String>();
+  final phoneNumber = Rxn<String>();
+  final selectedRole = Rxn<String>();
+
+  Future<void> loadUserProfile(String userId) async {
+    try {
+      isLoading.value = true;
+      final userProfile = await _authRepository.getUserProfile(userId);
+
+      if (userProfile != null) {
+        print('[v0] ProfileSetupViewModel: User profile loaded - ${userProfile.firstName}');
+        firstName.value = userProfile.firstName;
+        lastName.value = userProfile.lastName;
+        phoneNumber.value = userProfile.phoneNumber;
+        selectedRole.value = userProfile.role;
+        profileImageUrl.value = userProfile.profileImageUrl;
+      }
+    } catch (e) {
+      print('[v0] ProfileSetupViewModel: Error loading user profile - ${e.toString()}');
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
   Future<void> pickProfileImage(ImageSource source) async {
     try {
       final pickedFile = await _imagePicker.pickImage(source: source);

@@ -31,6 +31,21 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
     _firstNameController = TextEditingController();
     _lastNameController = TextEditingController();
     _phoneNumberController = TextEditingController();
+
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    await _viewModel.loadUserProfile(widget.userId);
+
+    // Pre-populate form fields with existing data
+    _firstNameController.text = _viewModel.firstName.value ?? '';
+    _lastNameController.text = _viewModel.lastName.value ?? '';
+    _phoneNumberController.text = _viewModel.phoneNumber.value ?? '';
+
+    setState(() {
+      _selectedRole = _viewModel.selectedRole.value;
+    });
   }
 
   @override
@@ -80,43 +95,75 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                       final imageFile = _viewModel.selectedImageFile.value;
                       final imageUrl = _viewModel.profileImageUrl.value;
 
-                      return Container(
-                        width: 120,
-                        height: 120,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.grey[200],
-                          border: Border.all(
-                            color: AppColors.primaryGreen,
-                            width: 2,
-                          ),
-                        ),
-                        child: imageFile != null
-                            ? ClipOval(
+                      final hasExistingImage = imageUrl != null && imageUrl.isNotEmpty;
+
+                      return GestureDetector(
+                        onTap: _viewModel.showImageSourceDialog,
+                        child: Stack(
+                          alignment: Alignment.bottomRight,
+                          children: [
+                            Container(
+                              width: 120,
+                              height: 120,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.grey[200],
+                                border: Border.all(
+                                  color: AppColors.primaryGreen,
+                                  width: 2,
+                                ),
+                              ),
+                              child: imageFile != null
+                                  ? ClipOval(
                                 child: Image.file(imageFile, fit: BoxFit.cover),
                               )
-                            : imageUrl != null
-                            ? ClipOval(
+                                  : imageUrl != null
+                                  ? ClipOval(
                                 child: Image.network(
                                   imageUrl,
                                   fit: BoxFit.cover,
                                   loadingBuilder:
                                       (context, child, loadingProgress) {
-                                        if (loadingProgress == null)
-                                          return child;
-                                        return Center(
-                                          child: CircularProgressIndicator(
-                                            color: AppColors.primaryGreen,
-                                          ),
-                                        );
-                                      },
+                                    if (loadingProgress == null)
+                                      return child;
+                                    return Center(
+                                      child: CircularProgressIndicator(
+                                        color: AppColors.primaryGreen,
+                                      ),
+                                    );
+                                  },
                                 ),
                               )
-                            : Icon(
+                                  : Icon(
                                 Icons.person,
                                 size: 60,
                                 color: Colors.grey[400],
                               ),
+                            ),
+
+                            if (hasExistingImage)
+                              Container(
+                                width: 36,
+                                height: 36,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: AppColors.primaryGreen,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.2),
+                                      blurRadius: 8,
+                                      offset: Offset(0, 2),
+                                    ),
+                                  ],
+                                ),
+                                child: Icon(
+                                  Icons.edit,
+                                  color: Colors.white,
+                                  size: 18,
+                                ),
+                              ),
+                          ],
+                        ),
                       );
                     }),
                     SizedBox(height: 16),
@@ -144,40 +191,45 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                           ],
                         );
                       }
-                      return GestureDetector(
-                        onTap: _viewModel.showImageSourceDialog,
-                        child: Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 8,
+
+                      final hasPhoto = _viewModel.profileImageUrl.value != null &&
+                          _viewModel.profileImageUrl.value!.isNotEmpty;
+
+                      if (hasPhoto) {
+                        return SizedBox.shrink();
+                      }
+
+                      return Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 8,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.primaryGreen.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(
+                            color: AppColors.primaryGreen,
+                            width: 1,
                           ),
-                          decoration: BoxDecoration(
-                            color: AppColors.primaryGreen.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.camera_alt,
+                              size: 16,
                               color: AppColors.primaryGreen,
-                              width: 1,
                             ),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                Icons.camera_alt,
-                                size: 16,
+                            SizedBox(width: 8),
+                            Text(
+                              'Upload Photo',
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
                                 color: AppColors.primaryGreen,
                               ),
-                              SizedBox(width: 8),
-                              Text(
-                                'Upload Photo',
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.primaryGreen,
-                                ),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       );
                     }),
@@ -264,12 +316,12 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                   onTap: _viewModel.isLoading.value
                       ? null
                       : () => _viewModel.handleCompleteProfile(
-                          userId: widget.userId,
-                          firstName: _firstNameController.text,
-                          lastName: _lastNameController.text,
-                          phoneNumber: _phoneNumberController.text,
-                          role: _selectedRole ?? '',
-                        ),
+                    userId: widget.userId,
+                    firstName: _firstNameController.text,
+                    lastName: _lastNameController.text,
+                    phoneNumber: _phoneNumberController.text,
+                    role: _selectedRole ?? '',
+                  ),
                   child: Container(
                     width: double.infinity,
                     padding: EdgeInsets.symmetric(vertical: 14),
@@ -282,21 +334,21 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                     child: Center(
                       child: _viewModel.isLoading.value
                           ? SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2.5,
-                                color: Colors.white,
-                              ),
-                            )
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2.5,
+                          color: Colors.white,
+                        ),
+                      )
                           : Text(
-                              'Complete Profile',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                                color: Colors.white,
-                              ),
-                            ),
+                        'Complete Profile',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
                   ),
                 );
