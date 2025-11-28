@@ -14,6 +14,31 @@ class ProfileSetupViewModel extends GetxController {
   final selectedImageFile = Rxn<File>();
   final ImagePicker _imagePicker = ImagePicker();
 
+  final firstName = Rxn<String>();
+  final lastName = Rxn<String>();
+  final phoneNumber = Rxn<String>();
+  final selectedRole = Rxn<String>();
+
+  Future<void> loadUserProfile(String userId) async {
+    try {
+      isLoading.value = true;
+      final userProfile = await _authRepository.getUserProfile(userId);
+
+      if (userProfile != null) {
+        print('[v0] ProfileSetupViewModel: User profile loaded - ${userProfile.firstName}');
+        firstName.value = userProfile.firstName;
+        lastName.value = userProfile.lastName;
+        phoneNumber.value = userProfile.phoneNumber;
+        selectedRole.value = userProfile.role;
+        profileImageUrl.value = userProfile.profileImageUrl;
+      }
+    } catch (e) {
+      print('[v0] ProfileSetupViewModel: Error loading user profile - ${e.toString()}');
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
   Future<void> pickProfileImage(ImageSource source) async {
     try {
       final pickedFile = await _imagePicker.pickImage(source: source);
@@ -104,9 +129,9 @@ class ProfileSetupViewModel extends GetxController {
       if (firstName.trim().isEmpty || lastName.trim().isEmpty ||
           phoneNumber.trim().isEmpty || role.isEmpty) {
         Get.snackbar(
-          'Validation Error',
-          'Please fill all required fields',
-          backgroundColor: Colors.red
+            'Validation Error',
+            'Please fill all required fields',
+            backgroundColor: Colors.red
         );
         return false;
       }
@@ -114,8 +139,8 @@ class ProfileSetupViewModel extends GetxController {
       // Validate phone number format (basic validation)
       if (!RegExp(r'^[0-9]{10,}$').hasMatch(phoneNumber.trim())) {
         Get.snackbar(
-          'Validation Error',
-          'Please enter a valid phone number',
+            'Validation Error',
+            'Please enter a valid phone number',
             backgroundColor: Colors.red
         );
         return false;
@@ -123,8 +148,8 @@ class ProfileSetupViewModel extends GetxController {
       // Validate image is uploaded
       if (profileImageUrl.value == null || profileImageUrl.value!.isEmpty) {
         Get.snackbar(
-          'Validation Error',
-          'Please upload a profile picture',
+            'Validation Error',
+            'Please upload a profile picture',
             backgroundColor: Colors.red
         );
         return false;
