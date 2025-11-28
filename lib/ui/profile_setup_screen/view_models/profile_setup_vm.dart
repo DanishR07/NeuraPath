@@ -104,9 +104,9 @@ class ProfileSetupViewModel extends GetxController {
       if (firstName.trim().isEmpty || lastName.trim().isEmpty ||
           phoneNumber.trim().isEmpty || role.isEmpty) {
         Get.snackbar(
-          'Validation Error',
-          'Please fill all required fields',
-          backgroundColor: Colors.red
+            'Validation Error',
+            'Please fill all required fields',
+            backgroundColor: Colors.red
         );
         return false;
       }
@@ -114,8 +114,8 @@ class ProfileSetupViewModel extends GetxController {
       // Validate phone number format (basic validation)
       if (!RegExp(r'^[0-9]{10,}$').hasMatch(phoneNumber.trim())) {
         Get.snackbar(
-          'Validation Error',
-          'Please enter a valid phone number',
+            'Validation Error',
+            'Please enter a valid phone number',
             backgroundColor: Colors.red
         );
         return false;
@@ -123,8 +123,8 @@ class ProfileSetupViewModel extends GetxController {
       // Validate image is uploaded
       if (profileImageUrl.value == null || profileImageUrl.value!.isEmpty) {
         Get.snackbar(
-          'Validation Error',
-          'Please upload a profile picture',
+            'Validation Error',
+            'Please upload a profile picture',
             backgroundColor: Colors.red
         );
         return false;
@@ -146,8 +146,7 @@ class ProfileSetupViewModel extends GetxController {
       print('[v0] ProfileSetupViewModel: Profile updated successfully');
       isLoading.value = false;
 
-      // Navigate to home screen based on role
-      _navigateToHomeScreen(role);
+      _navigateToRoleBasedHomeScreen(role);
       return true;
     } catch (e) {
       isLoading.value = false;
@@ -160,10 +159,23 @@ class ProfileSetupViewModel extends GetxController {
     }
   }
 
-  void _navigateToHomeScreen(String role) {
-    // TODO: Replace with actual role-based home screens when available
-    Get.offNamed('/home_screen');
-    print('[v0] ProfileSetupViewModel: Navigated to home screen for role: $role');
+  void _navigateToRoleBasedHomeScreen(String role) {
+    String routeName;
+    switch (role.toLowerCase()) {
+      case 'student':
+        routeName = '/student_home_screen';
+        break;
+      case 'job seeker':
+        routeName = '/job_seeker_home_screen';
+        break;
+      case 'professional':
+        routeName = '/professional_home_screen';
+        break;
+      default:
+        routeName = '/home_screen';
+    }
+    Get.offNamed(routeName);
+    print('[v0] ProfileSetupViewModel: Navigated to $routeName for role: $role');
   }
 
   void clearProfileImageUrl() {

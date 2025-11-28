@@ -5,7 +5,9 @@ import 'package:fyp/ui/auth_screens/views/login_screen.dart';
 import 'package:fyp/ui/auth_screens/views/otp_verification_screen.dart';
 import 'package:fyp/ui/auth_screens/views/reset_password_screen.dart';
 import 'package:fyp/ui/auth_screens/views/signup_screen.dart';
-import 'package:fyp/ui/home_screen/views/home_screen.dart';
+import 'package:fyp/ui/home_screen/views/professional_home_screen.dart';
+import 'package:fyp/ui/home_screen/views/student_home_screen.dart';
+import 'package:fyp/ui/home_screen/views/job_seeker_home_screen.dart';
 import 'package:fyp/ui/boarding_screen/onboarding_screen.dart';
 import 'package:fyp/ui/launcher_screen/launcher_screen.dart';
 import 'package:fyp/ui/profile_setup_screen/view_models/profile_setup_vm.dart';
@@ -38,7 +40,9 @@ class MyApp extends StatelessWidget {
       ),
       getPages: [
         GetPage(name: "/launcher_screen", page: () => LauncherScreen(),),
-        GetPage(name: "/home_screen", page: () => HomeScreen(),binding: HomeScreenBinding()),
+        GetPage(name: "/student_home_screen", page: () => StudentHomeScreen(), binding: StudentHomeScreenBinding()),
+        GetPage(name: "/job_seeker_home_screen", page: () => JobSeekerHomeScreen(), binding: JobSeekerHomeScreenBinding()),
+        GetPage(name: "/professional_home_screen", page: () => ProfessionalHomeScreen(), binding: ProfessionalHomeScreenBinding()),
         GetPage(name: "/on_boarding_screen", page: () => OnboardingScreen(),),
         GetPage(name: "/login_screen", page: () => LoginScreen(),binding: LoginScreenBinding()),
         GetPage(name: "/signup_screen", page: () => SignupScreen(),binding: SignUpScreenBinding()),

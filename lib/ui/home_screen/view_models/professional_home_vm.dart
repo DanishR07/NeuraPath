@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import '../../../data/repositories/auth_repository.dart';
 import '../../../services/connectivity_service.dart';
 
-class HomeViewModel extends GetxController {
+class ProfessionalHomeViewModel extends GetxController {
   AuthRepository authRepository = Get.find();
   var isLoading=false.obs;
   Future<void> confirmLogout() async {

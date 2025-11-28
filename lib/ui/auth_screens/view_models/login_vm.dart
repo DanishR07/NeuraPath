@@ -44,10 +44,8 @@ class LoginViewModel extends GetxController {
       final isProfileComplete = await authRepository.isProfileComplete(userModel.id!);
 
       if (isProfileComplete) {
-        // Route to role-based home screen
-        Get.offNamed('/home_screen');
+        _navigateToRoleBasedHomeScreen(userModel.role ?? 'Student');
       } else {
-        // Route to profile setup screen
         Get.offNamed("/profile_setup_screen", arguments: userModel.id);
         Get.snackbar('Info', 'Please complete your profile to continue',backgroundColor: Colors.blue);
       }
@@ -60,6 +58,24 @@ class LoginViewModel extends GetxController {
     } finally {
       isLoading.value = false;
     }
+  }
+
+  void _navigateToRoleBasedHomeScreen(String role) {
+    String routeName;
+    switch (role.toLowerCase()) {
+      case 'student':
+        routeName = '/student_home_screen';
+        break;
+      case 'job seeker':
+        routeName = '/job_seeker_home_screen';
+        break;
+      case 'professional':
+        routeName = '/professional_home_screen';
+        break;
+      default:
+        routeName = '/home_screen';
+    }
+    Get.offNamed(routeName);
   }
 
   bool isUserLoggedIn() {
