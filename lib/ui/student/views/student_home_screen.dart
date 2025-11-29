@@ -1,5 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:fyp/ui/common_screens/views/ai_chat_screen.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import '../../../data/repositories/auth_repository.dart';
@@ -46,7 +47,7 @@ class _StudentHomeScreenState extends State<StudentHomeScreen> {
 
     final pages = [
       homeSection(displayName),
-      const Center(child: Text("AI Chat")),
+      AIChatScreen(),
       const Center(child: Text("Settings")),
       const Center(child: Text("Profile")),
     ];
