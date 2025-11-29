@@ -90,7 +90,6 @@ class _ProfessionalHomeScreenState extends State<ProfessionalHomeScreen> {
         padding: const EdgeInsets.only(left: 18.0, bottom: 10,top: 20,right: 18),
         child: Column(
           children: [
-            const SizedBox(height: 10),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
               decoration: BoxDecoration(
@@ -133,7 +132,7 @@ class _ProfessionalHomeScreenState extends State<ProfessionalHomeScreen> {
                 ],
               ),
             ),
-            const SizedBox(height: 19),
+            const SizedBox(height: 20),
             SizedBox(
               width: 300,
               child: SearchBar(
