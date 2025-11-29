@@ -1,7 +1,9 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp/ui/common_screens/views/ai_chat_screen.dart';
+import 'package:fyp/ui/common_screens/views/settings_screen.dart';
 import 'package:fyp/ui/job_seeker/view_models/job_seeker_home_vm.dart';
+import 'package:fyp/ui/resume_enhancer/views/resume_upload_screen.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import '../../../data/repositories/auth_repository.dart';
@@ -48,7 +50,7 @@ class _JobSeekerHomeScreenState extends State<JobSeekerHomeScreen> {
     final pages = [
       homeSection(displayName),
       AIChatScreen(),
-      const Center(child: Text("Settings")),
+      SettingsScreen(),
       const Center(child: Text("Profile")),
     ];
 
@@ -155,6 +157,81 @@ class _JobSeekerHomeScreenState extends State<JobSeekerHomeScreen> {
             ),
             const SizedBox(height: 20),
             const Text("Job seeker section"),
+            const SizedBox(height: 20),
+            GridView.count(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              crossAxisCount: 2,
+              crossAxisSpacing: 16,
+              mainAxisSpacing: 16,
+              childAspectRatio: 1.1,
+              children: [
+                _buildFeatureCard(
+                  context,
+                  title: "Smart Resume Enhancer",
+                  icon: Icons.description,
+                  color: Colors.blueAccent,
+                  onTap: () => Get.to(() => ResumeUploadScreen()),
+                ),
+                // Placeholder for future modules to demonstrate grid
+                _buildFeatureCard(
+                  context,
+                  title: "AI Job Matcher",
+                  icon: Icons.work_outline,
+                  color: const Color(0xFF8BA989),
+                  onTap: () {}, // Future implementation
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFeatureCard(BuildContext context,
+      {required String title,
+      required IconData icon,
+      required Color color,
+      required VoidCallback onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: color.withOpacity(0.1),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(icon, color: color, size: 32),
+            ),
+            const SizedBox(height: 12),
+            Text(
+              title,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: Colors.black87,
+              ),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
           ],
         ),
       ),
