@@ -1,6 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:fyp/ui/home_screen/view_models/job_seeker_home_vm.dart';
+import 'package:fyp/ui/job_seeker/view_models/job_seeker_home_vm.dart';
 import 'package:get/get.dart';
 
 import '../../../data/repositories/auth_repository.dart';

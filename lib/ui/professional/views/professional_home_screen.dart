@@ -1,20 +1,19 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:fyp/ui/home_screen/view_models/student_home_vm.dart';
+import 'package:fyp/ui/professional/view_models/professional_home_vm.dart';
 import 'package:get/get.dart';
 
 import '../../../data/repositories/auth_repository.dart';
 
-class StudentHomeScreen extends StatefulWidget {
-  const StudentHomeScreen({super.key});
+class ProfessionalHomeScreen extends StatefulWidget {
+  const ProfessionalHomeScreen({super.key});
 
   @override
-  State<StudentHomeScreen> createState() => _StudentHomeScreenState();
+  State<ProfessionalHomeScreen> createState() => _ProfessionalHomeScreenState();
 }
 
-class _StudentHomeScreenState extends State<StudentHomeScreen> {
-  late StudentHomeViewModel homeViewModel;
+class _ProfessionalHomeScreenState extends State<ProfessionalHomeScreen> {
+  late ProfessionalHomeViewModel homeViewModel;
 
   int currentIndex = 0;
   var userData;
@@ -23,7 +22,7 @@ class _StudentHomeScreenState extends State<StudentHomeScreen> {
   @override
   void initState() {
     super.initState();
-    homeViewModel = Get.find<StudentHomeViewModel>();
+    homeViewModel = Get.find<ProfessionalHomeViewModel>();
     loadUser();
   }
 
@@ -60,7 +59,6 @@ class _StudentHomeScreenState extends State<StudentHomeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CircleAvatar(
-                    backgroundColor: Colors.white70,
                     radius: 35,
                     backgroundImage: userData?.profileImageUrl != null
                         ? NetworkImage(userData!.profileImageUrl!)
@@ -142,9 +140,9 @@ class _StudentHomeScreenState extends State<StudentHomeScreen> {
         ),
       ),
       bottomNavigationBar: CurvedNavigationBar(
-        height: 60,
         backgroundColor: Color(0xFFF5F5F5),
         animationDuration: Duration(milliseconds: 400),
+        height: 60,
         onTap: (index) {
           setState(() {
             currentIndex = index;
@@ -156,19 +154,21 @@ class _StudentHomeScreenState extends State<StudentHomeScreen> {
           Icon(Icons.account_circle_outlined, color: const Color(0xFF8BA989)),
         ],
       ),
-      body: [
-        const Center(child: Text('Student Home')),
-        const Center(child: Text('Chat')),
-        const Center(child: Text('Profile')),
-      ][currentIndex],
+      body: Center(
+        child: [
+          const Center(child: Text("Professional Home Content")),
+          const Center(child: Text('Chat')),
+          const Center(child: Text('Profile')),
+        ][currentIndex],
+      ),
     );
   }
 }
 
-class StudentHomeScreenBinding extends Bindings {
+class ProfessionalHomeScreenBinding extends Bindings {
   @override
   void dependencies() {
     Get.put(AuthRepository());
-    Get.put(StudentHomeViewModel());
+    Get.put(ProfessionalHomeViewModel());
   }
 }
