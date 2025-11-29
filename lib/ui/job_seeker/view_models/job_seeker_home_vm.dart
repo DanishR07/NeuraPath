@@ -16,7 +16,7 @@ class JobSeekerHomeScreen extends StatefulWidget {
 }
 
 class _JobSeekerHomeScreenState extends State<JobSeekerHomeScreen> {
-  late JobSeekerHomeViewModel homeViewModel;
+  late ProfessionalHomeViewModel homeViewModel;
 
   int currentIndex = 0;
   String role = "Job Seeker";
@@ -24,7 +24,7 @@ class _JobSeekerHomeScreenState extends State<JobSeekerHomeScreen> {
   @override
   void initState() {
     super.initState();
-    homeViewModel = Get.find<JobSeekerHomeViewModel>();
+    homeViewModel = Get.find<ProfessionalHomeViewModel>();
   }
 
   @override
@@ -130,11 +130,11 @@ class JobSeekerHomeScreenBinding extends Bindings {
   @override
   void dependencies() {
     Get.put(AuthRepository());
-    Get.put(JobSeekerHomeViewModel());
+    Get.put(ProfessionalHomeViewModel());
   }
 }
 
-class JobSeekerHomeViewModel extends GetxController {
+class ProfessionalHomeViewModel extends GetxController {
   AuthRepository authRepository = Get.find();
   var isLoading = false.obs;
 

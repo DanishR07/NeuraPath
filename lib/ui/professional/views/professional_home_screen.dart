@@ -1,8 +1,8 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:fyp/ui/professional/view_models/professional_home_vm.dart';
+import 'package:fyp/ui/job_seeker/view_models/job_seeker_home_vm.dart';
 import 'package:get/get.dart';
-
+import 'package:get_storage/get_storage.dart';
 import '../../../data/repositories/auth_repository.dart';
 
 class ProfessionalHomeScreen extends StatefulWidget {
@@ -14,152 +14,149 @@ class ProfessionalHomeScreen extends StatefulWidget {
 
 class _ProfessionalHomeScreenState extends State<ProfessionalHomeScreen> {
   late ProfessionalHomeViewModel homeViewModel;
-
+  final box = GetStorage();
   int currentIndex = 0;
-  var userData;
-  bool isLoadingUser = true;
+  String? cachedName;
+  String? liveName;
+  bool loadingUser = true;
 
   @override
   void initState() {
     super.initState();
     homeViewModel = Get.find<ProfessionalHomeViewModel>();
+    cachedName = box.read("firstName");
     loadUser();
   }
 
   Future<void> loadUser() async {
-    userData = await homeViewModel.getCurrentUser();
-    setState(() {
-      isLoadingUser = false;
-    });
+    try {
+      final user = await homeViewModel.getCurrentUser();
+      liveName = user?.firstName;
+      if (liveName != null && liveName!.isNotEmpty) {
+        box.write("firstName", liveName);
+      }
+    } catch (_) {
+    }
+    setState(() => loadingUser = false);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home'),
-        backgroundColor: const Color(0xFF8BA989),
-      ),
+    final displayName = liveName ?? cachedName ?? "Guest";
 
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
+    final pages = [
+      homeSection(displayName),
+      const Center(child: Text("AI Chat")),
+      const Center(child: Text("Settings")),
+      const Center(child: Text("Profile")),
+    ];
+
+    return Scaffold(
+      bottomNavigationBar: CurvedNavigationBar(
+        backgroundColor: const Color(0xFFF5F5F5),
+        animationDuration: const Duration(milliseconds: 400),
+        height: 60,
+        index: currentIndex,
+        onTap: (index) {
+          setState(() => currentIndex = index);
+        },
+        items: [
+          Icon(
+            Icons.home,
+            color: currentIndex == 0 ? Colors.black : Color(0xFF8BA989),
+          ),
+          Icon(
+            Icons.messenger_outline,
+            color: currentIndex == 1 ? Colors.black : Color(0xFF8BA989),
+          ),
+          Icon(
+            Icons.settings,
+            color: currentIndex == 2 ? Colors.black : Color(0xFF8BA989),
+          ),
+          Icon(
+            Icons.account_circle_outlined,
+            color: currentIndex == 3 ? Colors.black : Color(0xFF8BA989),
+          ),
+        ],
+      ),
+      body: SafeArea(child: pages[currentIndex]),
+    );
+  }
+
+  Widget homeSection(String displayName) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.only(left: 18.0, bottom: 10,top: 20,right: 18),
+        child: Column(
           children: [
-            DrawerHeader(
-              decoration: const BoxDecoration(
-                color: Color(0xFF8BA989),
-              ),
-              child: isLoadingUser
-                  ? const Center(
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                ),
-              )
-                  : Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CircleAvatar(
-                    radius: 35,
-                    backgroundImage: userData?.profileImageUrl != null
-                        ? NetworkImage(userData!.profileImageUrl!)
-                        : null,
-                    child: userData?.profileImageUrl == null
-                        ? const Icon(Icons.person, size: 35)
-                        : null,
+            const SizedBox(height: 10),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.15),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: Color(0xFF8BA989).withOpacity(.5)),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 10,
+                    offset: Offset(0, 4),
                   ),
-                  const SizedBox(height: 10),
+                ],
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(
+                    Icons.waving_hand,
+                    color: Color(0xFF8BA989),
+                    size: 22,
+                  ),
+                  const SizedBox(width: 10),
+                  const Text(
+                    "Hello, ",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black87,
+                    ),
+                  ),
                   Text(
-                    '${userData?.firstName ?? ''} ${userData?.lastName ?? ''}'.trim().isNotEmpty
-                        ? '${userData?.firstName ?? ''} ${userData?.lastName ?? ''}'.trim()
-                        : 'User',
+                    displayName,
                     style: const TextStyle(
-                      color: Colors.white,
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
+                      color: Color(0xFF4E6E58),
                     ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    userData?.email ?? 'email@example.com',
-                    style: const TextStyle(
-                      color: Colors.white70,
-                      fontSize: 12,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
                   ),
                 ],
               ),
             ),
-            ListTile(
-              leading: const Icon(Icons.home),
-              title: const Text('Home'),
-              onTap: () {},
-            ),
-            ListTile(
-              leading: const Icon(Icons.person),
-              title: const Text('Profile'),
-              onTap: () {},
-            ),
-            ListTile(
-              leading: const Icon(Icons.settings),
-              title: const Text('Settings'),
-              onTap: () {},
-            ),
-            const Divider(),
-            ListTile(
-              leading: const Icon(Icons.logout),
-              title: const Text('Logout'),
-              onTap: () {
-                Get.dialog(
-                  AlertDialog(
-                    title: const Text('Confirm logout!'),
-                    content: const Text('Are you sure you want to logout?'),
-                    actions: [
-                      TextButton(
-                        onPressed: () => Get.back(),
-                        child: const Text('No'),
-                      ),
-                      TextButton(
-                        onPressed: () async {
-                          await homeViewModel.confirmLogout();
-                        },
-                        child: const Text(
-                          'Yes',
-                          style: TextStyle(color: Colors.red),
-                        ),
-                      ),
-                    ],
+            const SizedBox(height: 19),
+            SizedBox(
+              width: 300,
+              child: SearchBar(
+                leading: const Icon(Icons.search, color: Color(0xFF8BA989)),
+                hintText: "Search...",
+                hintStyle: WidgetStatePropertyAll(
+                  TextStyle(color: Colors.black54, fontSize: 14),
+                ),
+                elevation: const WidgetStatePropertyAll(0),
+                backgroundColor: WidgetStatePropertyAll(
+                  Colors.white.withOpacity(0.15),
+                ),
+                shape: WidgetStatePropertyAll(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    side: BorderSide(color: Color(0xFF8BA989).withOpacity(.5)),
                   ),
-                );
-              },
+                ),
+              ),
             ),
+            const SizedBox(height: 20),
+            const Text("Professional section"),
           ],
         ),
-      ),
-      bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: Color(0xFFF5F5F5),
-        animationDuration: Duration(milliseconds: 400),
-        height: 60,
-        onTap: (index) {
-          setState(() {
-            currentIndex = index;
-          });
-        },
-        items: [
-          Icon(Icons.home, color: const Color(0xFF8BA989)),
-          Icon(Icons.messenger_outline, color: const Color(0xFF8BA989)),
-          Icon(Icons.account_circle_outlined, color: const Color(0xFF8BA989)),
-        ],
-      ),
-      body: Center(
-        child: [
-          const Center(child: Text("Professional Home Content")),
-          const Center(child: Text('Chat')),
-          const Center(child: Text('Profile')),
-        ][currentIndex],
       ),
     );
   }
