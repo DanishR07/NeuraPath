@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../data/repositories/auth_repository.dart';
+import '../view_models/settings_view_model.dart';
 
 class SettingsScreen extends StatelessWidget {
-  final AuthRepository _authRepository = Get.find<AuthRepository>();
+  final SettingsViewModel _viewModel = Get.put(SettingsViewModel());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F5F5),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           "Settings",
-          style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold),
+          style: TextStyle(
+              color: Theme.of(context).textTheme.bodyLarge?.color,
+              fontWeight: FontWeight.bold),
         ),
-        backgroundColor: const Color(0xFFF5F5F5),
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         elevation: 0,
         centerTitle: true,
         automaticallyImplyLeading: false,
@@ -26,31 +28,29 @@ class SettingsScreen extends StatelessWidget {
           _buildSettingsTile(
             icon: Icons.person_outline,
             title: "Edit Profile",
-            onTap: () {
-              // Navigate to profile edit
-            },
+            onTap: () => _viewModel.navigateToEditProfile(),
           ),
           _buildSettingsTile(
             icon: Icons.notifications_outlined,
             title: "Notifications",
-            onTap: () {},
+            onTap: () => _viewModel.navigateToNotifications(),
           ),
           _buildSettingsTile(
             icon: Icons.lock_outline,
             title: "Privacy & Security",
-            onTap: () {},
+            onTap: () => _viewModel.navigateToPrivacySecurity(),
           ),
           const SizedBox(height: 24),
           _buildSectionHeader("Support"),
           _buildSettingsTile(
             icon: Icons.help_outline,
             title: "Help & Support",
-            onTap: () {},
+            onTap: () => _viewModel.navigateToHelpSupport(),
           ),
           _buildSettingsTile(
             icon: Icons.info_outline,
             title: "About App",
-            onTap: () {},
+            onTap: () => _viewModel.navigateToAboutApp(),
           ),
           const SizedBox(height: 24),
           _buildLogoutButton(),
@@ -82,7 +82,7 @@ class SettingsScreen extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Get.isDarkMode ? Colors.grey[800] : Colors.white,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
@@ -103,9 +103,9 @@ class SettingsScreen extends StatelessWidget {
         ),
         title: Text(
           title,
-          style: const TextStyle(
+          style: TextStyle(
             fontWeight: FontWeight.w500,
-            color: Colors.black87,
+            color: Get.isDarkMode ? Colors.white : Colors.black87,
           ),
         ),
         trailing: const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
@@ -115,14 +115,13 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
+
+
   Widget _buildLogoutButton() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4),
       child: ElevatedButton(
-        onPressed: () {
-          _authRepository.logout();
-          Get.offAllNamed("/login_screen");
-        },
+        onPressed: () => _viewModel.logout(),
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.redAccent.withOpacity(0.1),
           foregroundColor: Colors.red,

@@ -15,8 +15,8 @@ import 'package:fyp/ui/profile_setup_screen/views/profile_setup_screen.dart';
 import 'package:fyp/ui/success_message_screens/password_reset_success_message_screen.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-
 import 'firebase_options.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: Color(0xFFF5F5F5),
           appBarTheme: AppBarTheme(
             backgroundColor: Color(0xFFF5F5F5),
-          )
+          ),
       ),
       getPages: [
         GetPage(name: "/launcher_screen", page: () => LauncherScreen(),),
