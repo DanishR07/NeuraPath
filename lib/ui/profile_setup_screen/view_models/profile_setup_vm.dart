@@ -52,7 +52,7 @@ class ProfileSetupViewModel extends GetxController {
       }
     } catch (e) {
       print('[v0] ProfileSetupViewModel: Error picking image - ${e.toString()}');
-      Get.snackbar('Error', 'Failed to pick image');
+      Get.snackbar('Error', 'Failed to pick image',backgroundColor: Colors.red);
     }
   }
 
@@ -71,17 +71,17 @@ class ProfileSetupViewModel extends GetxController {
       if (uploadedUrl != null) {
         profileImageUrl.value = uploadedUrl;
         print('[v0] ProfileSetupViewModel: Image URL set - $uploadedUrl');
-        Get.snackbar('Success', 'Profile picture uploaded successfully',);
+        Get.snackbar('Success', 'Profile picture uploaded successfully',backgroundColor: Colors.green);
       } else {
         print('[v0] ProfileSetupViewModel: Upload returned null');
-        Get.snackbar('Error', 'Failed to upload image to Cloudinary');
+        Get.snackbar('Error', 'Failed to upload image to Cloudinary',backgroundColor: Colors.red);
       }
 
       isUploadingImage.value = false;
     } catch (e) {
       isUploadingImage.value = false;
       print('[v0] ProfileSetupViewModel: Error uploading image - ${e.toString()}');
-      Get.snackbar('Error', 'Failed to upload image: ${e.toString()}');
+      Get.snackbar('Error', 'Failed to upload image: ${e.toString()}',backgroundColor: Colors.red);
     }
   }
 
@@ -172,13 +172,14 @@ class ProfileSetupViewModel extends GetxController {
       isLoading.value = false;
 
       _navigateToRoleBasedHomeScreen(role);
+      Get.snackbar("Success", "Profile updated successfully",backgroundColor: Colors.green);
       return true;
     } catch (e) {
       isLoading.value = false;
       print('[v0] ProfileSetupViewModel: Error updating profile - ${e.toString()}');
       Get.snackbar(
         'Error',
-        'Failed to update profile: ${e.toString()}',
+        'Failed to update profile: ${e.toString()}',backgroundColor: Colors.red,
       );
       return false;
     }

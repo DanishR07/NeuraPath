@@ -140,7 +140,6 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                                 color: Colors.grey[400],
                               ),
                             ),
-
                             if (hasExistingImage)
                               Container(
                                 width: 36,
@@ -199,39 +198,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                         return SizedBox.shrink();
                       }
 
-                      return Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 8,
-                        ),
-                        decoration: BoxDecoration(
-                          color: AppColors.primaryGreen.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(
-                            color: AppColors.primaryGreen,
-                            width: 1,
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              Icons.camera_alt,
-                              size: 16,
-                              color: AppColors.primaryGreen,
-                            ),
-                            SizedBox(width: 8),
-                            Text(
-                              'Upload Photo',
-                              style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.primaryGreen,
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
+                      return SizedBox(width: 0);
                     }),
                   ],
                 ),

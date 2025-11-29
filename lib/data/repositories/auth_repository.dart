@@ -331,4 +331,19 @@ class AuthRepository {
       return false;
     }
   }
+
+  Future<UserModel?> getCurrentUser() async {
+    try {
+      if (_currentUserId != null) {
+        final doc = await _firestore.collection('users').doc(_currentUserId).get();
+        if (doc.exists) {
+          return UserModel.fromJson(doc.data() as Map<String, dynamic>, doc.id);
+        }
+      }
+      return null;
+    } catch (e) {
+      print('  [AuthRepository] getCurrentUser: ERROR - ${e.toString()}');
+      rethrow;
+    }
+  }
 }
