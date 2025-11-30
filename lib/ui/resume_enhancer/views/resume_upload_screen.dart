@@ -26,7 +26,7 @@ class ResumeUploadScreen extends StatelessWidget {
               'Optimize Your Resume with AI',
               style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.bold,
-                    color: Colors.blueAccent,
+                    color: Color(0xFF8BA989),
                   ),
               textAlign: TextAlign.center,
             ),
@@ -43,15 +43,15 @@ class ResumeUploadScreen extends StatelessWidget {
             Container(
               height: 200,
               decoration: BoxDecoration(
-                color: Colors.blue[50],
+                color: Color(0xFF8BA989).withOpacity(.3),
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: Colors.blue.withOpacity(0.3)),
+                border: Border.all(color: Color(0xFF8BA989).withOpacity(0.6)),
               ),
               child: Center(
                 child: Icon(
                   Icons.upload_file,
                   size: 80,
-                  color: Colors.blueAccent,
+                  color: Color(0xFF8BA989),
                 ),
               ),
             ),
@@ -61,7 +61,7 @@ class ResumeUploadScreen extends StatelessWidget {
                 return const Center(
                   child: Column(
                     children: [
-                      CircularProgressIndicator(),
+                      CircularProgressIndicator(color: Color(0xFF8BA989),),
                       SizedBox(height: 16),
                       Text("Analyzing your resume..."),
                     ],
@@ -70,21 +70,14 @@ class ResumeUploadScreen extends StatelessWidget {
               }
               
               if (viewModel.analysisResult.value.isNotEmpty) {
-                 // Navigate to results or show button to view results
-                 // For now, let's just show a "View Results" button that pushes the next screen
-                 // But ideally, the ViewModel or a listener should handle this navigation.
-                 // Let's auto-navigate or show a success state here.
                  WidgetsBinding.instance.addPostFrameCallback((_) {
                    Get.to(() => ResumeAnalysisScreen());
-                   // Clear the result trigger so we don't loop, 
-                   // but we need to keep the data. 
-                   // Actually, better to just show the button here.
                  });
                  return ElevatedButton(
                    onPressed: () => Get.to(() => ResumeAnalysisScreen()),
                    style: ElevatedButton.styleFrom(
                      padding: const EdgeInsets.symmetric(vertical: 16),
-                     backgroundColor: Colors.green,
+                     backgroundColor: Color(0xFF8BA989),
                      shape: RoundedRectangleBorder(
                        borderRadius: BorderRadius.circular(12),
                      ),
@@ -102,7 +95,7 @@ class ResumeUploadScreen extends StatelessWidget {
                 label: const Text('Upload Resume (PDF)'),
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 16),
-                  backgroundColor: Colors.blueAccent,
+                  backgroundColor: Color(0xFF8BA989),
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),

@@ -34,38 +34,24 @@ class SettingsViewModel extends GetxController {
     Get.to(() => AboutAppScreen());
   }
 
-  void logout() {
-    Get.defaultDialog(
-      title: "Logout",
-      middleText: "Are you sure you want to log out?",
-      textConfirm: "Yes",
-      textCancel: "No",
-      confirmTextColor: Colors.white,
-      buttonColor: Colors.redAccent,
-      onConfirm: () async {
-        try {
-          await _authRepository.logout();
-          Get.back(); // Close dialog
-          Get.offAllNamed("/login_screen");
-          Get.snackbar(
-            "Success",
-            "Logged out successfully",
-            backgroundColor: Colors.green,
-            colorText: Colors.white,
-          );
-        } catch (e) {
-          Get.back(); // Close dialog
-          Get.snackbar(
-            "Error",
-            "Failed to logout: $e",
-            backgroundColor: Colors.red,
-            colorText: Colors.white,
-          );
-        }
-      },
-      onCancel: () {
-        // Dialog dismissed automatically
-      },
-    );
+  Future logout() async {
+    try {
+      await _authRepository.logout();
+      Get.offAllNamed("/login_screen");
+
+      Get.snackbar(
+        "Success",
+        "Logged out successfully",
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+      );
+    } catch (e) {
+      Get.snackbar(
+        "Error",
+        "Failed to logout: $e",
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    }
   }
 }

@@ -5,6 +5,7 @@ import 'package:fyp/ui/job_seeker/view_models/job_seeker_home_vm.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import '../../../data/repositories/auth_repository.dart';
+import '../../common_screens/views/settings_screen.dart';
 
 class ProfessionalHomeScreen extends StatefulWidget {
   const ProfessionalHomeScreen({super.key});
@@ -48,7 +49,7 @@ class _ProfessionalHomeScreenState extends State<ProfessionalHomeScreen> {
     final pages = [
       homeSection(displayName),
       AIChatScreen(),
-      const Center(child: Text("Settings")),
+      SettingsScreen(),
       const Center(child: Text("Profile")),
     ];
 

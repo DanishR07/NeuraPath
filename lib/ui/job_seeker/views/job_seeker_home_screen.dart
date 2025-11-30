@@ -7,6 +7,7 @@ import 'package:fyp/ui/resume_enhancer/views/resume_upload_screen.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import '../../../data/repositories/auth_repository.dart';
+import '../../custom_widgets/feature_card.dart';
 
 class JobSeekerHomeScreen extends StatefulWidget {
   const JobSeekerHomeScreen({super.key});
@@ -166,15 +167,14 @@ class _JobSeekerHomeScreenState extends State<JobSeekerHomeScreen> {
               mainAxisSpacing: 16,
               childAspectRatio: 1.1,
               children: [
-                _buildFeatureCard(
+                buildFeatureCard(
                   context,
                   title: "Smart Resume Enhancer",
                   icon: Icons.description,
-                  color: Colors.blueAccent,
+                  color: Color(0xFF8BA989),
                   onTap: () => Get.to(() => ResumeUploadScreen()),
                 ),
-                // Placeholder for future modules to demonstrate grid
-                _buildFeatureCard(
+                buildFeatureCard(
                   context,
                   title: "AI Job Matcher",
                   icon: Icons.work_outline,
@@ -182,55 +182,6 @@ class _JobSeekerHomeScreenState extends State<JobSeekerHomeScreen> {
                   onTap: () {}, // Future implementation
                 ),
               ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildFeatureCard(BuildContext context,
-      {required String title,
-      required IconData icon,
-      required Color color,
-      required VoidCallback onTap}) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.05),
-              blurRadius: 10,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: color.withOpacity(0.1),
-                shape: BoxShape.circle,
-              ),
-              child: Icon(icon, color: color, size: 32),
-            ),
-            const SizedBox(height: 12),
-            Text(
-              title,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-                color: Colors.black87,
-              ),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
             ),
           ],
         ),
