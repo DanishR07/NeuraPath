@@ -42,7 +42,7 @@ class HelpSupportScreen extends StatelessWidget {
             icon: const Icon(Icons.email_outlined),
             label: const Text("Contact Support"),
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF4E6E58),
+              backgroundColor: const Color(0xFF8BA989),
               foregroundColor: Colors.white,
               padding: const EdgeInsets.symmetric(vertical: 16),
               shape: RoundedRectangleBorder(

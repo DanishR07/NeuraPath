@@ -11,20 +11,55 @@ class StudentProfileScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFF5F5F5),
       appBar: AppBar(
-        title: const Text("My Profile", style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold)),
+        title: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.15),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: Color(0xFF8BA989).withOpacity(.5)),
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.black12,
+                blurRadius: 10,
+                offset: Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.waving_hand,
+                color: Color(0xFF8BA989),
+                size: 22,
+              ),
+              const SizedBox(width: 10),
+              const Text(
+                "Profile",
+                style: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ),
         backgroundColor: const Color(0xFFF5F5F5),
         elevation: 0,
         centerTitle: true,
         actions: [
           IconButton(
-            icon: const Icon(Icons.edit, color: Color(0xFF4E6E58)),
+            icon: const Icon(Icons.edit, color: Color(0xFF8BA989)),
             onPressed: () => Get.to(() => EditStudentProfileScreen()),
           ),
         ],
       ),
       body: Obx(() {
         if (_viewModel.isLoading.value) {
-          return const Center(child: CircularProgressIndicator(color: Color(0xFF8BA989)));
+          return const Center(
+            child: CircularProgressIndicator(color: Color(0xFF8BA989)),
+          );
         }
 
         final user = _viewModel.user.value;
@@ -51,7 +86,10 @@ class StudentProfileScreen extends StatelessWidget {
                 _buildInfoRow("CGPA", profile?.cgpa),
                 _buildInfoRow("Graduation", profile?.expectedGraduationYear),
                 _buildInfoRow("Projects", profile?.projectsCompleted),
-                _buildInfoRow("Preferred Domains", profile?.preferredIndustryDomains),
+                _buildInfoRow(
+                  "Preferred Domains",
+                  profile?.preferredIndustryDomains,
+                ),
               ]),
 
               // 2. Skills
@@ -91,23 +129,38 @@ class StudentProfileScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 4))],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Column(
         children: [
           CircleAvatar(
             radius: 40,
             backgroundColor: const Color(0xFF8BA989).withOpacity(0.2),
-            backgroundImage: (user.profileImageUrl != null && user.profileImageUrl!.isNotEmpty)
+            backgroundImage:
+                (user.profileImageUrl != null &&
+                    user.profileImageUrl!.isNotEmpty)
                 ? NetworkImage(user.profileImageUrl!)
                 : null,
-            child: (user.profileImageUrl == null || user.profileImageUrl!.isEmpty)
+            child:
+                (user.profileImageUrl == null || user.profileImageUrl!.isEmpty)
                 ? const Icon(Icons.person, size: 40, color: Color(0xFF4E6E58))
                 : null,
           ),
           const SizedBox(height: 16),
-          Text("${user.firstName} ${user.lastName}", style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-          Text("Student", style: TextStyle(fontSize: 14, color: Colors.grey[600])),
+          Text(
+            "${user.firstName} ${user.lastName}",
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          Text(
+            "Student",
+            style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+          ),
           const SizedBox(height: 16),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -115,15 +168,25 @@ class StudentProfileScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text("Profile Completion", style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
-                  Text("${(progress * 100).toInt()}%", style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF4E6E58))),
+                  const Text(
+                    "Profile Completion",
+                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "${(progress * 100).toInt()}%",
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF8BA989),
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(height: 8),
               LinearProgressIndicator(
                 value: progress,
                 backgroundColor: Colors.grey[200],
-                color: const Color(0xFF4E6E58),
+                color: const Color(0xFF8BA989),
                 minHeight: 8,
                 borderRadius: BorderRadius.circular(4),
               ),
@@ -137,7 +200,14 @@ class StudentProfileScreen extends StatelessWidget {
   Widget _buildSectionTitle(String title) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12, top: 12, left: 4),
-      child: Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF4E6E58))),
+      child: Text(
+        title,
+        style: const TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+          color: Color(0xFF8BA989),
+        ),
+      ),
     );
   }
 
@@ -148,8 +218,17 @@ class StudentProfileScreen extends StatelessWidget {
       return Container(
         width: double.infinity,
         padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12)),
-        child: Text("No information added yet.", style: TextStyle(color: Colors.grey[500], fontStyle: FontStyle.italic)),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Text(
+          "No information added yet.",
+          style: TextStyle(
+            color: Colors.grey[500],
+            fontStyle: FontStyle.italic,
+          ),
+        ),
       );
     }
 
@@ -159,9 +238,18 @@ class StudentProfileScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.02), blurRadius: 8, offset: const Offset(0, 2))],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.02),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: validChildren),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: validChildren,
+      ),
     );
   }
 
@@ -174,7 +262,10 @@ class StudentProfileScreen extends StatelessWidget {
         children: [
           Text(label, style: TextStyle(fontSize: 12, color: Colors.grey[600])),
           const SizedBox(height: 2),
-          Text(value, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
+          Text(
+            value,
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+          ),
           const SizedBox(height: 8),
           Divider(color: Colors.grey[100], height: 1),
         ],

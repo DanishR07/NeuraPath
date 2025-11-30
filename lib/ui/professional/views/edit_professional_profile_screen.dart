@@ -20,7 +20,7 @@ class EditProfessionalProfileScreen extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () => _viewModel.saveProfile(),
-            child: const Text("Save", style: TextStyle(color: Color(0xFF4E6E58), fontWeight: FontWeight.bold, fontSize: 16)),
+            child: const Text("Save", style: TextStyle(color: Color(0xFF8BA989), fontWeight: FontWeight.bold, fontSize: 16)),
           )
         ],
       ),
@@ -68,7 +68,7 @@ class EditProfessionalProfileScreen extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 4),
-          child: Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF4E6E58))),
+          child: Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF8BA989))),
         ),
         Container(
           padding: const EdgeInsets.all(16),
@@ -92,6 +92,7 @@ class EditProfessionalProfileScreen extends StatelessWidget {
         maxLines: maxLines,
         decoration: InputDecoration(
           labelText: label,
+          labelStyle: TextStyle(color: Colors.purple),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: Colors.grey[300]!)),
           enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: Colors.grey[300]!)),
           focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: Color(0xFF4E6E58))),

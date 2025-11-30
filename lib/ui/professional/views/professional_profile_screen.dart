@@ -11,13 +11,46 @@ class ProfessionalProfileScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFF5F5F5),
       appBar: AppBar(
-        title: const Text("My Profile", style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold)),
+        title: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.15),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: Color(0xFF8BA989).withOpacity(.5)),
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.black12,
+                blurRadius: 10,
+                offset: Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.waving_hand,
+                color: Color(0xFF8BA989),
+                size: 22,
+              ),
+              const SizedBox(width: 10),
+              const Text(
+                "Profile",
+                style: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ),
         backgroundColor: const Color(0xFFF5F5F5),
         elevation: 0,
         centerTitle: true,
         actions: [
           IconButton(
-            icon: const Icon(Icons.edit, color: Color(0xFF4E6E58)),
+            icon: const Icon(Icons.edit, color: Color(0xFF8BA989)),
             onPressed: () => Get.to(() => EditProfessionalProfileScreen()),
           ),
         ],
@@ -105,14 +138,14 @@ class ProfessionalProfileScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text("Profile Completion", style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
-                  Text("${(progress * 100).toInt()}%", style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF4E6E58))),
+                  Text("${(progress * 100).toInt()}%", style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF8BA989))),
                 ],
               ),
               const SizedBox(height: 8),
               LinearProgressIndicator(
                 value: progress,
                 backgroundColor: Colors.grey[200],
-                color: const Color(0xFF4E6E58),
+                color: const Color(0xFF8BA989),
                 minHeight: 8,
                 borderRadius: BorderRadius.circular(4),
               ),
@@ -126,7 +159,7 @@ class ProfessionalProfileScreen extends StatelessWidget {
   Widget _buildSectionTitle(String title) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12, top: 12, left: 4),
-      child: Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF4E6E58))),
+      child: Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF8BA989))),
     );
   }
 

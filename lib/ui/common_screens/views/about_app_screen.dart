@@ -31,7 +31,7 @@ class AboutAppScreen extends StatelessWidget {
               child: const Icon(
                 Icons.school,
                 size: 50,
-                color: Color(0xFF4E6E58),
+                color: Color(0xFF8BA989),
               ),
             ),
             const SizedBox(height: 24),
@@ -40,7 +40,7 @@ class AboutAppScreen extends StatelessWidget {
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF4E6E58),
+                color: Color(0xFF8BA989),
               ),
             ),
             const SizedBox(height: 8),
