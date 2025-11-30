@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import '../../../data/repositories/auth_repository.dart';
 import '../../custom_widgets/feature_card.dart';
+import 'job_seeker_profile_screen.dart';
 
 class JobSeekerHomeScreen extends StatefulWidget {
   const JobSeekerHomeScreen({super.key});
@@ -52,7 +53,7 @@ class _JobSeekerHomeScreenState extends State<JobSeekerHomeScreen> {
       homeSection(displayName),
       AIChatScreen(),
       SettingsScreen(),
-      const Center(child: Text("Profile")),
+      JobSeekerProfileScreen(),
     ];
 
     return Scaffold(

@@ -5,14 +5,15 @@ import '../views/notifications_screen.dart';
 import '../views/privacy_security_screen.dart';
 import '../views/help_support_screen.dart';
 import '../views/about_app_screen.dart';
+import '../views/edit_profile_screen.dart';
 
 class SettingsViewModel extends GetxController {
   final AuthRepository _authRepository = Get.find<AuthRepository>();
 
   void navigateToEditProfile() async {
     final user = await _authRepository.getCurrentUser();
-    if (user != null) {
-      Get.toNamed("/profile_setup_screen", arguments: user.id);
+    if (user != null && user.id != null) {
+      Get.to(() => EditProfileScreen(userId: user.id!));
     } else {
       Get.snackbar("Error", "User not found");
     }

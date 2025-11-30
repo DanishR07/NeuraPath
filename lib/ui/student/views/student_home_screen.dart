@@ -8,6 +8,7 @@ import 'package:get_storage/get_storage.dart';
 import '../../../data/repositories/auth_repository.dart';
 import '../../custom_widgets/feature_card.dart';
 import '../view_models/student_home_vm.dart';
+import 'student_profile_screen.dart';
 
 class StudentHomeScreen extends StatefulWidget {
   const StudentHomeScreen({super.key});
@@ -52,7 +53,7 @@ class _StudentHomeScreenState extends State<StudentHomeScreen> {
       homeSection(displayName),
       AIChatScreen(),
       SettingsScreen(),
-      const Center(child: Text("Profile")),
+      StudentProfileScreen(),
     ];
 
     return Scaffold(

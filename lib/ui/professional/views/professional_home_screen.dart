@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import '../../../data/repositories/auth_repository.dart';
 import '../../common_screens/views/settings_screen.dart';
+import 'professional_profile_screen.dart';
 
 class ProfessionalHomeScreen extends StatefulWidget {
   const ProfessionalHomeScreen({super.key});
@@ -50,7 +51,7 @@ class _ProfessionalHomeScreenState extends State<ProfessionalHomeScreen> {
       homeSection(displayName),
       AIChatScreen(),
       SettingsScreen(),
-      const Center(child: Text("Profile")),
+      ProfessionalProfileScreen(),
     ];
 
     return Scaffold(

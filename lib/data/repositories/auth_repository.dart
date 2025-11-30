@@ -297,6 +297,29 @@ class AuthRepository {
     }
   }
 
+  Future<void> updateBasicUserInfo({
+    required String userId,
+    required String firstName,
+    required String lastName,
+    required String phoneNumber,
+    String? profileImageUrl,
+  }) async {
+    try {
+      final Map<String, dynamic> data = {
+        'firstName': firstName,
+        'lastName': lastName,
+        'phoneNumber': phoneNumber,
+      };
+      if (profileImageUrl != null) {
+        data['profileImageUrl'] = profileImageUrl;
+      }
+      await _firestore.collection('users').doc(userId).update(data);
+    } catch (e) {
+      print('  [AuthRepository] updateBasicUserInfo: ERROR - ${e.toString()}');
+      rethrow;
+    }
+  }
+
   Future<UserModel?> getUserProfile(String userId) async {
     try {
       final doc = await _firestore.collection('users').doc(userId).get();
