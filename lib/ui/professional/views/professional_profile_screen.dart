@@ -117,15 +117,22 @@ class ProfessionalProfileScreen extends StatelessWidget {
       ),
       child: Column(
         children: [
-          CircleAvatar(
-            radius: 40,
-            backgroundColor: const Color(0xFF8BA989).withOpacity(0.2),
-            backgroundImage: (user.profileImageUrl != null && user.profileImageUrl!.isNotEmpty)
-                ? NetworkImage(user.profileImageUrl!)
-                : null,
-            child: (user.profileImageUrl == null || user.profileImageUrl!.isEmpty)
-                ? const Icon(Icons.business_center, size: 40, color: Color(0xFF4E6E58))
-                : null,
+          GestureDetector(
+            onTap: () {
+              if (user.profileImageUrl != null && user.profileImageUrl!.isNotEmpty) {
+                _showImageDialog(user.profileImageUrl!);
+              }
+            },
+            child: CircleAvatar(
+              radius: 40,
+              backgroundColor: const Color(0xFF8BA989).withOpacity(0.2),
+              backgroundImage: (user.profileImageUrl != null && user.profileImageUrl!.isNotEmpty)
+                  ? NetworkImage(user.profileImageUrl!)
+                  : null,
+              child: (user.profileImageUrl == null || user.profileImageUrl!.isEmpty)
+                  ? const Icon(Icons.business_center, size: 40, color: Color(0xFF4E6E58))
+                  : null,
+            ),
           ),
           const SizedBox(height: 16),
           Text("${user.firstName} ${user.lastName}", style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
@@ -200,6 +207,50 @@ class ProfessionalProfileScreen extends StatelessWidget {
           Divider(color: Colors.grey[100], height: 1),
         ],
       ),
+    );
+  }
+
+  void _showImageDialog(String imageUrl) {
+    Get.dialog(
+      Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        child: Stack(
+          children: [
+            // Image
+            ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Container(
+                width: 300,
+                height: 350,
+                child: Image.network(
+                  imageUrl,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            Positioned(
+              right: 8,
+              top: 8,
+              child: GestureDetector(
+                onTap: () => Get.back(),
+                child: Container(
+                  padding: EdgeInsets.all(6),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.black.withOpacity(0.5),
+                  ),
+                  child: Icon(
+                    Icons.close,
+                    color: Colors.white,
+                    size: 22,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+      barrierDismissible: true, // tap outside to close
     );
   }
 }
