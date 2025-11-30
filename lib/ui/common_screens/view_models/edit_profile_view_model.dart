@@ -125,7 +125,7 @@ class EditProfileViewModel extends GetxController {
           CircleAvatar(
             radius: 30,
             backgroundColor: const Color(0xFFF5F5F5),
-            child: Icon(icon, color: const Color(0xFF4E6E58), size: 28),
+            child: Icon(icon, color: const Color(0xFF8BA989), size: 28),
           ),
           const SizedBox(height: 8),
           Text(label, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),

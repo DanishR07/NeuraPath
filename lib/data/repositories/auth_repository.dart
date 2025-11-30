@@ -369,4 +369,20 @@ class AuthRepository {
       rethrow;
     }
   }
+
+  Stream<UserModel?> getUserStream() {
+    if (_currentUserId == null) {
+      return Stream.value(null);
+    }
+    return _firestore
+        .collection('users')
+        .doc(_currentUserId)
+        .snapshots()
+        .map((doc) {
+      if (doc.exists) {
+        return UserModel.fromJson(doc.data() as Map<String, dynamic>, doc.id);
+      }
+      return null;
+    });
+  }
 }

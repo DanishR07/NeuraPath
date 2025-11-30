@@ -41,6 +41,12 @@ class JobSeekerProfileViewModel extends GetxController {
   void onInit() {
     super.onInit();
     loadProfile();
+    // Listen to real-time updates for the user (name, image, etc.)
+    _authRepository.getUserStream().listen((updatedUser) {
+      if (updatedUser != null) {
+        user.value = updatedUser;
+      }
+    });
   }
 
   Future<void> loadProfile() async {
