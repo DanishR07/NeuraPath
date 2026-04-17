@@ -69,7 +69,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     Obx(() {
                       final imageFile = _viewModel.selectedImageFile.value;
                       final imageUrl = _viewModel.profileImageUrl.value;
-                      final hasExistingImage = imageUrl != null && imageUrl.isNotEmpty;
 
                       return GestureDetector(
                         onTap: _viewModel.showImageSourceDialog,

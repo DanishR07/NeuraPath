@@ -309,7 +309,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                         ),
                       )
                           : Text(
-                        'Complete Profile',
+                        'Save',
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,

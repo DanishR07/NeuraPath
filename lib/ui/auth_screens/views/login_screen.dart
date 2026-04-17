@@ -42,90 +42,23 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               SizedBox(height: 55),
               Container(
-                height: 65,
-                width: 65,
+                height: 90,
+                width: 90,
                 clipBehavior: Clip.hardEdge,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.primaryGreen,
                   borderRadius: BorderRadius.circular(50),
                 ),
-                child: Image.asset("assets/images/app_logo.jpeg"),
+                child: Icon(Icons.lock_person_sharp,size: 40,color: Colors.white,),
               ),
-              SizedBox(height: 5),
+              SizedBox(height: 10),
               Text(
                 "NeuraPath",
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
+              SizedBox(height: 30,),
+              Align(alignment: Alignment.centerLeft,child: Text("Login!",style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold,),)),
               SizedBox(height: 30),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 17),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                child: GestureDetector(
-                  onTap: null,
-                  child: Row(
-                    children: [
-                      CircleAvatar(
-                        radius: 10,
-                        backgroundColor: Colors.white,
-                        child: Image.asset("assets/icons/google.png"),
-                      ),
-                      Expanded(
-                        child: Center(child: Text("Continue with Google")),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(height: 8),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 17),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                child: GestureDetector(
-                  onTap: null,
-                  child: Row(
-                    children: [
-                      CircleAvatar(
-                        radius: 10,
-                        backgroundColor: Colors.white,
-                        child: Image.asset("assets/icons/facebook.png"),
-                      ),
-                      Expanded(
-                        child: Center(child: Text("Continue with Facebook")),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(height: 8),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 17),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                child: GestureDetector(
-                  onTap: null,
-                  child: Row(
-                    children: [
-                      CircleAvatar(
-                        radius: 10,
-                        backgroundColor: Colors.white,
-                        child: Image.asset("assets/icons/linkedin.png"),
-                      ),
-                      Expanded(
-                        child: Center(child: Text("Continue with Linkedin")),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(height: 20),
               buildFormField(
                 label: 'Email',
                 hintText: 'Enter your email',
@@ -259,7 +192,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Text("Don't have an account?"),
                   GestureDetector(
                     onTap: () {
-                      Get.toNamed("/signup_screen");
+                      Get.offNamed("/signup_screen");
                     },
                     child: Text(
                       "  Sign Up",

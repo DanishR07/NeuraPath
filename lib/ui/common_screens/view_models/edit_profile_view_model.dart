@@ -11,7 +11,6 @@ class EditProfileViewModel extends GetxController {
 
   var isLoading = false.obs;
   var isUploadingImage = false.obs;
-  
   var firstName = ''.obs;
   var lastName = ''.obs;
   var phoneNumber = ''.obs;
