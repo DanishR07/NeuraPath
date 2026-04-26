@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'privacy_policy_screen.dart';
+import 'terms_of_service_screen.dart';
 
 class PrivacySecurityScreen extends StatelessWidget {
   @override
@@ -43,17 +45,24 @@ class PrivacySecurityScreen extends StatelessWidget {
           _buildActionTile(
             title: "Privacy Policy",
             icon: Icons.description_outlined,
-            onTap: () {},
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => PrivacyPolicyScreen()),
+            ),
           ),
           _buildActionTile(
             title: "Terms of Service",
             icon: Icons.gavel_outlined,
-            onTap: () {},
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => TermsOfServiceScreen()),
+            ),
           ),
         ],
       ),
     );
   }
+
 
   Widget _buildActionTile({
     required String title,
