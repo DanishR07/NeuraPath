@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:math';
 import 'package:fyp/model/user_model.dart';
 import 'package:fyp/services/email_service.dart';
@@ -9,9 +10,24 @@ class AuthRepository {
   static String? _currentUserId;
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   Future<UserModel> login(String email, String password) async {
     try {
+      final UserCredential userCredential = await _firebaseAuth
+          .signInWithEmailAndPassword(email: email, password: password);
+      
+      final User? firebaseUser = userCredential.user;
+      
+      if (firebaseUser == null) {
+        throw Exception("Authentication failed");
+      }
+
+      // Check if email is verified
+      if (!firebaseUser.emailVerified) {
+        throw Exception("NOT_VERIFIED:${firebaseUser.uid}");
+      }
+
       final QuerySnapshot result = await _firestore
           .collection('users')
           .where('email', isEqualTo: email)
@@ -19,46 +35,51 @@ class AuthRepository {
           .get();
 
       if (result.docs.isEmpty) {
-        throw Exception('User not found');
+        throw Exception('User data not found in database');
       }
 
       final userDoc = result.docs.first;
       final userData = userDoc.data() as Map<String, dynamic>;
 
       if (userData['password'] != password) {
-        throw Exception('Incorrect password');
+         // Keep existing password field up to date / consistent if needed
       }
 
-      _currentUserId = userDoc.id;
+      _currentUserId = firebaseUser.uid; // Use firebase UID
       return UserModel.fromJson(userData, userDoc.id);
     } catch (e) {
+      if (e is FirebaseAuthException) {
+         throw Exception(e.message ?? "Authentication failed");
+      }
       rethrow;
     }
   }
 
   Future<UserModel> signup(String email, String password) async {
     try {
-      // Check if user already exists
-      final QuerySnapshot result = await _firestore
-          .collection('users')
-          .where('email', isEqualTo: email)
-          .limit(1)
-          .get();
-
-      if (result.docs.isNotEmpty) {
-        throw Exception('User already exists');
+      // Create user in Firebase Auth
+      final UserCredential userCredential = await _firebaseAuth
+          .createUserWithEmailAndPassword(email: email, password: password);
+          
+      final User? firebaseUser = userCredential.user;
+      
+      if (firebaseUser == null) {
+        throw Exception("Failed to create user in Firebase Auth");
       }
+      
+      // Attempt to send verification email immediately
+      await firebaseUser.sendEmailVerification();
 
-      // Create new user document
-      final userRef = _firestore.collection('users').doc();
+      // Create new user document in Firestore using Firebase UID
+      final userRef = _firestore.collection('users').doc(firebaseUser.uid);
       final userModel = UserModel(
-        id: userRef.id,
+        id: firebaseUser.uid,
         email: email,
         password: password,
       );
 
       await userRef.set(userModel.toJson());
-      _currentUserId = userRef.id;
+      _currentUserId = firebaseUser.uid;
       return userModel;
     } catch (e) {
       rethrow;

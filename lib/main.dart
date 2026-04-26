@@ -5,6 +5,7 @@ import 'package:fyp/ui/auth_screens/views/login_screen.dart';
 import 'package:fyp/ui/auth_screens/views/otp_verification_screen.dart';
 import 'package:fyp/ui/auth_screens/views/reset_password_screen.dart';
 import 'package:fyp/ui/auth_screens/views/signup_screen.dart';
+import 'package:fyp/ui/auth_screens/views/email_verification_screen.dart';
 import 'package:fyp/ui/professional/views/professional_home_screen.dart';
 import 'package:fyp/ui/student/views/student_home_screen.dart';
 import 'package:fyp/ui/job_seeker/views/job_seeker_home_screen.dart';
@@ -46,6 +47,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: "/on_boarding_screen", page: () => OnboardingScreen(),),
         GetPage(name: "/login_screen", page: () => LoginScreen(),binding: LoginScreenBinding()),
         GetPage(name: "/signup_screen", page: () => SignupScreen(),binding: SignUpScreenBinding()),
+        GetPage(name: "/email_verification_screen", page: () => EmailVerificationScreen(), binding: EmailVerificationScreenBinding()),
         GetPage(name: "/profile_setup_screen", page: () {
           final userId = Get.arguments as String?;
           if (userId == null) {
@@ -61,4 +63,4 @@ class MyApp extends StatelessWidget {
       initialRoute: "/launcher_screen",
     );
   }
-}
+}

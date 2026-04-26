@@ -75,12 +75,8 @@ class SignUpViewModel extends GetxController {
     isLoading.value = true;
     try {
       final userModel = await authRepository.signup(email, password);
-      Get.offNamed("/profile_setup_screen", arguments: userModel.id);
-      Get.snackbar(
-        'Info',
-        'Account created! Please complete your profile',
-        backgroundColor: Colors.green,
-      );
+      // Navigate to email verification screen instead of profile setup
+      Get.offNamed("/email_verification_screen", arguments: userModel.id);
     } on FirebaseAuthException catch (e) {
       Get.snackbar(
         "Error",

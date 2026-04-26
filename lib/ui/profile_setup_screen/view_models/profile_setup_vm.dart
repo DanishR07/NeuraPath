@@ -71,10 +71,9 @@ class ProfileSetupViewModel extends GetxController {
       if (uploadedUrl != null) {
         profileImageUrl.value = uploadedUrl;
         print('[v0] ProfileSetupViewModel: Image URL set - $uploadedUrl');
-        Get.snackbar('Success', 'Profile picture uploaded successfully',backgroundColor: Colors.green);
       } else {
         print('[v0] ProfileSetupViewModel: Upload returned null');
-        Get.snackbar('Error', 'Failed to upload image to Cloudinary',backgroundColor: Colors.red);
+        Get.snackbar('Error', 'Failed to upload image',backgroundColor: Colors.red);
       }
 
       isUploadingImage.value = false;

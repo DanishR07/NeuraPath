@@ -56,8 +56,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 "NeuraPath",
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 30,),
-              Align(alignment: Alignment.centerLeft,child: Text("Login!",style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold,),)),
+              SizedBox(height: 50,),
+              Align(alignment: Alignment.centerLeft,child: Text("Welcome Back!",style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold,color: Colors.black.withOpacity(.8)),)),
               SizedBox(height: 30),
               buildFormField(
                 label: 'Email',
@@ -180,7 +180,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           backgroundColor: AppColors.primaryGreen,
                         ),
                         child: const Text(
-                          "Log In",
+                          "Login",
                           style: TextStyle(fontSize: 18, color: Colors.white),
                         ),
                       );
