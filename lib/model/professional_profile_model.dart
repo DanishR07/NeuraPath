@@ -5,24 +5,20 @@ class ProfessionalProfileModel {
   final String role;
   final DateTime updatedAt;
 
-  // 1. Career Information
+  // 1. Current Identity
+  final String? jobLevel; // Senior, Manager, Director, Executive
   final String? currentJobTitle;
-  final String? jobLevel;
   final String? currentCompany;
   final String? yearsOfExperience;
-  final String? employmentType;
-  final String? salaryRange;
+  
+  // 2. Expertise
   final String? skills;
-  final String? toolsTechnologies;
   final String? certifications;
+  final String? industry;
 
-  // 2. Career Growth Information
-  final String? desiredNextJobRole;
-  final String? longTermCareerGoal;
-  final String? industryInterest;
-
-  // 3. Work History
-  final String? workHistoryDetails; // Storing as string for simplicity
+  // 3. Compensation & Goals
+  final String? salaryRange;
+  final String? careerGoal;
 
   ProfessionalProfileModel({
     required this.userId,
@@ -30,19 +26,15 @@ class ProfessionalProfileModel {
     required this.lastName,
     required this.role,
     required this.updatedAt,
-    this.currentJobTitle,
     this.jobLevel,
+    this.currentJobTitle,
     this.currentCompany,
     this.yearsOfExperience,
-    this.employmentType,
-    this.salaryRange,
     this.skills,
-    this.toolsTechnologies,
     this.certifications,
-    this.desiredNextJobRole,
-    this.longTermCareerGoal,
-    this.industryInterest,
-    this.workHistoryDetails,
+    this.industry,
+    this.salaryRange,
+    this.careerGoal,
   });
 
   Map<String, dynamic> toJson() {
@@ -52,19 +44,15 @@ class ProfessionalProfileModel {
       'lastName': lastName,
       'role': role,
       'updatedAt': updatedAt.toIso8601String(),
-      'currentJobTitle': currentJobTitle,
       'jobLevel': jobLevel,
+      'currentJobTitle': currentJobTitle,
       'currentCompany': currentCompany,
       'yearsOfExperience': yearsOfExperience,
-      'employmentType': employmentType,
-      'salaryRange': salaryRange,
       'skills': skills,
-      'toolsTechnologies': toolsTechnologies,
       'certifications': certifications,
-      'desiredNextJobRole': desiredNextJobRole,
-      'longTermCareerGoal': longTermCareerGoal,
-      'industryInterest': industryInterest,
-      'workHistoryDetails': workHistoryDetails,
+      'industry': industry,
+      'salaryRange': salaryRange,
+      'careerGoal': careerGoal,
     };
   }
 
@@ -77,40 +65,33 @@ class ProfessionalProfileModel {
       updatedAt: json['updatedAt'] != null
           ? DateTime.parse(json['updatedAt'])
           : DateTime.now(),
-      currentJobTitle: json['currentJobTitle'],
       jobLevel: json['jobLevel'],
+      currentJobTitle: json['currentJobTitle'],
       currentCompany: json['currentCompany'],
       yearsOfExperience: json['yearsOfExperience'],
-      employmentType: json['employmentType'],
-      salaryRange: json['salaryRange'],
       skills: json['skills'],
-      toolsTechnologies: json['toolsTechnologies'],
       certifications: json['certifications'],
-      desiredNextJobRole: json['desiredNextJobRole'],
-      longTermCareerGoal: json['longTermCareerGoal'],
-      industryInterest: json['industryInterest'],
-      workHistoryDetails: json['workHistoryDetails'],
+      industry: json['industry'],
+      salaryRange: json['salaryRange'],
+      careerGoal: json['careerGoal'],
     );
   }
 
   double calculateCompletion() {
-    int totalFields = 13;
-    int filledFields = 0;
+    int total = 9;
+    int filled = 0;
     
-    if (currentJobTitle?.isNotEmpty == true) filledFields++;
-    if (jobLevel?.isNotEmpty == true) filledFields++;
-    if (currentCompany?.isNotEmpty == true) filledFields++;
-    if (yearsOfExperience?.isNotEmpty == true) filledFields++;
-    if (employmentType?.isNotEmpty == true) filledFields++;
-    if (salaryRange?.isNotEmpty == true) filledFields++;
-    if (skills?.isNotEmpty == true) filledFields++;
-    if (toolsTechnologies?.isNotEmpty == true) filledFields++;
-    if (certifications?.isNotEmpty == true) filledFields++;
-    if (desiredNextJobRole?.isNotEmpty == true) filledFields++;
-    if (longTermCareerGoal?.isNotEmpty == true) filledFields++;
-    if (industryInterest?.isNotEmpty == true) filledFields++;
-    if (workHistoryDetails?.isNotEmpty == true) filledFields++;
+    if (jobLevel?.isNotEmpty == true) filled++;
+    if (currentJobTitle?.isNotEmpty == true) filled++;
+    if (currentCompany?.isNotEmpty == true) filled++;
+    if (yearsOfExperience?.isNotEmpty == true) filled++;
+    if (skills?.isNotEmpty == true) filled++;
+    if (certifications?.isNotEmpty == true) filled++;
+    if (industry?.isNotEmpty == true) filled++;
+    if (salaryRange?.isNotEmpty == true) filled++;
+    if (careerGoal?.isNotEmpty == true) filled++;
 
-    return 15.0 + (85.0 * (filledFields / totalFields));
+    return (filled / total);
   }
 }
+

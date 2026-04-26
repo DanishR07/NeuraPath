@@ -7,8 +7,12 @@ import 'package:fyp/ui/resume_enhancer/views/resume_upload_screen.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import '../../../data/repositories/auth_repository.dart';
+import '../../../data/repositories/profile_repository.dart';
 import '../../custom_widgets/feature_card.dart';
 import 'job_seeker_profile_screen.dart';
+import 'job_seeker_career_recommendation_screen.dart';
+import '../../common_screens/views/ai_job_matcher_screen.dart';
+import '../../common_screens/views/skill_insight_screen.dart';
 
 class JobSeekerHomeScreen extends StatefulWidget {
   const JobSeekerHomeScreen({super.key});
@@ -24,6 +28,17 @@ class _JobSeekerHomeScreenState extends State<JobSeekerHomeScreen> {
   String? cachedName;
   String? liveName;
   bool loadingUser = true;
+
+  final FocusNode _searchFocusNode = FocusNode();
+  final TextEditingController _searchController = TextEditingController();
+
+  @override
+  void dispose() {
+    _searchFocusNode.dispose();
+    _searchController.dispose();
+    super.dispose();
+  }
+
 
   @override
   void initState() {
@@ -63,6 +78,7 @@ class _JobSeekerHomeScreenState extends State<JobSeekerHomeScreen> {
         height: 60,
         index: currentIndex,
         onTap: (index) {
+          _searchFocusNode.unfocus();
           setState(() => currentIndex = index);
         },
         items: [
@@ -84,7 +100,14 @@ class _JobSeekerHomeScreenState extends State<JobSeekerHomeScreen> {
           ),
         ],
       ),
-      body: SafeArea(child: pages[currentIndex]),
+      body: SafeArea(
+        child: GestureDetector(
+          onTap: () => _searchFocusNode.unfocus(),
+          behavior: HitTestBehavior.opaque,
+          child: pages[currentIndex],
+        ),
+      ),
+
     );
   }
 
@@ -140,8 +163,10 @@ class _JobSeekerHomeScreenState extends State<JobSeekerHomeScreen> {
             SizedBox(
               width: 300,
               child: SearchBar(
+                controller: _searchController,
+                focusNode: _searchFocusNode,
                 leading: const Icon(Icons.search, color: Color(0xFF8BA989)),
-                hintText: "Search...",
+                hintText: "Search jobs or modules...",
                 hintStyle: WidgetStatePropertyAll(
                   TextStyle(color: Colors.black54, fontSize: 14),
                 ),
@@ -155,35 +180,77 @@ class _JobSeekerHomeScreenState extends State<JobSeekerHomeScreen> {
                     side: BorderSide(color: Color(0xFF8BA989).withOpacity(.5)),
                   ),
                 ),
+                onChanged: (value) {
+                  // Add filter logic
+                },
               ),
             ),
             const SizedBox(height: 20),
-            const Text("Job seeker section"),
-            const SizedBox(height: 20),
-            GridView.count(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              crossAxisCount: 2,
-              crossAxisSpacing: 16,
-              mainAxisSpacing: 16,
-              childAspectRatio: 1.1,
-              children: [
-                buildFeatureCard(
-                  context,
-                  title: "Smart Resume Enhancer",
-                  icon: Icons.description,
-                  color: Color(0xFF8BA989),
-                  onTap: () => Get.to(() => ResumeUploadScreen()),
-                ),
-                buildFeatureCard(
-                  context,
-                  title: "AI Job Matcher",
-                  icon: Icons.work_outline,
-                  color: const Color(0xFF8BA989),
-                  onTap: () {}, // Future implementation
-                ),
-              ],
+            const Text(
+              "Job Seeker Modules",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.black87,
+              ),
             ),
+            const SizedBox(height: 16),
+            Expanded(
+              child: ValueListenableBuilder<TextEditingValue>(
+                valueListenable: _searchController,
+                builder: (context, value, child) {
+                  final query = value.text.toLowerCase();
+                  final modules = [
+
+                    {
+                      "title": "Smart Resume Enhancer",
+                      "subtitle": "Optimize your resume for ATS compliance and get tailored improvement suggestions.",
+                      "icon": Icons.description,
+                      "onTap": () => Get.to(() => ResumeUploadScreen()),
+                    },
+                    {
+                      "title": "AI Job Matcher",
+                      "subtitle": "Discover job opportunities that match your skills and career interests perfectly.",
+                      "icon": Icons.work_outline,
+                      "onTap": () => Get.to(() => AIJobMatcherScreen()),
+                    },
+                    {
+                      "title": "Skill Insight & Learning Advisor",
+                      "subtitle": "Identify skill gaps and receive recommendations for top courses and certifications.",
+                      "icon": Icons.school_outlined,
+                      "onTap": () => Get.to(() => SkillInsightScreen()),
+                    },
+                  ];
+
+                  final filteredModules = modules.where((m) {
+                    return (m['title'] as String).toLowerCase().contains(query) ||
+                           (m['subtitle'] as String).toLowerCase().contains(query);
+                  }).toList();
+
+                  if (filteredModules.isEmpty) {
+                    return const Center(child: Text("No modules found."));
+                  }
+
+                  return ListView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    itemCount: filteredModules.length,
+                    itemBuilder: (context, index) {
+                      final m = filteredModules[index];
+                      return buildModuleContainer(
+                        context,
+                        title: m['title'] as String,
+                        subtitle: m['subtitle'] as String,
+                        icon: m['icon'] as IconData,
+                        color: const Color(0xFF8BA989),
+                        onTap: m['onTap'] as VoidCallback,
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+
+
           ],
         ),
       ),
@@ -195,6 +262,7 @@ class JobSeekerHomeScreenBinding extends Bindings {
   @override
   void dependencies() {
     Get.put(AuthRepository());
+    Get.put(ProfileRepository());
     Get.put(ProfessionalHomeViewModel());
   }
 }

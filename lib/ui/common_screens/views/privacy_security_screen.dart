@@ -30,15 +30,6 @@ class PrivacySecurityScreen extends StatelessWidget {
               );
             },
           ),
-          _buildActionTile(
-            title: "Two-Factor Authentication",
-            icon: Icons.security,
-            onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text("2FA feature coming soon")),
-              );
-            },
-          ),
           const SizedBox(height: 20),
           const Text(
             "Data Privacy",

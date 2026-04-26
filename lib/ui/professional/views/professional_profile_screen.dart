@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../view_models/professional_profile_view_model.dart';
 import 'edit_professional_profile_screen.dart';
+import '../../../customs.dart';
 
 class ProfessionalProfileScreen extends StatelessWidget {
   final ProfessionalProfileViewModel _viewModel = Get.put(ProfessionalProfileViewModel());
@@ -70,36 +71,35 @@ class ProfessionalProfileScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Header & Progress
               _buildHeader(user, _viewModel.completionPercentage.value),
               const SizedBox(height: 24),
 
-              // 1. Career Info
-              _buildSectionTitle("Career Information"),
+              // 1. Career Identity
+              _buildSectionTitle("Current Position"),
               _buildInfoCard([
-                _buildInfoRow("Current Job Title", profile?.currentJobTitle),
                 _buildInfoRow("Job Level", profile?.jobLevel),
+                _buildInfoRow("Title", profile?.currentJobTitle),
                 _buildInfoRow("Company", profile?.currentCompany),
-                _buildInfoRow("Experience (Years)", profile?.yearsOfExperience),
-                _buildInfoRow("Employment Type", profile?.employmentType),
-                _buildInfoRow("Salary Range", profile?.salaryRange),
-                _buildInfoRow("Skills", profile?.skills),
-                _buildInfoRow("Tools", profile?.toolsTechnologies),
+                _buildInfoRow("Experience", "${profile?.yearsOfExperience} Years"),
+              ]),
+
+              // 2. Expertise
+              _buildSectionTitle("Expertise & Industry"),
+              _buildInfoCard([
+                _buildInfoRow("Primary Industry", profile?.industry),
+                _buildInfoRow("Expertise", profile?.skills),
                 _buildInfoRow("Certifications", profile?.certifications),
               ]),
 
-              // 2. Career Growth
-              _buildSectionTitle("Career Growth"),
+              // 3. Career Vision
+              _buildSectionTitle("Compensation & Mission"),
               _buildInfoCard([
-                _buildInfoRow("Desired Next Role", profile?.desiredNextJobRole),
-                _buildInfoRow("Long-Term Goal", profile?.longTermCareerGoal),
-                _buildInfoRow("Industry Interest", profile?.industryInterest),
+                 _buildInfoRow("Salary Bracket", profile?.salaryRange),
+                 _buildInfoRow("Career Goal", profile?.careerGoal),
               ]),
-
-              // 3. Work History
-              _buildSectionTitle("Work History"),
-              _buildInfoCard([
-                _buildInfoRow("Details", profile?.workHistoryDetails),
-              ]),
+              
+              const SizedBox(height: 30),
             ],
           ),
         );

@@ -5,31 +5,24 @@ class StudentProfileModel {
   final String role;
   final DateTime updatedAt;
 
-  // 1. Academic Information
-  final String? currentDegree;
-  final String? major;
-  final String? university;
-  final String? semesterYear;
-  final String? cgpa;
-  final String? expectedGraduationYear;
-  final String? projectsCompleted;
-  final String? preferredIndustryDomains;
-
-  // 2. Skills
-  final String? technicalSkills;
-  final String? softSkills;
-  final String? programmingLanguages;
-  final String? toolsTechnologies;
-
-  // 3. Career Interests
-  final String? preferredCareerFields;
-  final String? targetJobRoles;
-  final String? preferredWorkType;
-  final String? preferredLocations;
-
-  // 4. Experience (Optional)
-  final String? internships;
-  final String? partTimeJobs;
+  // 1. Education Identity
+  final String? educationLevel; // Matric, Intermediate, University
+  
+  // 2. Academic Information (Conditional)
+  final String? institution; // School / College / University
+  final String? major;       // Science, Pre-Engineering, Computer Science, etc.
+  final String? degree;      // BS, MS (for University)
+  
+  // Performance logic
+  final String? totalMarks;    // For Matric/Inter
+  final String? obtainedMarks; // For Matric/Inter
+  final String? cgpa;          // For University
+  final String? semesterYear;  // For University
+  
+  // 3. Skills & Interests (Adaptive)
+  final String? technicalSkills;  // For University/Level 3
+  final String? favoriteSubjects; // For Matric/Inter
+  final String? preferredCareerFields; // General interests
 
   StudentProfileModel({
     required this.userId,
@@ -37,24 +30,17 @@ class StudentProfileModel {
     required this.lastName,
     required this.role,
     required this.updatedAt,
-    this.currentDegree,
+    this.educationLevel,
+    this.institution,
     this.major,
-    this.university,
-    this.semesterYear,
+    this.degree,
+    this.totalMarks,
+    this.obtainedMarks,
     this.cgpa,
-    this.expectedGraduationYear,
-    this.projectsCompleted,
-    this.preferredIndustryDomains,
+    this.semesterYear,
     this.technicalSkills,
-    this.softSkills,
-    this.programmingLanguages,
-    this.toolsTechnologies,
+    this.favoriteSubjects,
     this.preferredCareerFields,
-    this.targetJobRoles,
-    this.preferredWorkType,
-    this.preferredLocations,
-    this.internships,
-    this.partTimeJobs,
   });
 
   Map<String, dynamic> toJson() {
@@ -64,24 +50,17 @@ class StudentProfileModel {
       'lastName': lastName,
       'role': role,
       'updatedAt': updatedAt.toIso8601String(),
-      'currentDegree': currentDegree,
+      'educationLevel': educationLevel,
+      'institution': institution,
       'major': major,
-      'university': university,
-      'semesterYear': semesterYear,
+      'degree': degree,
+      'totalMarks': totalMarks,
+      'obtainedMarks': obtainedMarks,
       'cgpa': cgpa,
-      'expectedGraduationYear': expectedGraduationYear,
-      'projectsCompleted': projectsCompleted,
-      'preferredIndustryDomains': preferredIndustryDomains,
+      'semesterYear': semesterYear,
       'technicalSkills': technicalSkills,
-      'softSkills': softSkills,
-      'programmingLanguages': programmingLanguages,
-      'toolsTechnologies': toolsTechnologies,
+      'favoriteSubjects': favoriteSubjects,
       'preferredCareerFields': preferredCareerFields,
-      'targetJobRoles': targetJobRoles,
-      'preferredWorkType': preferredWorkType,
-      'preferredLocations': preferredLocations,
-      'internships': internships,
-      'partTimeJobs': partTimeJobs,
     };
   }
 
@@ -94,52 +73,48 @@ class StudentProfileModel {
       updatedAt: json['updatedAt'] != null
           ? DateTime.parse(json['updatedAt'])
           : DateTime.now(),
-      currentDegree: json['currentDegree'],
+      educationLevel: json['educationLevel'],
+      institution: json['institution'],
       major: json['major'],
-      university: json['university'],
-      semesterYear: json['semesterYear'],
+      degree: json['degree'],
+      totalMarks: json['totalMarks'],
+      obtainedMarks: json['obtainedMarks'],
       cgpa: json['cgpa'],
-      expectedGraduationYear: json['expectedGraduationYear'],
-      projectsCompleted: json['projectsCompleted'],
-      preferredIndustryDomains: json['preferredIndustryDomains'],
+      semesterYear: json['semesterYear'],
       technicalSkills: json['technicalSkills'],
-      softSkills: json['softSkills'],
-      programmingLanguages: json['programmingLanguages'],
-      toolsTechnologies: json['toolsTechnologies'],
+      favoriteSubjects: json['favoriteSubjects'],
       preferredCareerFields: json['preferredCareerFields'],
-      targetJobRoles: json['targetJobRoles'],
-      preferredWorkType: json['preferredWorkType'],
-      preferredLocations: json['preferredLocations'],
-      internships: json['internships'],
-      partTimeJobs: json['partTimeJobs'],
     );
   }
   
-  // Helper to calculate completion percentage
   double calculateCompletion() {
-    int totalFields = 21; // Total optional fields
-    int filledFields = 0;
-    
-    if (currentDegree?.isNotEmpty == true) filledFields++;
-    if (major?.isNotEmpty == true) filledFields++;
-    if (university?.isNotEmpty == true) filledFields++;
-    if (semesterYear?.isNotEmpty == true) filledFields++;
-    if (cgpa?.isNotEmpty == true) filledFields++;
-    if (expectedGraduationYear?.isNotEmpty == true) filledFields++;
-    if (projectsCompleted?.isNotEmpty == true) filledFields++;
-    if (preferredIndustryDomains?.isNotEmpty == true) filledFields++;
-    if (technicalSkills?.isNotEmpty == true) filledFields++;
-    if (softSkills?.isNotEmpty == true) filledFields++;
-    if (programmingLanguages?.isNotEmpty == true) filledFields++;
-    if (toolsTechnologies?.isNotEmpty == true) filledFields++;
-    if (preferredCareerFields?.isNotEmpty == true) filledFields++;
-    if (targetJobRoles?.isNotEmpty == true) filledFields++;
-    if (preferredWorkType?.isNotEmpty == true) filledFields++;
-    if (preferredLocations?.isNotEmpty == true) filledFields++;
-    if (internships?.isNotEmpty == true) filledFields++;
-    if (partTimeJobs?.isNotEmpty == true) filledFields++;
+    int totalNeeded = 0;
+    int filled = 0;
 
-    // Base 15% + (85% * filled/total)
-    return 15.0 + (85.0 * (filledFields / totalFields));
+    // Common fields
+    if (educationLevel?.isNotEmpty == true) filled++;
+    totalNeeded++;
+    if (institution?.isNotEmpty == true) filled++;
+    totalNeeded++;
+    if (major?.isNotEmpty == true) filled++;
+    totalNeeded++;
+    if (preferredCareerFields?.isNotEmpty == true) filled++;
+    totalNeeded++;
+
+    // Conditional fields
+    if (educationLevel == "University") {
+      totalNeeded += 3; // Degree, CGPA, Technical Skills
+      if (degree?.isNotEmpty == true) filled++;
+      if (cgpa?.isNotEmpty == true) filled++;
+      if (technicalSkills?.isNotEmpty == true) filled++;
+    } else {
+      totalNeeded += 3; // Total Marks, Obtained Marks, Favorite Subjects
+      if (totalMarks?.isNotEmpty == true) filled++;
+      if (obtainedMarks?.isNotEmpty == true) filled++;
+      if (favoriteSubjects?.isNotEmpty == true) filled++;
+    }
+
+    return (filled / totalNeeded);
   }
 }
+

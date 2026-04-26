@@ -58,7 +58,7 @@ class SettingsScreen extends StatelessWidget {
                   buildSectionHeader("Account"),
                   buildSettingsTile(
                     icon: Icons.person_outline,
-                    title: "Edit Profile",
+                    title: "Account Settings",
                     onTap: () => _viewModel.navigateToEditProfile(),
                   ),
                   buildSettingsTile(

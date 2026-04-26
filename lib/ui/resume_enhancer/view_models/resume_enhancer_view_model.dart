@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:read_pdf_text/read_pdf_text.dart';
 import '../../../services/ai_service.dart';
+import '../views/resume_analysis_screen.dart';
 
 class ResumeEnhancerViewModel extends GetxController {
   final AIService _aiService = AIService();
@@ -46,21 +47,30 @@ class ResumeEnhancerViewModel extends GetxController {
       }
 
       String prompt = """
-      Analyze the following resume text for ATS compliance and overall quality.
-      Provide the output in the following format:
+      You are an expert Resume Analyst. First, determine if the following text belongs to a Resume or CV.
+      If it is NOT a Resume/CV (e.g., it's a random document, book, or article), respond EXACTLY with: "ERROR: NOT_A_RESUME".
       
-      **ATS Score:** [Score]/100
-      
-      **Strengths:**
-      - [Point 1]
-      - [Point 2]
-      
-      **Weaknesses & Gaps:**
-      - [Point 1]
-      - [Point 2]
-      
-      **Suggested Keywords:**
-      [Keyword 1], [Keyword 2], [Keyword 3]
+      If it IS a Resume/CV, analyze it based on the following rules:
+      1. Calculate an ATS Score (0-100).
+      2. If the Score is > 90 (Strong Resume): 
+         - Provide the ATS_SCORE.
+         - For SUMMARY, provide a highly appreciative and encouraging feedback.
+         - Keep STRENGTHS, WEAKNESSES, and KEYWORDS sections minimal or empty.
+      3. If the Score is 50-89 (Moderate Resume):
+         - Provide the ATS_SCORE.
+         - Provide a balanced SUMMARY.
+         - Provide detailed STRENGTHS, WEAKNESSES, and KEYWORDS.
+      4. If the Score is < 50 (Beginner Resume):
+         - Provide the ATS_SCORE.
+         - Provide a supportive and guiding SUMMARY for beginners.
+         - Provide fundamental STRENGTHS, WEAKNESSES, and foundational KEYWORDS.
+
+      Format your output as followed:
+      # ATS_SCORE: [number]
+      # STRENGTHS: [points]
+      # WEAKNESSES: [points]
+      # KEYWORDS: [comma separated]
+      # SUMMARY: [text]
       
       Resume Text:
       $text
@@ -69,8 +79,21 @@ class ResumeEnhancerViewModel extends GetxController {
       // Assuming sendMessage returns a String response from Gemini
       // You might need to adjust this based on your actual AIService implementation
       final response = await _aiService.sendMessage(prompt);
-      analysisResult.value = response ?? "Failed to get analysis from AI.";
       
+      if (response != null && response.contains("ERROR: NOT_A_RESUME")) {
+        Get.snackbar(
+          'Invalid Document', 
+          'The uploaded document does not appear to be a Resume or CV. Please upload a valid resume.',
+          backgroundColor: Colors.orange,
+          colorText: Colors.white,
+          snackPosition: SnackPosition.BOTTOM,
+        );
+        analysisResult.value = '';
+        return;
+      }
+
+      analysisResult.value = response ?? "Failed to get analysis from AI.";
+      Get.to(() => ResumeAnalysisScreen());
     } catch (e) {
       Get.snackbar('Error', 'Analysis failed: $e',
           snackPosition: SnackPosition.BOTTOM,

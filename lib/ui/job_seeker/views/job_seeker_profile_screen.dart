@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../view_models/job_seeker_profile_view_model.dart';
 import 'edit_job_seeker_profile_screen.dart';
+import '../../../customs.dart';
 
 class JobSeekerProfileScreen extends StatelessWidget {
   final JobSeekerProfileViewModel _viewModel = Get.put(JobSeekerProfileViewModel());
@@ -70,28 +71,25 @@ class JobSeekerProfileScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Header & Progress
               _buildHeader(user, _viewModel.completionPercentage.value),
               const SizedBox(height: 24),
 
-              // 1. Professional Info
-              _buildSectionTitle("Professional Information"),
+              // 1. Professional Roadmap
+              _buildSectionTitle("Professional Identity"),
               _buildInfoCard([
-                _buildInfoRow("Qualification", profile?.highestQualification),
-                _buildInfoRow("Experience", profile?.totalExperience),
-                _buildInfoRow("Current Title", profile?.currentJobTitle),
-                _buildInfoRow("Employment Type", profile?.employmentType),
-                _buildInfoRow("Expected Salary", profile?.expectedSalaryRange),
-                _buildInfoRow("Location", profile?.countryCity),
-                _buildInfoRow("Portfolio", profile?.portfolioWebsite),
-                _buildInfoRow("LinkedIn", profile?.linkedinProfile),
+                _buildInfoRow("Experience Level", profile?.experienceLevel),
+                if (profile?.experienceLevel != "Fresh Graduate") ...[
+                   _buildInfoRow("Current Role", profile?.currentJobTitle),
+                   _buildInfoRow("Total Experience", "${profile?.totalExperience} Years"),
+                ],
+                _buildInfoRow("Highest Degree", profile?.highestQualification),
               ]),
 
-              // 2. Skills
-              _buildSectionTitle("Skills"),
+              // 2. Expertise
+              _buildSectionTitle("Skills & Expertise"),
               _buildInfoCard([
-                _buildInfoRow("Technical", profile?.technicalSkills),
-                _buildInfoRow("Soft Skills", profile?.softSkills),
-                _buildInfoRow("Tools", profile?.toolsTechnologies),
+                _buildInfoRow("Technical Skills", profile?.technicalSkills),
                 _buildInfoRow("Certifications", profile?.certifications),
               ]),
 
@@ -100,19 +98,14 @@ class JobSeekerProfileScreen extends StatelessWidget {
               _buildInfoCard([
                 _buildInfoRow("Target Roles", profile?.targetJobRoles),
                 _buildInfoRow("Industries", profile?.preferredIndustries),
-                _buildInfoRow("Work Location", profile?.preferredWorkLocation),
-                _buildInfoRow("Work Type", profile?.workType),
+                _buildInfoRow("Expected Salary", "PKR ${profile?.expectedSalaryRange}"),
+                _buildInfoRow("Work Preference", profile?.jobType),
               ]),
-
-              // 4. Resume & Experience
-              _buildSectionTitle("Resume & Experience"),
-              _buildInfoCard([
-                _buildInfoRow("Summary", profile?.resumeSummary),
-                _buildInfoRow("Experience Details", profile?.experienceDetails),
-              ]),
+              const SizedBox(height: 30),
             ],
           ),
         );
+
       }),
     );
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../view_models/student_profile_view_model.dart';
 import 'edit_student_profile_screen.dart';
+import '../../../customs.dart';
 
 class StudentProfileScreen extends StatelessWidget {
   final StudentProfileViewModel _viewModel = Get.put(StudentProfileViewModel());
@@ -79,43 +80,50 @@ class StudentProfileScreen extends StatelessWidget {
               // 1. Academic Info
               _buildSectionTitle("Academic Information"),
               _buildInfoCard([
-                _buildInfoRow("University", profile?.university),
-                _buildInfoRow("Degree", profile?.currentDegree),
-                _buildInfoRow("Major", profile?.major),
-                _buildInfoRow("Semester/Year", profile?.semesterYear),
-                _buildInfoRow("CGPA", profile?.cgpa),
-                _buildInfoRow("Graduation", profile?.expectedGraduationYear),
-                _buildInfoRow("Projects", profile?.projectsCompleted),
+                _buildInfoRow("Education Level", profile?.educationLevel),
                 _buildInfoRow(
-                  "Preferred Domains",
-                  profile?.preferredIndustryDomains,
+                  profile?.educationLevel == "University" ? "University" : "School/College",
+                  profile?.institution,
                 ),
+                _buildInfoRow("Major / Field", profile?.major),
+                if (profile?.educationLevel == "University") ...[
+                   _buildInfoRow("Degree Title", profile?.degree),
+                   _buildInfoRow("Semester / Year", profile?.semesterYear),
+                   _buildInfoRow("CGPA", profile?.cgpa),
+                ] else ...[
+                   _buildInfoRow("Total Marks", profile?.totalMarks),
+                   _buildInfoRow("Obtained Marks", profile?.obtainedMarks),
+                   if (profile?.totalMarks != null && profile?.obtainedMarks != null)
+                     Builder(builder: (context) {
+                       final total = double.tryParse(profile!.totalMarks!) ?? 0;
+                       final obtained = double.tryParse(profile.obtainedMarks!) ?? 0;
+                       if (total > 0) {
+                         return _buildInfoRow("Percentage", "${((obtained / total) * 100).toStringAsFixed(1)}%");
+                       }
+                       return const SizedBox.shrink();
+                     }),
+                ],
               ]),
 
-              // 2. Skills
-              _buildSectionTitle("Skills"),
-              _buildInfoCard([
-                _buildInfoRow("Technical", profile?.technicalSkills),
-                _buildInfoRow("Soft Skills", profile?.softSkills),
-                _buildInfoRow("Languages", profile?.programmingLanguages),
-                _buildInfoRow("Tools", profile?.toolsTechnologies),
-              ]),
+              // 2. Skills or Interests
+              if (profile?.educationLevel == "University") ...[
+                _buildSectionTitle("Technical Skills"),
+                _buildInfoCard([
+                  _buildInfoRow("Tools & Tech", profile?.technicalSkills),
+                ]),
+              ] else ...[
+                _buildSectionTitle("Subject Interests"),
+                _buildInfoCard([
+                  _buildInfoRow("Favorite Subjects", profile?.favoriteSubjects),
+                ]),
+              ],
 
               // 3. Career Interests
               _buildSectionTitle("Career Interests"),
               _buildInfoCard([
-                _buildInfoRow("Fields", profile?.preferredCareerFields),
-                _buildInfoRow("Target Roles", profile?.targetJobRoles),
-                _buildInfoRow("Work Type", profile?.preferredWorkType),
-                _buildInfoRow("Locations", profile?.preferredLocations),
+                _buildInfoRow("Preferred Fields", profile?.preferredCareerFields),
               ]),
-
-              // 4. Experience
-              _buildSectionTitle("Experience"),
-              _buildInfoCard([
-                _buildInfoRow("Internships", profile?.internships),
-                _buildInfoRow("Part-time Jobs", profile?.partTimeJobs),
-              ]),
+              const SizedBox(height: 30),
             ],
           ),
         );

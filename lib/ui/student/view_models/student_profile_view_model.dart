@@ -12,40 +12,31 @@ class StudentProfileViewModel extends GetxController {
   var isLoading = false.obs;
   var user = Rxn<UserModel>();
   var studentProfile = Rxn<StudentProfileModel>();
-  var completionPercentage = 0.15.obs; // Default 15%
+  var completionPercentage = 0.15.obs;
+
+  // New Observables
+  var educationLevel = "University".obs;
 
   // Controllers
-  final currentDegreeController = TextEditingController();
-  final majorController = TextEditingController();
-  final universityController = TextEditingController();
+  final institutionController = TextEditingController(); // School/College/Uni
+  final majorController = TextEditingController(); 
+  final degreeController = TextEditingController();    // Uni only
+  
+  final totalMarksController = TextEditingController();    // Matric/Inter
+  final obtainedMarksController = TextEditingController(); // Matric/Inter
+  final cgpaController = TextEditingController();          // Uni
   final semesterYearController = TextEditingController();
-  final cgpaController = TextEditingController();
-  final expectedGraduationYearController = TextEditingController();
-  final projectsCompletedController = TextEditingController();
-  final preferredIndustryDomainsController = TextEditingController();
-
-  final technicalSkillsController = TextEditingController();
-  final softSkillsController = TextEditingController();
-  final programmingLanguagesController = TextEditingController();
-  final toolsTechnologiesController = TextEditingController();
-
+  
+  final technicalSkillsController = TextEditingController();  // Uni
+  final favoriteSubjectsController = TextEditingController(); // Matric/Inter
   final preferredCareerFieldsController = TextEditingController();
-  final targetJobRolesController = TextEditingController();
-  final preferredWorkTypeController = TextEditingController();
-  final preferredLocationsController = TextEditingController();
-
-  final internshipsController = TextEditingController();
-  final partTimeJobsController = TextEditingController();
 
   @override
   void onInit() {
     super.onInit();
     loadProfile();
-    // Listen to real-time updates for the user (name, image, etc.)
     _authRepository.getUserStream().listen((updatedUser) {
-      if (updatedUser != null) {
-        user.value = updatedUser;
-      }
+      if (updatedUser != null) user.value = updatedUser;
     });
   }
 
@@ -53,12 +44,12 @@ class StudentProfileViewModel extends GetxController {
     isLoading.value = true;
     try {
       user.value = await _authRepository.getCurrentUser();
-      if (user.value != null && user.value!.id != null) {
+      if (user.value?.id != null) {
         final profile = await _profileRepository.getStudentProfile(user.value!.id!);
         studentProfile.value = profile;
         if (profile != null) {
           _populateFields(profile);
-          completionPercentage.value = profile.calculateCompletion() / 100.0;
+          completionPercentage.value = profile.calculateCompletion();
         }
       }
     } catch (e) {
@@ -69,31 +60,21 @@ class StudentProfileViewModel extends GetxController {
   }
 
   void _populateFields(StudentProfileModel profile) {
-    currentDegreeController.text = profile.currentDegree ?? '';
+    educationLevel.value = profile.educationLevel ?? "University";
+    institutionController.text = profile.institution ?? '';
     majorController.text = profile.major ?? '';
-    universityController.text = profile.university ?? '';
-    semesterYearController.text = profile.semesterYear ?? '';
+    degreeController.text = profile.degree ?? '';
+    totalMarksController.text = profile.totalMarks ?? '';
+    obtainedMarksController.text = profile.obtainedMarks ?? '';
     cgpaController.text = profile.cgpa ?? '';
-    expectedGraduationYearController.text = profile.expectedGraduationYear ?? '';
-    projectsCompletedController.text = profile.projectsCompleted ?? '';
-    preferredIndustryDomainsController.text = profile.preferredIndustryDomains ?? '';
-
+    semesterYearController.text = profile.semesterYear ?? '';
     technicalSkillsController.text = profile.technicalSkills ?? '';
-    softSkillsController.text = profile.softSkills ?? '';
-    programmingLanguagesController.text = profile.programmingLanguages ?? '';
-    toolsTechnologiesController.text = profile.toolsTechnologies ?? '';
-
+    favoriteSubjectsController.text = profile.favoriteSubjects ?? '';
     preferredCareerFieldsController.text = profile.preferredCareerFields ?? '';
-    targetJobRolesController.text = profile.targetJobRoles ?? '';
-    preferredWorkTypeController.text = profile.preferredWorkType ?? '';
-    preferredLocationsController.text = profile.preferredLocations ?? '';
-
-    internshipsController.text = profile.internships ?? '';
-    partTimeJobsController.text = profile.partTimeJobs ?? '';
   }
 
   Future<void> saveProfile() async {
-    if (user.value == null || user.value!.id == null) return;
+    if (user.value?.id == null) return;
 
     isLoading.value = true;
     try {
@@ -103,35 +84,29 @@ class StudentProfileViewModel extends GetxController {
         lastName: user.value!.lastName ?? '',
         role: 'Student',
         updatedAt: DateTime.now(),
-        currentDegree: currentDegreeController.text,
+        educationLevel: educationLevel.value,
+        institution: institutionController.text,
         major: majorController.text,
-        university: universityController.text,
-        semesterYear: semesterYearController.text,
+        degree: degreeController.text,
+        totalMarks: totalMarksController.text,
+        obtainedMarks: obtainedMarksController.text,
         cgpa: cgpaController.text,
-        expectedGraduationYear: expectedGraduationYearController.text,
-        projectsCompleted: projectsCompletedController.text,
-        preferredIndustryDomains: preferredIndustryDomainsController.text,
+        semesterYear: semesterYearController.text,
         technicalSkills: technicalSkillsController.text,
-        softSkills: softSkillsController.text,
-        programmingLanguages: programmingLanguagesController.text,
-        toolsTechnologies: toolsTechnologiesController.text,
+        favoriteSubjects: favoriteSubjectsController.text,
         preferredCareerFields: preferredCareerFieldsController.text,
-        targetJobRoles: targetJobRolesController.text,
-        preferredWorkType: preferredWorkTypeController.text,
-        preferredLocations: preferredLocationsController.text,
-        internships: internshipsController.text,
-        partTimeJobs: partTimeJobsController.text,
       );
 
       await _profileRepository.saveStudentProfile(profile);
       studentProfile.value = profile;
-      completionPercentage.value = profile.calculateCompletion() / 100.0;
-      Get.back(); // Return to view screen
-      Get.snackbar("Success", "Profile updated successfully", backgroundColor: Colors.green, colorText: Colors.white);
+      completionPercentage.value = profile.calculateCompletion();
+      Get.back();
+      Get.snackbar("Success", "Profile updated", backgroundColor: Colors.green, colorText: Colors.white);
     } catch (e) {
-      Get.snackbar("Error", "Failed to save profile: $e", backgroundColor: Colors.red, colorText: Colors.white);
+      Get.snackbar("Error", "Failed to save: $e", backgroundColor: Colors.red, colorText: Colors.white);
     } finally {
       isLoading.value = false;
     }
   }
 }
+

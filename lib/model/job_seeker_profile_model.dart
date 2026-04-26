@@ -5,34 +5,21 @@ class JobSeekerProfileModel {
   final String role;
   final DateTime updatedAt;
 
-  // 1. Professional Information
-  final String? highestQualification;
-  final String? totalExperience;
+  // 1. Career Identity
+  final String? experienceLevel; // Fresh Graduate, Experienced Professional, Senior/Executive
   final String? currentJobTitle;
-  final String? employmentType;
-  final String? expectedSalaryRange;
-  final String? portfolioWebsite;
-  final String? linkedinProfile;
-  final String? countryCity;
-
-  // 2. Skills
+  
+  // 2. Professional Details
+  final String? highestQualification;
+  final String? totalExperience; // Years
   final String? technicalSkills;
-  final String? softSkills;
-  final String? toolsTechnologies;
   final String? certifications;
-
-  // 3. Career Preferences
+  
+  // 3. Career Goals
   final String? targetJobRoles;
   final String? preferredIndustries;
-  final String? preferredWorkLocation;
-  final String? workType;
-
-  // 4. Resume-Specific
-  final String? resumeSummary;
-  final String? atsScore;
-
-  // 5. Experience
-  final String? experienceDetails; // Storing as a big string for now, could be List<Map> later
+  final String? expectedSalaryRange;
+  final String? jobType; // Remote, On-site, Hybrid
 
   JobSeekerProfileModel({
     required this.userId,
@@ -40,25 +27,16 @@ class JobSeekerProfileModel {
     required this.lastName,
     required this.role,
     required this.updatedAt,
+    this.experienceLevel,
+    this.currentJobTitle,
     this.highestQualification,
     this.totalExperience,
-    this.currentJobTitle,
-    this.employmentType,
-    this.expectedSalaryRange,
-    this.portfolioWebsite,
-    this.linkedinProfile,
-    this.countryCity,
     this.technicalSkills,
-    this.softSkills,
-    this.toolsTechnologies,
     this.certifications,
     this.targetJobRoles,
     this.preferredIndustries,
-    this.preferredWorkLocation,
-    this.workType,
-    this.resumeSummary,
-    this.atsScore,
-    this.experienceDetails,
+    this.expectedSalaryRange,
+    this.jobType,
   });
 
   Map<String, dynamic> toJson() {
@@ -68,25 +46,16 @@ class JobSeekerProfileModel {
       'lastName': lastName,
       'role': role,
       'updatedAt': updatedAt.toIso8601String(),
+      'experienceLevel': experienceLevel,
+      'currentJobTitle': currentJobTitle,
       'highestQualification': highestQualification,
       'totalExperience': totalExperience,
-      'currentJobTitle': currentJobTitle,
-      'employmentType': employmentType,
-      'expectedSalaryRange': expectedSalaryRange,
-      'portfolioWebsite': portfolioWebsite,
-      'linkedinProfile': linkedinProfile,
-      'countryCity': countryCity,
       'technicalSkills': technicalSkills,
-      'softSkills': softSkills,
-      'toolsTechnologies': toolsTechnologies,
       'certifications': certifications,
       'targetJobRoles': targetJobRoles,
       'preferredIndustries': preferredIndustries,
-      'preferredWorkLocation': preferredWorkLocation,
-      'workType': workType,
-      'resumeSummary': resumeSummary,
-      'atsScore': atsScore,
-      'experienceDetails': experienceDetails,
+      'expectedSalaryRange': expectedSalaryRange,
+      'jobType': jobType,
     };
   }
 
@@ -99,51 +68,39 @@ class JobSeekerProfileModel {
       updatedAt: json['updatedAt'] != null
           ? DateTime.parse(json['updatedAt'])
           : DateTime.now(),
+      experienceLevel: json['experienceLevel'],
+      currentJobTitle: json['currentJobTitle'],
       highestQualification: json['highestQualification'],
       totalExperience: json['totalExperience'],
-      currentJobTitle: json['currentJobTitle'],
-      employmentType: json['employmentType'],
-      expectedSalaryRange: json['expectedSalaryRange'],
-      portfolioWebsite: json['portfolioWebsite'],
-      linkedinProfile: json['linkedinProfile'],
-      countryCity: json['countryCity'],
       technicalSkills: json['technicalSkills'],
-      softSkills: json['softSkills'],
-      toolsTechnologies: json['toolsTechnologies'],
       certifications: json['certifications'],
       targetJobRoles: json['targetJobRoles'],
       preferredIndustries: json['preferredIndustries'],
-      preferredWorkLocation: json['preferredWorkLocation'],
-      workType: json['workType'],
-      resumeSummary: json['resumeSummary'],
-      atsScore: json['atsScore'],
-      experienceDetails: json['experienceDetails'],
+      expectedSalaryRange: json['expectedSalaryRange'],
+      jobType: json['jobType'],
     );
   }
 
   double calculateCompletion() {
-    int totalFields = 19;
-    int filledFields = 0;
-    
-    if (highestQualification?.isNotEmpty == true) filledFields++;
-    if (totalExperience?.isNotEmpty == true) filledFields++;
-    if (currentJobTitle?.isNotEmpty == true) filledFields++;
-    if (employmentType?.isNotEmpty == true) filledFields++;
-    if (expectedSalaryRange?.isNotEmpty == true) filledFields++;
-    if (portfolioWebsite?.isNotEmpty == true) filledFields++;
-    if (linkedinProfile?.isNotEmpty == true) filledFields++;
-    if (countryCity?.isNotEmpty == true) filledFields++;
-    if (technicalSkills?.isNotEmpty == true) filledFields++;
-    if (softSkills?.isNotEmpty == true) filledFields++;
-    if (toolsTechnologies?.isNotEmpty == true) filledFields++;
-    if (certifications?.isNotEmpty == true) filledFields++;
-    if (targetJobRoles?.isNotEmpty == true) filledFields++;
-    if (preferredIndustries?.isNotEmpty == true) filledFields++;
-    if (preferredWorkLocation?.isNotEmpty == true) filledFields++;
-    if (workType?.isNotEmpty == true) filledFields++;
-    if (resumeSummary?.isNotEmpty == true) filledFields++;
-    if (experienceDetails?.isNotEmpty == true) filledFields++;
+    int totalNeeded = 8; // Essential identifying fields
+    int filled = 0;
 
-    return 15.0 + (85.0 * (filledFields / totalFields));
+    if (experienceLevel?.isNotEmpty == true) filled++;
+    if (highestQualification?.isNotEmpty == true) filled++;
+    if (technicalSkills?.isNotEmpty == true) filled++;
+    if (targetJobRoles?.isNotEmpty == true) filled++;
+    if (expectedSalaryRange?.isNotEmpty == true) filled++;
+    if (jobType?.isNotEmpty == true) filled++;
+    
+    if (experienceLevel == "Fresh Graduate") {
+      totalNeeded = 6;
+    } else {
+      totalNeeded = 8;
+      if (currentJobTitle?.isNotEmpty == true) filled++;
+      if (totalExperience?.isNotEmpty == true) filled++;
+    }
+
+    return (filled / totalNeeded);
   }
 }
+

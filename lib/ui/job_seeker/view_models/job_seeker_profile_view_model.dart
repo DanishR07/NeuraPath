@@ -14,38 +14,27 @@ class JobSeekerProfileViewModel extends GetxController {
   var jobSeekerProfile = Rxn<JobSeekerProfileModel>();
   var completionPercentage = 0.15.obs;
 
+  // New Observables
+  var experienceLevel = "Fresh Graduate".obs;
+
   // Controllers
+  final currentJobTitleController = TextEditingController();
   final highestQualificationController = TextEditingController();
   final totalExperienceController = TextEditingController();
-  final currentJobTitleController = TextEditingController();
-  final employmentTypeController = TextEditingController();
-  final expectedSalaryRangeController = TextEditingController();
-  final portfolioWebsiteController = TextEditingController();
-  final linkedinProfileController = TextEditingController();
-  final countryCityController = TextEditingController();
-
   final technicalSkillsController = TextEditingController();
-  final softSkillsController = TextEditingController();
-  final toolsTechnologiesController = TextEditingController();
   final certificationsController = TextEditingController();
-
+  
   final targetJobRolesController = TextEditingController();
   final preferredIndustriesController = TextEditingController();
-  final preferredWorkLocationController = TextEditingController();
-  final workTypeController = TextEditingController();
-
-  final resumeSummaryController = TextEditingController();
-  final experienceDetailsController = TextEditingController();
+  final expectedSalaryRangeController = TextEditingController();
+  final jobTypeController = TextEditingController();
 
   @override
   void onInit() {
     super.onInit();
     loadProfile();
-    // Listen to real-time updates for the user (name, image, etc.)
     _authRepository.getUserStream().listen((updatedUser) {
-      if (updatedUser != null) {
-        user.value = updatedUser;
-      }
+      if (updatedUser != null) user.value = updatedUser;
     });
   }
 
@@ -53,12 +42,12 @@ class JobSeekerProfileViewModel extends GetxController {
     isLoading.value = true;
     try {
       user.value = await _authRepository.getCurrentUser();
-      if (user.value != null && user.value!.id != null) {
+      if (user.value?.id != null) {
         final profile = await _profileRepository.getJobSeekerProfile(user.value!.id!);
         jobSeekerProfile.value = profile;
         if (profile != null) {
           _populateFields(profile);
-          completionPercentage.value = profile.calculateCompletion() / 100.0;
+          completionPercentage.value = profile.calculateCompletion();
         }
       }
     } catch (e) {
@@ -69,31 +58,20 @@ class JobSeekerProfileViewModel extends GetxController {
   }
 
   void _populateFields(JobSeekerProfileModel profile) {
+    experienceLevel.value = profile.experienceLevel ?? "Fresh Graduate";
+    currentJobTitleController.text = profile.currentJobTitle ?? '';
     highestQualificationController.text = profile.highestQualification ?? '';
     totalExperienceController.text = profile.totalExperience ?? '';
-    currentJobTitleController.text = profile.currentJobTitle ?? '';
-    employmentTypeController.text = profile.employmentType ?? '';
-    expectedSalaryRangeController.text = profile.expectedSalaryRange ?? '';
-    portfolioWebsiteController.text = profile.portfolioWebsite ?? '';
-    linkedinProfileController.text = profile.linkedinProfile ?? '';
-    countryCityController.text = profile.countryCity ?? '';
-
     technicalSkillsController.text = profile.technicalSkills ?? '';
-    softSkillsController.text = profile.softSkills ?? '';
-    toolsTechnologiesController.text = profile.toolsTechnologies ?? '';
     certificationsController.text = profile.certifications ?? '';
-
     targetJobRolesController.text = profile.targetJobRoles ?? '';
     preferredIndustriesController.text = profile.preferredIndustries ?? '';
-    preferredWorkLocationController.text = profile.preferredWorkLocation ?? '';
-    workTypeController.text = profile.workType ?? '';
-
-    resumeSummaryController.text = profile.resumeSummary ?? '';
-    experienceDetailsController.text = profile.experienceDetails ?? '';
+    expectedSalaryRangeController.text = profile.expectedSalaryRange ?? '';
+    jobTypeController.text = profile.jobType ?? '';
   }
 
   Future<void> saveProfile() async {
-    if (user.value == null || user.value!.id == null) return;
+    if (user.value?.id == null) return;
 
     isLoading.value = true;
     try {
@@ -103,35 +81,28 @@ class JobSeekerProfileViewModel extends GetxController {
         lastName: user.value!.lastName ?? '',
         role: 'Job Seeker',
         updatedAt: DateTime.now(),
+        experienceLevel: experienceLevel.value,
+        currentJobTitle: currentJobTitleController.text,
         highestQualification: highestQualificationController.text,
         totalExperience: totalExperienceController.text,
-        currentJobTitle: currentJobTitleController.text,
-        employmentType: employmentTypeController.text,
-        expectedSalaryRange: expectedSalaryRangeController.text,
-        portfolioWebsite: portfolioWebsiteController.text,
-        linkedinProfile: linkedinProfileController.text,
-        countryCity: countryCityController.text,
         technicalSkills: technicalSkillsController.text,
-        softSkills: softSkillsController.text,
-        toolsTechnologies: toolsTechnologiesController.text,
         certifications: certificationsController.text,
         targetJobRoles: targetJobRolesController.text,
         preferredIndustries: preferredIndustriesController.text,
-        preferredWorkLocation: preferredWorkLocationController.text,
-        workType: workTypeController.text,
-        resumeSummary: resumeSummaryController.text,
-        experienceDetails: experienceDetailsController.text,
+        expectedSalaryRange: expectedSalaryRangeController.text,
+        jobType: jobTypeController.text,
       );
 
       await _profileRepository.saveJobSeekerProfile(profile);
       jobSeekerProfile.value = profile;
-      completionPercentage.value = profile.calculateCompletion() / 100.0;
+      completionPercentage.value = profile.calculateCompletion();
       Get.back();
-      Get.snackbar("Success", "Profile updated successfully", backgroundColor: Colors.green, colorText: Colors.white);
+      Get.snackbar("Success", "Profile updated", backgroundColor: Colors.green, colorText: Colors.white);
     } catch (e) {
-      Get.snackbar("Error", "Failed to save profile: $e", backgroundColor: Colors.red, colorText: Colors.white);
+      Get.snackbar("Error", "Failed to save: $e", backgroundColor: Colors.red, colorText: Colors.white);
     } finally {
       isLoading.value = false;
     }
   }
 }
+
