@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'privacy_policy_screen.dart';
 import 'terms_of_service_screen.dart';
+import 'change_password_screen.dart';
 
 class PrivacySecurityScreen extends StatelessWidget {
   @override
@@ -25,11 +28,17 @@ class PrivacySecurityScreen extends StatelessWidget {
           _buildActionTile(
             title: "Change Password",
             icon: Icons.lock_reset,
-            onTap: () {
-              // Navigate to change password screen or show dialog
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text("Change Password feature coming soon")),
-              );
+            onTap: () async {
+              final result = await Get.to(() => ChangePasswordScreen());
+              if (result == true) {
+                Get.snackbar(
+                  "Success", 
+                  "Your password has been updated across your account.",
+                  backgroundColor: Colors.green,
+                  colorText: Colors.white,
+                  duration: const Duration(seconds: 3),
+                );
+              }
             },
           ),
           const SizedBox(height: 20),

@@ -406,4 +406,41 @@ class AuthRepository {
       return null;
     });
   }
+
+  Future<void> reauthenticateAndChangePassword(String currentPassword, String newPassword) async {
+    try {
+      final user = _firebaseAuth.currentUser;
+      if (user == null || user.email == null) {
+        throw Exception("No authenticated user found");
+      }
+
+      // 1. Re-authenticate
+      AuthCredential credential = EmailAuthProvider.credential(
+        email: user.email!,
+        password: currentPassword,
+      );
+
+      await user.reauthenticateWithCredential(credential);
+
+      // 2. Update Firebase Auth Password
+      await user.updatePassword(newPassword);
+
+      // 3. Update Firestore Password
+      await _firestore.collection('users').doc(user.uid).update({
+        'password': newPassword,
+      });
+
+      print('  [AuthRepository] ChangePassword: Success for ${user.email}');
+    } catch (e) {
+      print('  [AuthRepository] ChangePassword: Error - $e');
+      if (e is FirebaseAuthException) {
+        if (e.code == 'wrong-password') {
+          throw Exception("Current password is incorrect");
+        }
+        throw Exception(e.message ?? "Failed to change password");
+      }
+      rethrow;
+    }
+  }
 }
+
