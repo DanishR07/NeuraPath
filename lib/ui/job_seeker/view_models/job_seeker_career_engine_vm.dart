@@ -31,7 +31,7 @@ class JobSeekerCareerEngineViewModel extends GetxController {
 
       final profile = await _profileRepository.getJobSeekerProfile(user!.id!);
       
-      if (profile == null || !_isProfileComplete(profile)) {
+      if (profile == null || profile.calculateCompletion() < 1.0) {
         isProfileIncomplete.value = true;
         isLoading.value = false;
         return;
@@ -98,17 +98,5 @@ class JobSeekerCareerEngineViewModel extends GetxController {
     }
   }
 
-  bool _isProfileComplete(JobSeekerProfileModel profile) {
-    if (profile.experienceLevel == null) return false;
-    if (profile.highestQualification == null || profile.highestQualification!.isEmpty) return false;
-    if (profile.technicalSkills == null || profile.technicalSkills!.isEmpty) return false;
-    if (profile.targetJobRoles == null || profile.targetJobRoles!.isEmpty) return false;
-    
-    if (profile.experienceLevel != "Fresh Graduate") {
-      if (profile.currentJobTitle == null || profile.currentJobTitle!.isEmpty) return false;
-      if (profile.totalExperience == null || profile.totalExperience!.isEmpty) return false;
-    }
-    
-    return true;
-  }
+  void refreshAnalysis() => analyzeCareer();
 }

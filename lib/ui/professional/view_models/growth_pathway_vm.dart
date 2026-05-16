@@ -31,7 +31,7 @@ class GrowthPathwayViewModel extends GetxController {
 
       final profile = await _profileRepository.getProfessionalProfile(userResponse!.id!);
       
-      if (profile == null || !_isProfileComplete(profile)) {
+      if (profile == null || profile.calculateCompletion() < 1.0) {
         isProfileIncomplete.value = true;
         isLoading.value = false;
         return;
@@ -76,12 +76,5 @@ class GrowthPathwayViewModel extends GetxController {
     }
   }
 
-  bool _isProfileComplete(ProfessionalProfileModel profile) {
-    // Check essential growth markers
-    if (profile.jobLevel == null || profile.jobLevel!.isEmpty) return false;
-    if (profile.currentJobTitle == null || profile.currentJobTitle!.isEmpty) return false;
-    if (profile.yearsOfExperience == null || profile.yearsOfExperience!.isEmpty) return false;
-    if (profile.skills == null || profile.skills!.isEmpty) return false;
-    return true;
-  }
+  void refreshAnalysis() => analyzeGrowth();
 }

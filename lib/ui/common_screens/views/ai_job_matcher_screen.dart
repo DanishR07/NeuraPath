@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import '../view_models/ai_job_matcher_vm.dart';
 import '../../../customs.dart';
+import '../../custom_widgets/incomplete_profile_widget.dart';
 
 class AIJobMatcherScreen extends StatelessWidget {
   final AIJobMatcherViewModel viewModel = Get.put(AIJobMatcherViewModel());
@@ -23,6 +25,10 @@ class AIJobMatcherScreen extends StatelessWidget {
       body: Obx(() {
         if (viewModel.isLoading.value) {
           return const Center(child: CircularProgressIndicator(color: AppColors.primaryGreen));
+        }
+
+        if (viewModel.isProfileIncomplete.value) {
+          return const IncompleteProfileWidget();
         }
 
         if (viewModel.matchedJobs.isEmpty) {
@@ -127,6 +133,33 @@ class AIJobMatcherScreen extends StatelessWidget {
               child: Text(skill, style: TextStyle(color: Colors.grey[800], fontSize: 11, fontWeight: FontWeight.w500)),
             )).toList(),
           ),
+          if (job.link.isNotEmpty) ...[
+            const SizedBox(height: 12),
+            const Divider(color: Colors.black12),
+            Align(
+              alignment: Alignment.centerRight,
+              child: TextButton.icon(
+                onPressed: () {
+                  Clipboard.setData(ClipboardData(text: job.link));
+                  Get.snackbar(
+                    "Link Copied",
+                    "Job link copied to clipboard!",
+                    snackPosition: SnackPosition.BOTTOM,
+                    backgroundColor: Colors.black87,
+                    colorText: Colors.white,
+                    margin: const EdgeInsets.all(16),
+                  );
+                },
+                icon: const Icon(Icons.copy, size: 16, color: AppColors.primaryGreen),
+                label: const Text("Copy Link", style: TextStyle(color: AppColors.primaryGreen, fontWeight: FontWeight.bold)),
+                style: TextButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  backgroundColor: AppColors.primaryGreen.withOpacity(0.1),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                ),
+              ),
+            ),
+          ],
         ],
       ),
     );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../view_models/skill_insight_vm.dart';
 import '../../../customs.dart';
+import '../../custom_widgets/incomplete_profile_widget.dart';
 
 class SkillInsightScreen extends StatelessWidget {
   final SkillInsightViewModel viewModel = Get.put(SkillInsightViewModel());
@@ -110,35 +111,7 @@ class SkillInsightScreen extends StatelessWidget {
   }
 
   Widget _buildIncompleteView() {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(32.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.info_outline, size: 48, color: Colors.grey),
-            const SizedBox(height: 24),
-            const Text("Analysis Incomplete", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-            const SizedBox(height: 12),
-            const Text(
-              "Please complete your profile first to receive targeted insights.",
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.black54),
-            ),
-            const SizedBox(height: 32),
-            ElevatedButton(
-              onPressed: () => Get.back(),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primaryGreen,
-                elevation: 0,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))
-              ),
-              child: const Text("Go Back", style: TextStyle(color: Colors.white)),
-            ),
-          ],
-        ),
-      ),
-    );
+    return const IncompleteProfileWidget();
   }
 
   String _extractSingleSection(String text, String section) {

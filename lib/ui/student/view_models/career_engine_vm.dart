@@ -34,7 +34,7 @@ class CareerEngineViewModel extends GetxController {
 
       final profile = await _profileRepository.getStudentProfile(user.id!);
       
-      if (profile == null || !_isProfileComplete(profile)) {
+      if (profile == null || profile.calculateCompletion() < 1.0) {
         isProfileIncomplete.value = true;
         isLoading.value = false;
         return;
@@ -102,21 +102,5 @@ class CareerEngineViewModel extends GetxController {
     }
   }
 
-  bool _isProfileComplete(StudentProfileModel profile) {
-    if (profile.educationLevel == null || profile.educationLevel!.isEmpty) return false;
-    if (profile.major == null || profile.major!.isEmpty) return false;
-    if (profile.preferredCareerFields == null || profile.preferredCareerFields!.isEmpty) return false;
-
-    if (profile.educationLevel == "University") {
-      if (profile.degree == null || profile.degree!.isEmpty) return false;
-      if (profile.technicalSkills == null || profile.technicalSkills!.isEmpty) return false;
-    } else {
-      if (profile.obtainedMarks == null || profile.obtainedMarks!.isEmpty) return false;
-      if (profile.totalMarks == null || profile.totalMarks!.isEmpty) return false;
-    }
-    
-    return true;
-  }
-  
   void refreshAnalysis() => analyzeCareer();
 }

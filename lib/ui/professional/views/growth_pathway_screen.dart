@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../view_models/growth_pathway_vm.dart';
 import '../../../customs.dart';
+import '../../custom_widgets/incomplete_profile_widget.dart';
 
 class GrowthPathwayScreen extends StatelessWidget {
   final GrowthPathwayViewModel viewModel = Get.put(GrowthPathwayViewModel());
@@ -219,39 +220,7 @@ class GrowthPathwayScreen extends StatelessWidget {
   }
 
   Widget _buildIncompleteProfileView() {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(32.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(color: Colors.orange.withOpacity(0.1), shape: BoxShape.circle),
-              child: const Icon(Icons.rocket_launch_outlined, size: 64, color: Colors.orange),
-            ),
-            const SizedBox(height: 24),
-            const Text("Analysis Readiness Required", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
-            const SizedBox(height: 12),
-            const Text(
-              "To perform a high-tier growth analysis, please ensure your Professional Identity (Level, Title, Experience) is fully updated.",
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.black54, height: 1.5),
-            ),
-            const SizedBox(height: 32),
-            ElevatedButton(
-              onPressed: () => Get.back(),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primaryGreen,
-                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-              ),
-              child: const Text("Update Profile", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-            ),
-          ],
-        ),
-      ),
-    );
+    return const IncompleteProfileWidget();
   }
 
   List<String> _extractSection(String text, String section) {

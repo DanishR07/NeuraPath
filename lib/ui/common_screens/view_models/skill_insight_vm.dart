@@ -32,7 +32,11 @@ class SkillInsightViewModel extends GetxController {
       
       if (userRole.value == "Student") {
         final profile = await _profileRepository.getStudentProfile(user.id!);
-        if (profile == null) { isProfileIncomplete.value = true; return; }
+        if (profile == null || profile.calculateCompletion() < 1.0) {
+          isProfileIncomplete.value = true;
+          isLoading.value = false;
+          return;
+        }
         
         prompt = """
         User Role: Student
@@ -49,7 +53,11 @@ class SkillInsightViewModel extends GetxController {
         """;
       } else if (userRole.value == "Job Seeker") {
         final profile = await _profileRepository.getJobSeekerProfile(user.id!);
-        if (profile == null) { isProfileIncomplete.value = true; return; }
+        if (profile == null || profile.calculateCompletion() < 1.0) {
+          isProfileIncomplete.value = true;
+          isLoading.value = false;
+          return;
+        }
         
         prompt = """
         User Role: Job Seeker
@@ -66,7 +74,11 @@ class SkillInsightViewModel extends GetxController {
         """;
       } else {
         final profile = await _profileRepository.getProfessionalProfile(user.id!);
-        if (profile == null) { isProfileIncomplete.value = true; return; }
+        if (profile == null || profile.calculateCompletion() < 1.0) {
+          isProfileIncomplete.value = true;
+          isLoading.value = false;
+          return;
+        }
         
         prompt = """
         User Role: Professional
@@ -104,4 +116,6 @@ class SkillInsightViewModel extends GetxController {
       isLoading.value = false;
     }
   }
+
+  void refreshAnalysis() => performSkillAnalysis();
 }

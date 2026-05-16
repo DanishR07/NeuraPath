@@ -8,6 +8,7 @@ class JobModel {
   final String level; // Fresh, Mid, Senior, Lead, Director
   final List<String> skills;
   final String description;
+  final String link; // Added for job URL
 
   JobModel({
     required this.id,
@@ -19,19 +20,21 @@ class JobModel {
     required this.level,
     required this.skills,
     required this.description,
+    this.link = "", // Default empty string
   });
 
   factory JobModel.fromMock(Map<String, dynamic> data) {
     return JobModel(
-      id: data['id'],
-      title: data['title'],
-      company: data['company'],
-      location: data['location'],
-      salary: data['salary'],
-      experience: data['experience'],
-      level: data['level'],
-      skills: List<String>.from(data['skills']),
-      description: data['description'],
+      id: data['id'] ?? '',
+      title: data['title'] ?? '',
+      company: data['company'] ?? '',
+      location: data['location'] ?? '',
+      salary: data['salary'] ?? '',
+      experience: data['experience'] ?? '',
+      level: data['level'] ?? '',
+      skills: List<String>.from(data['skills'] ?? []),
+      description: data['description'] ?? '',
+      link: data['link'] ?? '',
     );
   }
 }
