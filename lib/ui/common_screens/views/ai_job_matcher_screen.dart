@@ -112,16 +112,19 @@ class AIJobMatcherScreen extends StatelessWidget {
           Text(job.title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black87)),
           Text(job.company, style: const TextStyle(fontSize: 14, color: Colors.black54, fontWeight: FontWeight.w500)),
           const SizedBox(height: 12),
-          Row(
-            children: [
-              const Icon(Icons.location_on_outlined, size: 14, color: Colors.grey),
-              const SizedBox(width: 4),
-              Text(job.location, style: const TextStyle(color: Colors.grey, fontSize: 13)),
-              const SizedBox(width: 16),
-              const Icon(Icons.monetization_on_outlined, size: 14, color: Colors.grey),
-              const SizedBox(width: 4),
-              Text(job.salary, style: const TextStyle(color: Colors.grey, fontSize: 13)),
-            ],
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                const Icon(Icons.location_on_outlined, size: 14, color: Colors.grey),
+                const SizedBox(width: 4),
+                Text(job.location, style: const TextStyle(color: Colors.grey, fontSize: 13)),
+                const SizedBox(width: 16),
+                const Icon(Icons.monetization_on_outlined, size: 14, color: Colors.grey),
+                const SizedBox(width: 4),
+                Text(job.salary, style: const TextStyle(color: Colors.grey, fontSize: 13)),
+              ],
+            ),
           ),
           const SizedBox(height: 16),
           Wrap(
