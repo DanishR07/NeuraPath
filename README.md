@@ -401,12 +401,17 @@ This project is licensed under the **MIT License** — see the [LICENSE](LICENSE
 
 ---
 
-## 👨‍💻 Author
+## 👨‍💻 Authors
 
 **Danish Riasat**  
 Computer Science · Final Year Project  
 📧 [danishriasat07@gmail.com](mailto:danishriasat07@gmail.com)  
 🐙 [@DanishR07](https://github.com/DanishR07)
+
+**Usama Abbas**  
+Computer Science · Final Year Project  
+📧 [EMAIL_ADDRESS]](mailto:[uabbas331@gmail.com])  
+🐙 [@UsamaAbbas51](https://github.com/Usama-Abbas788)
 
 ---
 
@@ -414,6 +419,6 @@ Computer Science · Final Year Project
 
 *Built with ❤️ to prove that AI, when designed thoughtfully, makes humans think better — not less.*
 
-**CareerCompass — NeuraPath** · © 2026 Danish Riasat
+**CareerCompass — NeuraPath** · © 2026 Danish Riasat, Usama Abbas
 
 </div>
