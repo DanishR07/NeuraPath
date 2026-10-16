@@ -405,12 +405,12 @@ This project is licensed under the **MIT License** — see the [LICENSE](LICENSE
 
 **Danish Riasat**  
 Computer Science · Final Year Project  
-📧 [danishriasat07@gmail.com](mailto:danishriasat07@gmail.com)  
+📧 [danishriasat792@gmail.com](mailto:danishriasat792@gmail.com)  
 🐙 [@DanishR07](https://github.com/DanishR07)
 
 **Usama Abbas**  
 Computer Science · Final Year Project  
-📧 [EMAIL_ADDRESS]](mailto:[uabbas331@gmail.com])  
+📧 [uabbas331@gmail.com]](mailto:[uabbas331@gmail.com])  
 🐙 [@UsamaAbbas51](https://github.com/Usama-Abbas788)
 
 ---
