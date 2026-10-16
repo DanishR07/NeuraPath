@@ -11,8 +11,7 @@
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 [![Platform](https://img.shields.io/badge/Platform-Android%20%7C%20iOS%20%7C%20Web-lightgrey?style=for-the-badge)](https://flutter.dev/multi-platform)
 
-> **Research Project** · Final Year Project (FYP) · Department of Software Engineering  
-> *Presented at the intersection of Artificial Intelligence, Human-Computer Interaction, and Career Psychology*
+> **Research Project** · Final Year Project (FYP) · Department of Computer Science  
 
 </div>
 
