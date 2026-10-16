@@ -410,8 +410,8 @@ Computer Science · Final Year Project
 
 **Usama Abbas**  
 Computer Science · Final Year Project  
-📧 [uabbas331@gmail.com]](mailto:[uabbas331@gmail.com])  
-🐙 [@UsamaAbbas51](https://github.com/Usama-Abbas788)
+📧 [uabbas331@gmail.com](mailto:uabbas331@gmail.com)  
+🐙 [@UsamaAbbas788](https://github.com/Usama-Abbas788)
 
 ---
 
